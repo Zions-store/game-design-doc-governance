@@ -156,33 +156,35 @@ jobs:
           python - <<'PY'
           from pathlib import Path
 
-          patterns = ["-", "---", "-?", "--?", "??"]
+          # High-confidence mojibake patterns (literal match, NOT regex).
+          # "-?" is excluded because it matches empty strings as a regex
+          # and would false-positive on template patterns like \d+/\s*-?.
+          patterns = ["\ufffd", "---", "??", "---"]
           exts = {".md", ".yaml", ".yml", ".json", ".py", ".toml", ".txt"}
+          skip = {".git", "__pycache__", ".pytest_cache", ".venv", "node_modules", ".tmp_validation"}
           bad = []
 
           for p in Path(".").rglob("*"):
               if not p.is_file():
                   continue
-              if any(part in {".git", "__pycache__", ".pytest_cache", ".venv"} for part in p.parts):
+              if any(part in skip for part in p.parts):
                   continue
               if p.suffix.lower() not in exts:
                   continue
-              text = p.read_text(encoding="utf-8", errors="replace")
+
+              text = p.read_text(encoding="utf-8")
               for i, line in enumerate(text.splitlines(), 1):
-                  if any(x in line for x in patterns):
-                      bad.append((str(p), i, line.strip()[:120]))
+                  for pat in patterns:
+                      if pat in line:
+                          bad.append((str(p), i, pat, line.strip()[:120]))
 
           if bad:
               print("Possible mojibake found:")
-              for p, i, line in bad:
-                  print(f"- {p}:{i}: {line}")
-              print("\nReplace with: -\n"
-                    "  Em-dash = ---\n"
-                    "  -? = -\n"
-                    "  --? = --\n")
+              for p, i, pat, line in bad:
+                  print(f"- {p}:{i}: matched {pat!r}: {line}")
               raise SystemExit(1)
 
-          print("No mojibake patterns found.")
+          print("No high-confidence mojibake patterns found.")
           PY
 
   pytest:

@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 # Game Design Documentation Governance
 
 A reusable system for building and maintaining game design documentation that
-stays consistent as it grows. It is **not** a "write my GDD for me" tool -?it
+stays consistent as it grows. It is **not** a "write my GDD for me" tool  - it
 establishes a *governed document system*: single-source authority, cross-document
 boundaries, change-safety anchors, and a repeatable audit.
 
@@ -27,15 +27,15 @@ Different games enable different documents, but all obey the same principles.
 
 ## Core principles
 
-1. **Single authority** -?each kind of content has exactly one authority document.
-2. **GDD is an index** -?the GDD keeps summaries and links, never full bodies.
-3. **Sub-documents carry full volume** -?light content is fine, light *structure* is not.
-4. **Track facts with anchors** -?high-risk cross-document facts use stable anchor IDs.
-5. **Register deprecations** -?replaced settings/terms are logged so they can't revive.
-6. **Audit after change** -?run the auditor; results are tracked, not asserted.
-7. **Profiles adapt to genre** -?the document set is chosen per game type, not fixed.
+1. **Single authority**  - each kind of content has exactly one authority document.
+2. **GDD is an index**  - the GDD keeps summaries and links, never full bodies.
+3. **Sub-documents carry full volume**  - light content is fine, light *structure* is not.
+4. **Track facts with anchors**  - high-risk cross-document facts use stable anchor IDs.
+5. **Register deprecations**  - replaced settings/terms are logged so they can't revive.
+6. **Audit after change**  - run the auditor; results are tracked, not asserted.
+7. **Profiles adapt to genre**  - the document set is chosen per game type, not fixed.
 
-## Step 0 -?Choose output language
+## Step 0  - Choose output language
 
 The Skill itself is written in English (for publishing). **The documents it
 generates for a project can be in any language.** Detect the language of the
@@ -47,7 +47,7 @@ generation time, but keeps `{{PLACEHOLDER}}` markers and YAML keys unchanged.
 
 The audit script prints English; report language can be configured later.
 
-## Quick workflow -?new project setup
+## Quick workflow  - new project setup
 
 1. **Step 0**: choose output language.
 2. **Pick a Profile** from `profiles/` matching the game's genre
@@ -60,8 +60,8 @@ The audit script prints English; report language can be configured later.
 4. **Generate `STYLE_GUIDE.md`** from `templates/STYLE_GUIDE_TEMPLATE.md`, filling
    placeholders from the Profile (file list, authority matrix, boundaries).
 5. **Generate `Project_Profile.yaml`** from `templates/PROJECT_PROFILE_TEMPLATE.yaml`.
-6. **Set authority & boundaries** -?see `modules/04_authority_boundaries.md`.
-7. **Add anchors & deprecations** -?see `modules/05_anchor_and_change_safety.md`.
+6. **Set authority & boundaries**  - see `modules/04_authority_boundaries.md`.
+7. **Add anchors & deprecations**  - see `modules/05_anchor_and_change_safety.md`.
 8. **Run the audit** (below) and drive P0/P1 to zero.
 
 ## Audit flow
@@ -89,7 +89,7 @@ python tools/global_doc_audit.py \
 |---|---|
 | `modules/01_document_architecture.md` | Document lifecycle, GDD-vs-subdoc, full-volume rule |
 | `modules/02_project_profile.md` | Project_Profile.yaml schema and how the auditor reads it |
-| `modules/03_genre_profiles.md` | Genre -?document set matrix (10 genres) |
+| `modules/03_genre_profiles.md` | Genre  - document set matrix (10 genres) |
 | `modules/04_authority_boundaries.md` | Authority matrix + cross-document boundary rules |
 | `modules/05_anchor_and_change_safety.md` | Anchors, REF usage, deprecated registry, 5-layer change safety |
 | `modules/06_audit_workflow.md` | Audit order, issue levels (P0–P3/INFO), issue states |
@@ -99,18 +99,18 @@ python tools/global_doc_audit.py \
 
 ## Templates & tools
 
-- `templates/PROJECT_PROFILE_TEMPLATE.yaml` -?per-project profile skeleton.
-- `templates/STYLE_GUIDE_TEMPLATE.md` -?15-chapter document constitution, with placeholders.
-- `profiles/*.yaml` -?10 genre profiles (the current project ships as the first, and as the regression fixture).
-- `doc_modules/*.md.tmpl` -?16 per-document skeletons (applies / owns / not-owns / chapters / boundaries / audit).
-- `tools/global_doc_audit.py` -?the generic, data-driven auditor.
-- `tests/expected/current_project_baseline.json` -?regression baseline.
+- `templates/PROJECT_PROFILE_TEMPLATE.yaml`  - per-project profile skeleton.
+- `templates/STYLE_GUIDE_TEMPLATE.md`  - 15-chapter document constitution, with placeholders.
+- `profiles/*.yaml`  - 10 genre profiles (the current project ships as the first, and as the regression fixture).
+- `doc_modules/*.md.tmpl`  - 16 per-document skeletons (applies / owns / not-owns / chapters / boundaries / audit).
+- `tools/global_doc_audit.py`  - the generic, data-driven auditor.
+- `tests/expected/current_project_baseline.json`  - regression baseline.
 
 ## Safety rules (what the AI must not do)
 
 - Do not turn the GDD into a full-text repository.
 - Do not maintain the same content in two authority documents.
-- Do not create new documents ad hoc -?check the Profile and STYLE first.
+- Do not create new documents ad hoc  - check the Profile and STYLE first.
 - Do not write project-specific lore (names, factions, plot) into this Skill or
   into a shared genre Profile; those belong to a project's own docs/STYLE.
 - Do not treat the audit report as design authority; it flags, humans decide.

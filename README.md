@@ -26,7 +26,7 @@ game-design-doc-governance/
 
 --------- modules/                 # detailed guidance (01--?9)
 
---------- templates/               # PROJECT_PROFILE / STYLE_GUIDE / --?skeletons
+--------- templates/               # PROJECT_PROFILE / STYLE_GUIDE /  - skeletons
 
 --------- doc_modules/             # per-document "applies / owns / not-owns" skeletons
 
@@ -44,7 +44,7 @@ reference guides.
 
 ## Design in two layers (language)
 
-- **Skill payload** (this repo): English --?meant for public release.
+- **Skill payload** (this repo): English  - meant for public release.
 
 - **Generated product** (a project's docs): any language the user picks at run
 
@@ -58,7 +58,7 @@ reference guides.
 
 checks:
 
-- `STYLE_GUIDE.md` --?document list, anchor registry, deprecated-term registry.
+- `STYLE_GUIDE.md`  - document list, anchor registry, deprecated-term registry.
 
 - `Project_Profile.yaml` --?enabled docs, `boundary_checks`, `consistency_checks`,
 

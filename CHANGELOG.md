@@ -96,7 +96,7 @@ _Next: patch fixes only unless a new 1.x-compatible feature is planned._
   (canonical / `(n)` / `_vN` / `.N`) ?rejecting `*_TEMPLATE/_BACKUP/_OLD`.
   `check_file_list()` and `check_links()` now reuse `find_latest`/`doc_exists`
   (single source of truth for existence; no more hard-coded `(n)` normalisation).
-- Script ?`v1.1.1-generic`.
+- Script  - `v1.1.1-generic`.
 
 ### Verified
 - `find_latest` unit test: canonical / `(n)` / `_vN` / `.N` all resolve to the
