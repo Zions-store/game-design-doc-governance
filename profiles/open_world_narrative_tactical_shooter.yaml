@@ -67,7 +67,7 @@ disabled_docs:
 non_authority_files:
   - Design_Document.docx
   - prompts.md
-  - 人工笔记.txt
+  - "\u4eba\u5de5\u7b14\u8bb0.txt"
 
 high_risk_boundaries:
   - GDD vs sub-documents
@@ -114,9 +114,9 @@ file_versioning:
   version_pattern: "\\((\\d+)\\)"
   latest_strategy: highest_version_suffix
 
-# ── Data-driven boundary checks (migrated from the project's hard-coded
+# Data-driven boundary checks (migrated from the project's hard-coded
 #    check_gdd_summary / check_character_values / check_mission_world /
-#    check_resource_collectibles) ──
+#    check_resource_collectibles)
 boundary_checks:
   - id: GDD-SUMMARY-ONLY-ENERGY
     description: GDD must summarise, not carry energy-rate numbers, without a Gameplay link.
@@ -124,15 +124,15 @@ boundary_checks:
     forbid_regex: '\d+%/s'
     unless_near: [Gameplay_Systems.md]
     near_window: 200
-    stop_at: "[已迁移]"
+    stop_at: "[\u5df2\u8fc1\u79fb]"
     level: P2
     message: "Possible energy rate in GDD without Gameplay_Systems link."
 
   - id: CHAR-NO-WEAPON-STATS
     description: Character docs must not maintain concrete weapon stats.
     files: [Character_Sheets.md]
-    forbid_regex: '\d+/\s*发'
-    unless_near: [Gameplay_Systems.md, 数值权威]
+    forbid_regex: '\d+/\s*\u53d1'
+    unless_near: [Gameplay_Systems.md, "\u6570\u503c\u6743\u5a01"]
     near_window: 200
     level: P2
     message: "Character document may contain a weapon stat without a Gameplay reference."
@@ -140,8 +140,8 @@ boundary_checks:
   - id: WORLD-NO-EVENT-BODY
     description: World_Design holds map structure, not event body text.
     files: [World_Design.md]
-    forbid_regex: '选择.*后果|RNG.*决定'
-    stop_at: "[已迁移]"
+    forbid_regex: '\u9009\u62e9.*\u540e\u679c|RNG.*\u51b3\u5b9a'
+    stop_at: "[\u5df2\u8fc1\u79fb]"
     near_window: 200
     level: P2
     message: "Possible event body text in World_Design main section."
@@ -149,32 +149,32 @@ boundary_checks:
   - id: COLLECTIBLES-NO-RESOURCE
     description: Collectibles are narrative objects, not ordinary resources.
     files: [Collectibles_Design.md]
-    forbid_any: [电池, 药品, 食物, 零件, 净水, 碎片]
-    unless_near: [叙事, 遗物, 唯一, 集合]
+    forbid_any: ["\u7535\u6c60", "\u836f\u54c1", "\u98df\u7269", "\u96f6\u4ef6", "\u51c0\u6c34", "\u788e\u7247"]
+    unless_near: ["\u53d9\u4e8b", "\u9057\u7269", "\u552f\u4e00", "\u96c6\u5408"]
     near_window: 80
     match: first_per_term
     level: P3
     message: "Resource-like item may appear in Collectibles."
 
-# ── Data-driven consistency checks (migrated from check_consistency) ──
+# Data-driven consistency checks (migrated from check_consistency)
 consistency_checks:
   - id: FACT-PROTAGONIST-NOT-CYBORG
     description: Protagonist must not be described as a cyborg unless explicitly negated.
     files: ["*"]
-    term: '改造人'
-    require_negation_near: [不是, 并非, 禁止, 非]
+    term: "\u6539\u9020\u4eba"
+    require_negation_near: ["\u4e0d\u662f", "\u5e76\u975e", "\u7981\u6b62", "\u975e"]
     near_window: 40
     level: P0
-    message: "Protagonist may be described as cyborg (改造人) without negation."
+    message: "Protagonist may be described as cyborg (\u6539\u9020\u4eba) without negation."
 
   - id: FACT-CHAR-C-NOT-ABANDONED
     description: Sentinel C must not be framed as an abandoned outcast.
     files: ["*"]
-    term: '弃子'
-    require_all_context_near: [尖兵, C]
+    term: "\u5f03\u5b50"
+    require_all_context_near: ["\u5c16\u5175", "C"]
     near_window: 40
     level: P0
-    message: "Sentinel C (尖兵C) framed as an abandoned outcast (弃子)."
+    message: "Sentinel C (\u5c16\u5175C) framed as an abandoned outcast (\u5f03\u5b50)."
 
 link_checks:
   enabled: true
