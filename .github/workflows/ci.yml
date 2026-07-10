@@ -158,8 +158,9 @@ jobs:
 
           # High-confidence mojibake patterns (literal match, NOT regex).
           # "-?" is excluded because it matches empty strings as a regex
-          # and would false-positive on template patterns like \d+/\s*-?.
-          patterns = ["\ufffd", "---", "??", "---"]
+          # and would false-positive on template patterns like \d+/\s*-?。
+          # "---" / "??" excluded — false-positive on table syntax / yaml / code.
+          patterns = ["\ufffd"]
           exts = {".md", ".yaml", ".yml", ".json", ".py", ".toml", ".txt"}
           skip = {".git", "__pycache__", ".pytest_cache", ".venv", "node_modules", ".tmp_validation"}
           bad = []
