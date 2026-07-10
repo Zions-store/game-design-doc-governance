@@ -6,6 +6,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
+## [1.1.8] - 2026-07-11 -- Release Metadata Sync
+
+### Fixed
+- Synced `SKILL.md`, `pyproject.toml`, and `README.md` versions to `1.1.8`.
+- Removed remaining `-?` / `--?` mojibake remnants from public documentation.
+- Updated release process wording for the standalone repository.
+
+---
+## [1.1.7] - 2026-07-10 -- Changelog Backfill and Residual Cleanup
+
+### Fixed
+- Backfilled missing `0.5.0` through `1.0.1` changelog entries.
+- Continued residual mojibake cleanup after the standalone repository split.
+
+---
 ## [1.1.6] - 2026-07-10 -- Mojibake CI Gate Fix
 
 ### Fixed

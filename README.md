@@ -24,7 +24,7 @@ game-design-doc-governance/
 
 --------- README.md  CHANGELOG.md  LICENSE
 
---------- modules/                 # detailed guidance (01--?9)
+--------- modules/                 # detailed guidance (01-09)
 
 --------- templates/               # PROJECT_PROFILE / STYLE_GUIDE /  - skeletons
 
@@ -60,7 +60,7 @@ checks:
 
 - `STYLE_GUIDE.md`  - document list, anchor registry, deprecated-term registry.
 
-- `Project_Profile.yaml` --?enabled docs, `boundary_checks`, `consistency_checks`,
+- `Project_Profile.yaml`  - enabled docs, `boundary_checks`, `consistency_checks`,
 
   `exceptions`, thresholds.
 
@@ -76,7 +76,7 @@ Requires Python 3 and `PyYAML`.
 
 ## Status
 
-**v1.1.0 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v1.1.8 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
 16 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
 validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
 regression fixtures (6 projects + pytest 22/22), and complete documentation

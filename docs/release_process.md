@@ -6,8 +6,8 @@ How to cut and publish a release of the `game-design-doc-governance` Skill.
 
 - **Package version** lives in `SKILL.md` frontmatter (`version:`), `pyproject.toml`
   (`version`), `README.md` Status, and `CHANGELOG.md`.
-- **Git tags** use the skill-scoped format: `vX.Y.Z`
-  (the monorepo root already has a repo-level `v1.0.0` tag).
+- **Git tags** use standard repository tags: `vX.Y.Z`.
+  Historical monorepo skill-scoped tags remain in `project-ledger` and are not moved.
 - `schema_version: 1` in the JSON Schemas and Profile YAML files is
   backward-compatible throughout 1.x. Breaking schema changes are reserved for
   2.x.

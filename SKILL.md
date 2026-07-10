@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 1.1.0
+version: 1.1.8
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
@@ -40,7 +40,7 @@ Different games enable different documents, but all obey the same principles.
 The Skill itself is written in English (for publishing). **The documents it
 generates for a project can be in any language.** Detect the language of the
 user's request; if it is non-English, offer that as the default. Any language the
-LLM can output is supported -?the agent translates section headers and labels at
+LLM can output is supported  - the agent translates section headers and labels at
 generation time, but keeps `{{PLACEHOLDER}}` markers and YAML keys unchanged.
 
 > "What language should the design documents be written in? Default: English."
