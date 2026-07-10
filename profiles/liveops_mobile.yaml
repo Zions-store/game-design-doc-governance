@@ -1,0 +1,47 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: LiveOps Mobile.
+schema_version: 1
+
+profile:
+  name: liveops_mobile
+  description: Live-service mobile game with seasons, events, monetization and progression economy.
+  primary_type: liveops_mobile
+  secondary_types: [live_service, free_to_play]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Gameplay_Systems.md
+  - Resource_And_Economy.md
+  - Progression_Design.md
+  - LiveOps_Design.md
+  - Monetization_Design.md
+  - Event_Design.md
+  - UI_UX_Design.md
+  - Technical_Design.md
+
+optional_docs: [Narrative_Pipeline.md]
+disabled_docs: [Narrative_Script.md, Collectibles_Design.md]
+
+high_risk_boundaries:
+  - Economy vs Monetization
+  - LiveOps vs Event Design
+  - Progression vs Economy
+  - UI vs Store
+
+audit_focus:
+  - Currency authority
+  - Event-cycle authority
+  - Monetization-point boundaries
+  - Reward tables not duplicated
+  - Version content status tracked
+
+suggested_doc_modules:
+  - Gameplay_Systems
+  - Resource_And_Economy
+  - Progression_Design
+  - LiveOps_Design
+  - UI_UX_Design
+  - Technical_Design

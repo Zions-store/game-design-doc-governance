@@ -1,0 +1,30 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# World_Design
+
+## 1. Applies when
+Open world, semi-open world, large-map exploration, or regions / POI / paths /
+density are important.
+
+## 2. This document owns
+World structure; region divisions; POI types; path networks; exploration density;
+event-mount rules; resource-point distribution; world-state outward signs.
+
+## 3. This document does NOT own
+Event body text; mission choices/consequences; full quest chains; character
+dialogue.
+
+## 4. Recommended chapter structure
+1. Document role · 2. World positioning · 3. Regions · 4. POI types ·
+5. Paths & navigation · 6. Exploration density · 7. World-state presentation ·
+8. Event-mount rules · 9. TODO
+
+## 5. Common boundaries
+- World vs Mission — where and density vs content.
+- World vs Level — large-map structure vs a single playable space.
+- World vs Resource — resource-point distribution vs resource rules.
+
+## 6. Common audit rules
+- No event body text in World (WORLD-NO-EVENT-BODY check).
+- Use `stop_at: "[migrated]"` boundary checks for legacy content.
+- Event-mount rules reference Mission, do not duplicate.

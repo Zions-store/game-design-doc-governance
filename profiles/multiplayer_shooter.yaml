@@ -1,0 +1,44 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Multiplayer Shooter.
+schema_version: 1
+
+profile:
+  name: multiplayer_shooter
+  description: Competitive/co-op multiplayer shooter driven by weapon balance, maps, modes and progression.
+  primary_type: multiplayer_shooter
+  secondary_types: [competitive, live_service]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Gameplay_Systems.md
+  - Weapon_Balance.md
+  - Map_Design.md
+  - Multiplayer_Design.md
+  - Progression_Design.md
+  - UI_UX_Design.md
+  - Technical_Design.md
+
+optional_docs: [LiveOps_Design.md, Monetization_Design.md]
+disabled_docs: [Narrative_Script.md, Narrative_Pipeline.md, Collectibles_Design.md, Narrative_Bible.md]
+
+high_risk_boundaries:
+  - Weapon Balance vs Gameplay
+  - Map vs Mode Rules
+  - Progression vs Competitive Balance
+  - Technical vs Multiplayer Rules
+
+audit_focus:
+  - Weapon parameters have a single source
+  - Map rules not mixed with mode rules
+  - Rank / matchmaking / progression boundaries respected
+  - Number authority enforced
+
+suggested_doc_modules:
+  - Gameplay_Systems
+  - Multiplayer_Design
+  - Progression_Design
+  - UI_UX_Design
+  - Technical_Design

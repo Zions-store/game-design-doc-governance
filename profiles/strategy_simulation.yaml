@@ -1,0 +1,45 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Strategy / Simulation.
+schema_version: 1
+
+profile:
+  name: strategy_simulation
+  description: Strategy/simulation driven by formulas, units, tech trees, factions and economic simulation.
+  primary_type: strategy_simulation
+  secondary_types: [systems_heavy]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Gameplay_Systems.md
+  - Economy_Simulation.md
+  - AI_Systems.md
+  - Faction_Design.md
+  - Unit_Design.md
+  - Tech_Tree_Design.md
+  - Map_Design.md
+  - UI_UX_Design.md
+  - Technical_Design.md
+
+optional_docs: [Narrative_Bible.md]
+disabled_docs: [LiveOps_Design.md, Monetization_Design.md]
+
+high_risk_boundaries:
+  - Unit vs Tech Tree
+  - Economy vs Gameplay
+  - AI vs Faction
+  - Map vs Simulation
+
+audit_focus:
+  - Formulas have a single authority
+  - Unit numbers have a single authority
+  - Tech-tree dependencies not duplicated
+  - Economy loop not scattered
+
+suggested_doc_modules:
+  - Gameplay_Systems
+  - Resource_And_Economy
+  - UI_UX_Design
+  - Technical_Design

@@ -1,0 +1,45 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Roguelite.
+schema_version: 1
+
+profile:
+  name: roguelite
+  description: Run-based roguelite with procedural levels, per-run items and meta progression.
+  primary_type: roguelite
+  secondary_types: [procedural, meta_progression]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Gameplay_Systems.md
+  - Run_Structure_Design.md
+  - Progression_Design.md
+  - Item_Design.md
+  - Enemy_Design.md
+  - Level_Generation_Design.md
+  - Meta_Progression_Design.md
+  - UI_UX_Design.md
+
+optional_docs: [Narrative_Script.md]
+disabled_docs: [Multiplayer_Design.md, LiveOps_Design.md]
+
+high_risk_boundaries:
+  - Run vs Meta
+  - Item vs Progression
+  - Generation vs Level Design
+  - Enemy vs Encounter
+
+audit_focus:
+  - Run-internal rules separated from meta progression
+  - Random pool single authority
+  - Item effects not duplicated
+  - Meta unlocks not mixed into single-run rules
+
+suggested_doc_modules:
+  - Gameplay_Systems
+  - Progression_Design
+  - UI_UX_Design
+  - Level_Design
+  - Encounter_Design

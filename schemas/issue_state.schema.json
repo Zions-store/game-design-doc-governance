@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/issue_state.schema.json",
+  "title": "Issue State",
+  "description": "Schema for a single entry in issue_state.jsonl. Schema version 1; backward-compatible in 1.x.",
+  "type": "object",
+  "required": ["issue_id", "status", "level", "file", "msg"],
+  "properties": {
+    "issue_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["OPEN", "FIXED_PENDING_VERIFY", "VERIFIED", "FALSE_POSITIVE", "ACCEPTED_EXCEPTION", "REOPENED"]
+    },
+    "level": { "type": "string" },
+    "file": { "type": "string" },
+    "msg": { "type": "string" },
+    "reason": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}

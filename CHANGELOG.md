@@ -1,0 +1,200 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# game-design-doc-governance Changelog
+
+## [Unreleased]
+
+_Next: 0.5.0 self-contained fixtures + pytest/CI, then 0.6.0 schema validation,
+0.7.0 packaging/CLI, 0.8.0 scaffold, 0.9.0 RC, 1.0.0 stable._
+
+## [0.4.1] - 2026-07-09 �� CI Hotfix
+
+### Fixed
+- Fixed markdownlint-cli2-action configuration by replacing unsupported extra_args
+  with config + globs; lint surface narrowed to source .md files.
+- Added .markdownlint-cli2.jsonc (MD013@250ch / MD022 off / MD024 off / MD029 off /
+  MD032 off / MD034 off / MD040 off / MD041 off); ignores **/tests/fixtures/** +
+  node_modules + .tmp_validation + .pytest_cache.
+- Replaced shell-based code-fence check with a Python checker (covers .md +
+  .tmpl; roots: README/CHANGELOG/SKILL/MANIFEST/modules/templates/tests/doc_modules).
+  Also resolves the latent shell backtick ( ` ) parsing bug.
+- Retained game-design-doc-governance-v0.4.0; new tag game-design-doc-governance-v0.4.1.
+
+---
+
+## [0.4.0] - 2026-07-09 �� First public pre-1.0 release
+
+> **Pre-1.0 / not stable.** This is the first publicly published release on the
+> pre-1.0 track. The Profile schema, CLI, and scaffold workflow are **not yet
+> frozen**; breaking changes may still occur before 1.0.0.
+
+### P4 governance wiring
+- Wired the Skill into opencode via a local NTFS junction
+  (`~/.config/opencode/skills/game-design-doc-governance`); discovery verified in a new session.
+- Verified the generic auditor against the origin project for **3 consecutive
+  frozen-version runs** (`[0,0,0,1,0]`, EQUIVALENT, P3=`AUD-P3-d33cd196`), plus a
+  versioned-filename smoke test (canonical / `(n)` / `_vN` / `.N`; excludes
+  `_TEMPLATE`/`_BACKUP`/`_OLD`).
+- Origin project switched its audit entry point to a thin wrapper (repo path first,
+  junction fallback) while preserving the previous engine as
+  `global_doc_audit_project_v3_legacy.py` for instant rollback.
+
+### Tests
+- Added a **self-contained sanitized fixture** `tests/fixtures/sample_open_world/`
+  (+ `expected/sample_fixture_baseline.json`) as the primary regression source, so
+  regression no longer depends on an external/real project path. Baseline
+  `[0,0,0,1,0]`, single P3 `RULE-SAMPLE-ONLY`. The fixture uses AUDIT markers, also
+  covering the language-independent STYLE-parsing path.
+
+### CI / packaging
+- CI gains a Python health job (py_compile + `--help` + fixture-baseline run) and
+  excludes `tests/fixtures/**` from the markdown/copyright checks.
+- Cross-platform: report path line uses `os.sep` instead of a hard-coded backslash.
+- Added `MANIFEST.md` (release contents / exclusions).
+
+### Notes
+- Local milestone tag `v0.4.0-local-p4` remains; the published release tag is
+  `game-design-doc-governance-v0.4.0`.
+
+---
+
+## [0.3.2] - 2026-07-09 �� Pre-P4 Audit Robustness
+
+### Fixed
+- **`modules/06` ��2**: Pass condition now lists `--strict` / `--pedantic` /
+  `--fail-on-p2` (and profile `audit.*` relaxation), matching the script.
+- **`modules/06` ��4**: Outputs now list `issue_state.jsonl`.
+- **`SKILL.md`** quick workflow step 3: build the doc set from the genre profile's
+  `recommended_docs` (+ optional), then write into `Project_Profile.yaml` `enabled_docs`
+  (a genre profile has no `enabled_docs`).
+- **`tests/README.md`**: baseline command adds `--no-state`, with a note to use a
+  fresh out dir / `--no-state` so prior suppression can't skew the expected P3.
+
+### Changed
+- **Document-existence�ж� generalised (P2-4=B)**: new shared `match_versioned_doc()`;
+  `find_latest()` globs `{base}*{ext}` then strictly filters via `version_pattern`
+  (canonical / `(n)` / `_vN` / `.N`) ?rejecting `*_TEMPLATE/_BACKUP/_OLD`.
+  `check_file_list()` and `check_links()` now reuse `find_latest`/`doc_exists`
+  (single source of truth for existence; no more hard-coded `(n)` normalisation).
+- Script ?`v1.1.1-generic`.
+
+### Verified
+- `find_latest` unit test: canonical / `(n)` / `_vN` / `.N` all resolve to the
+  highest version; `_TEMPLATE`/`_BACKUP`/`_OLD` excluded.
+- Origin-project regression: hard-coded vs generic both `[0,0,0,1,0]` EQUIVALENT
+  (**D4 parallel-equivalence run 3/3**); baseline EQUIVALENT (`--no-state`); 12 docs found.
+
+---
+
+## [0.3.1] - 2026-07-09 �� Release-Consistency Fixes
+
+### Fixed
+- **README** status was stale (v0.1.0) ?updated to v0.3.1 / P3.
+- **Language-independent STYLE parsing**: `load_style_rules` now reads
+  `<!-- AUDIT: ENABLED_DOCS / ANCHOR_REGISTRY / DEPRECATED_TERMS _START/_END -->`
+  marker blocks first (works for any generated language), falling back to the
+  legacy heading heuristic so existing (e.g. Chinese) STYLE files parse unchanged.
+  `STYLE_GUIDE_TEMPLATE.md` now emits those markers.
+- **`--strict` now takes effect**: strict/pedantic gate P2 via the profile's
+  `fail_on_p2_in_strict_mode`.
+- **Profile `audit` thresholds** (`fail_on_p0` / `fail_on_p1` /
+  `fail_on_p2_in_strict_mode`) now participate in pass/fail.
+- **`file_versioning.version_pattern`** is passed through to `read_doc`/`find_latest`.
+- **`link_checks.enabled` / `ignored_dirs`** are honoured.
+- **Link check** now strips `#fragment` before the `.md` test (e.g.
+  `Mission_Design.md#section` is validated instead of skipped).
+- **Baseline compare** now covers P0�CP3 only (INFO is informational, not a gate).
+- STYLE template ��13/��14 document `audit/issue_state.jsonl`.
+- Script version ?`v1.1.0-generic`.
+
+### Verified
+- Origin-project regression unchanged: hard-coded vs generic both `[0,0,0,1,0]`
+  EQUIVALENT (D4 parallel-equivalence run 2); baseline EQUIVALENT.
+- Marker path unit-checked on an English STYLE (docs/anchors/deprecated parsed).
+- `--strict` smoke: PASS with P2=0.
+
+---
+
+## [0.3.0] - 2026-07-09 �� P3 Full Governance
+
+### Added
+- **modules** 07_export_and_snapshot, 08_migration_workflow, 09_ai_collaboration_rules.
+- **templates** DESIGN_DOCUMENT_TEMPLATE.md, AUTHORITY_MATRIX_TEMPLATE.md,
+  CHANGE_CHECKLIST_TEMPLATE.md, AUDIT_HISTORY_TEMPLATE.md.
+- **Issue-state tracking** in `tools/global_doc_audit.py`: reads/writes
+  `issue_state.jsonl` with states OPEN / FIXED_PENDING_VERIFY / VERIFIED /
+  FALSE_POSITIVE / ACCEPTED_EXCEPTION / REOPENED. Human-marked FALSE_POSITIVE /
+  ACCEPTED_EXCEPTION issues are suppressed from the counts (surfaced as
+  "suppressed"); `--no-state` opts out.
+
+### Verified
+- Parallel verification on the origin project (D4 P3, run 1): hard-coded script vs
+  generic script + origin `Project_Profile.yaml` both yield `[0,0,0,1,0]` ?EQUIVALENT.
+- Regression vs baseline still EQUIVALENT.
+- Suppression: marking the P3 as ACCEPTED_EXCEPTION drops P3 to 0 with suppressed=1.
+
+### Note
+- The origin project gains `Design Document/md file/Project_Profile.yaml` (D7). Its
+  own audit script is unchanged (D4: switch to thin wrapper deferred to P4).
+
+---
+
+## [0.2.0] - 2026-07-09 �� P2 Genre Library
+
+### Added
+- **modules/03_genre_profiles.md** ?the two profile shapes (genre vs project
+  instance) and a 10-genre matrix.
+- **9 genre profiles** (`profiles/*.yaml`): open_world_rpg, linear_action_adventure,
+  multiplayer_shooter, survival_crafting, roguelite, strategy_simulation,
+  puzzle_adventure, horror_narrative, liveops_mobile ?each with
+  `recommended_docs` / `optional_docs` / `disabled_docs`, `high_risk_boundaries`,
+  `audit_focus`, `suggested_doc_modules`.
+- **16 doc_module skeletons** (`doc_modules/*.md.tmpl`): Narrative_Bible / Script /
+  Pipeline, Character_Sheets, Mission_Design, World_Design, Level_Design,
+  Encounter_Design, Gameplay_Systems, Resource_And_Economy, Progression_Design,
+  Collectibles_Design, Multiplayer_Design, LiveOps_Design, UI_UX_Design,
+  Technical_Design ?each with applies / owns / does-not-own / recommended chapters /
+  common boundaries / common audit rules.
+
+### Changed
+- `open_world_narrative_tactical_shooter.yaml`: added `recommended_docs` to match the
+  genre-profile shape (`enabled_docs` retained for the auditor / regression fixture).
+
+### Verified
+- Regression against the origin project still EQUIVALENT (`P0=0 P1=0 P2=0 P3=1`).
+
+---
+
+## [0.1.0] - 2026-07-09 �� P1 MVP
+
+### Added
+- **SKILL.md** entry point (English; Step 0 output-language selection; module index;
+  new-project workflow; audit flow; safety rules).
+- **tools/global_doc_audit.py** ?generic, data-driven auditor:
+  - Reads rules from `STYLE_GUIDE.md` (document list / anchor registry /
+    deprecated-term registry) and `Project_Profile.yaml`
+    (`enabled_docs` / `boundary_checks` / `consistency_checks` / `exceptions` /
+    thresholds).
+  - Generic checks retained in the engine (file list, tables, anchors + REF,
+    deprecated terms, cross-document links).
+  - Project-specific checks are **externalised** to the Profile (no hard-coded
+    lore). `boundary_checks` support `forbid_regex` / `forbid_any`,
+    `unless_near`, `stop_at`, and `match: first_per_term`;
+    `consistency_checks` support `require_negation_near` /
+    `require_all_context_near`.
+  - English report `audit_report.md` + `audit_report.json`; appends
+    `audit_history.md`; `--baseline` count comparison; CLI
+    `--root/--out/--profile/--style/--strict/--fail-on-p2/--pedantic/`
+    `--json-only/--md-only/--no-history`.
+- **profiles/open_world_narrative_tactical_shooter.yaml** ?first genre profile;
+  also the regression fixture. Migrates the origin project's five hard-coded
+  checks into data rules.
+- **templates/PROJECT_PROFILE_TEMPLATE.yaml** and **templates/STYLE_GUIDE_TEMPLATE.md**.
+- **modules/** 01 (document architecture), 02 (project profile),
+  04 (authority & boundaries), 05 (anchors & change safety), 06 (audit workflow).
+- **tests/expected/current_project_baseline.json** ?regression baseline.
+
+### Verified
+- Regression against the origin project (`open_world_narrative_tactical_shooter`)
+  reproduces `P0=0 P1=0 P2=0 P3=1 INFO=0`; `--baseline` reports EQUIVALENT.
+- Does not modify the origin project's existing audit script (D4: P1/P2 leave it in place).

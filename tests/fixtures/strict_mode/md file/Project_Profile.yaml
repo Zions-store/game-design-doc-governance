@@ -1,0 +1,24 @@
+schema_version: 1
+profile:
+  name: strict_mode
+  description: Tests --strict / --pedantic / --fail-on-p2 behavior.
+enabled_docs:
+  - Design_Document.md
+  - Gameplay_Systems.md
+  - Naming.md
+  - STYLE_GUIDE.md
+non_authority_files: []
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+boundary_checks:
+  - id: STRICT-TEST
+    files: [Naming.md]
+    forbid_any: [trigger_boundary_check]
+    level: P2
+    message: "Intentionally triggered boundary check for strict-mode test."
+consistency_checks: []
+link_checks:
+  enabled: true
+exceptions: []

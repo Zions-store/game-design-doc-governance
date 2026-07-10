@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          config: .markdownlint-cli2.jsonc
+          globs: |
+            README.md
+            CHANGELOG.md
+            SKILL.md
+            MANIFEST.md
+            modules/**/*.md
+            docs/**/*.md
+            templates/**/*.md
+            tests/**/*.md
+
+  code-block-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Markdown code fences
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+
+          roots = [
+              Path("README.md"),
+              Path("CHANGELOG.md"),
+              Path("SKILL.md"),
+              Path("MANIFEST.md"),
+              Path("modules"),
+              Path("docs"),
+              Path("templates"),
+              Path("tests"),
+              Path("doc_modules"),
+          ]
+
+          files = []
+          for root in roots:
+              if root.is_file():
+                  files.append(root)
+              elif root.is_dir() and root.exists():
+                  files.extend(root.rglob("*.md"))
+                  files.extend(root.rglob("*.tmpl"))
+
+          bad = []
+          for path in sorted(set(files)):
+              text = path.read_text(encoding="utf-8", errors="replace")
+              fence_count = 0
+              for line in text.splitlines():
+                  if line.lstrip().startswith("```"):
+                      fence_count += 1
+              if fence_count % 2 != 0:
+                  bad.append((str(path), fence_count))
+
+          if bad:
+              print("Unclosed Markdown code fences detected:")
+              for path, count in bad:
+                  print(f"- {path}: {count} fence lines")
+              sys.exit(1)
+
+          print(f"Checked {len(files)} markdown/template files; all code fences are balanced.")
+          PY
+
+  python-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: pip install -e .
+      - name: Package import smoke
+        run: python -c "import game_design_doc_governance"
+      - name: Syntax check
+        run: |
+          python -m py_compile tools/global_doc_audit.py
+          python -m py_compile tools/validate_profile.py
+          python -m py_compile tools/scaffold_project.py
+      - name: CLI smoke (console scripts)
+        run: |
+          gdd-audit --help
+          gdd-profile-validate --help
+          gdd-scaffold --help
+      - name: Scaffold smoke (open-world profile)
+        run: |
+          gdd-scaffold --profile profiles/open_world_narrative_tactical_shooter.yaml \
+            --out /tmp/gdd-scaffold/md\ file --project-name "CI Smoke" --language en-US
+          gdd-audit --root /tmp/gdd-scaffold/md\ file \
+            --style /tmp/gdd-scaffold/md\ file/STYLE_GUIDE.md \
+            --profile /tmp/gdd-scaffold/md\ file/Project_Profile.yaml \
+            --out /tmp/gdd-scaffold/audit --no-state
+      - name: Fixture baseline regression (console script)
+        run: |
+          gdd-audit \
+            --root    tests/fixtures/sample_open_world/md\ file \
+            --style   tests/fixtures/sample_open_world/md\ file/STYLE_GUIDE.md \
+            --profile tests/fixtures/sample_open_world/md\ file/Project_Profile.yaml \
+            --out     /tmp/gdd-ci \
+            --baseline tests/expected/sample_fixture_baseline.json \
+            --no-state
+
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package and test deps
+        run: |
+          pip install -e .
+          pip install pytest
+      - name: Run tests
+        run: python -m pytest tests -v

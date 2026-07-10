@@ -1,0 +1,20 @@
+# Profile for the minimal Chinese-heading fallback fixture.
+schema_version: 1
+profile:
+  name: minimal_zh_fallback
+  description: Tests the title-heuristic STYLE parsing path (no AUDIT markers).
+enabled_docs:
+  - Design_Document.md
+  - Gameplay_Systems.md
+  - Naming.md
+  - STYLE_GUIDE.md
+non_authority_files: []
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+boundary_checks: []
+consistency_checks: []
+link_checks:
+  enabled: true
+exceptions: []

@@ -1,0 +1,4 @@
+# Minimal runtime dependencies for game-design-doc-governance.
+# Install: pip install -r requirements.txt
+pyyaml
+jsonschema

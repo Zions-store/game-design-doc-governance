@@ -1,0 +1,52 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Open-World RPG.
+schema_version: 1
+
+profile:
+  name: open_world_rpg
+  description: Open-world RPG with quests, factions, character progression, items and dialogue trees.
+  primary_type: open_world_rpg
+  secondary_types: [faction_drama, character_progression]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Narrative_Bible.md
+  - Quest_Design.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Faction_Design.md
+  - Gameplay_Systems.md
+  - Progression_Design.md
+  - Resource_And_Economy.md
+  - Item_Design.md
+  - Dialogue_Design.md
+
+optional_docs: [Encounter_Design.md, Collectibles_Design.md, Narrative_Script.md]
+disabled_docs: [Multiplayer_Design.md, LiveOps_Design.md, Monetization_Design.md]
+
+high_risk_boundaries:
+  - Quest vs Dialogue
+  - Faction vs Narrative Bible
+  - Progression vs Economy
+  - Item vs Resource
+  - World vs Quest
+
+audit_focus:
+  - Quest body does not flow into World
+  - Faction facts single-owned by Narrative Bible
+  - Item stats not duplicated in Resource
+  - Progression curve separated from economy
+  - Dialogue references quest structure, does not define it
+
+suggested_doc_modules:
+  - Narrative_Bible
+  - World_Design
+  - Character_Sheets
+  - Gameplay_Systems
+  - Progression_Design
+  - Resource_And_Economy
+  - Encounter_Design
+  - Collectibles_Design

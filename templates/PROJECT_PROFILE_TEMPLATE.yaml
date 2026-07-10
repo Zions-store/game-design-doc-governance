@@ -1,0 +1,94 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Project_Profile.yaml -?per-project profile skeleton.
+# Copy into a project's "Design Document/md file/Project_Profile.yaml" and fill in.
+# The auditor reads this together with STYLE_GUIDE.md.
+#
+# Keep project-specific anchors/deprecated terms/lore in STYLE_GUIDE.md, not here,
+# if this file will be shared as a genre profile.
+
+schema_version: 1
+
+profile:
+  name: "{{PROJECT_NAME}}"
+  profile_name: "{{PROFILE_NAME}}"          # e.g. open_world_narrative_tactical_shooter
+  primary_type: "{{PRIMARY_TYPE}}"
+  secondary_types: []
+  phase: prototype                           # prototype | production | live
+
+paths:
+  root_dir: "Design Document/md file"
+  audit_dir: "Design Document/audit"
+  export_dir: "Design Document/export"
+  archive_dir: "Design Document/archive"
+
+# Authority documents this project maintains. (STYLE_GUIDE.md is usually included.)
+enabled_docs: []
+optional_docs: []
+disabled_docs: []
+
+# Files allowed to exist but not treated as authority (reported as INFO if present).
+non_authority_files:
+  - "{{SNAPSHOT_OR_LOG_FILE}}"
+
+authority:
+  high_risk_boundaries: []                   # e.g. "Mission vs World"
+  audit_focus: []                            # human-readable focus notes
+
+# Optional. Project-specific terms usually live in STYLE_GUIDE.md instead.
+deprecated_terms: []
+# - id: DEP-EXAMPLE
+#   old: [old term, another old wording]
+#   current: correct term now
+#   search_scope: ["*"]
+#   allowed_context: [deprecated, old name]
+#   level: P1
+
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+  require_history: true
+  require_json: true
+  require_markdown: true
+
+file_versioning:
+  mode: canonical
+  version_pattern: "\\((\\d+)\\)"
+  latest_strategy: highest_version_suffix
+
+# Content that must not appear in the wrong document.
+boundary_checks: []
+# - id: EXAMPLE-NO-STATS
+#   description: Character docs must not carry concrete numbers.
+#   files: [Character_Sheets.md]            # or ["*"]
+#   forbid_regex: '\d+/\s*-?               # OR forbid_any: [word1, word2]
+#   unless_near: [Gameplay_Systems.md]
+#   near_window: 200
+#   stop_at: "[migrated]"                    # optional: scan only before this marker
+#   match: all                               # all | first_per_term
+#   level: P2
+#   message: "..."
+
+# Core facts that must not be stated incorrectly.
+consistency_checks: []
+# - id: FACT-EXAMPLE
+#   files: ["*"]
+#   term: 'some fact wording'
+#   require_negation_near: [not, never]      # nearby negation => safe
+#   require_all_context_near: []             # only trigger when ALL present
+#   near_window: 40
+#   level: P0
+#   message: "..."
+
+link_checks:
+  enabled: true
+  ignored_dirs: [audit, export, archive]
+
+# Registered waivers that suppress a known issue.
+exceptions: []
+# - id: EX-EXAMPLE
+#   file: Design_Document.md
+#   reason: "Registered project-level overview exception."
+#   expires: null
