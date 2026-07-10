@@ -6,14 +6,30 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
-## [1.1.1] - 2026-07-10 -- Standalone Governance Cleanup
+## [1.1.6] - 2026-07-10 -- Mojibake CI Gate Fix
 
 ### Fixed
-- Fixed `SKILL.md` frontmatter encoding and description mojibake.
-- Added standalone repository release history to `CHANGELOG.md`.
-- Repaired `open_world_narrative_tactical_shooter.yaml` UTF-8 encoding.
-- Added CI UTF-8 text-file and mojibake pattern checks.
-- Updated `MANIFEST.md`, `requirements.txt`, and docs path references for standalone use.
+- Reduced mojibake CI blocker to `U+FFFD` only; removed `---` and `??` from
+  patterns (false-positives on Markdown table syntax, YAML frontmatter, and code).
+- Manually repaired residual `-?` em-dash damage in SKILL.md, README.md, and
+  CHANGELOG.md prose.
+
+---
+## [1.1.3] - 2026-07-10 -- SKILL Description Cleanup
+
+### Fixed
+- Repaired `SKILL.md` frontmatter description encoding (rewritten as ASCII-safe).
+- Inserted standalone release history into `CHANGELOG.md`.
+- Repaired `open_world_narrative_tactical_shooter.yaml` as valid UTF-8 YAML.
+- Added CI UTF-8 text-file check and mojibake pattern guard.
+
+---
+## [1.1.2] - 2026-07-10 -- Profile UTF-8 Repair
+
+### Fixed
+- Rewrote `profiles/open_world_narrative_tactical_shooter.yaml` as clean UTF-8.
+- Added CI `utf8-check` job.
+- Restored `gdd-scaffold` and profile-validation tests.
 
 ---
 ## [1.1.0] - 2026-07-10 -- Standalone Repository Release
