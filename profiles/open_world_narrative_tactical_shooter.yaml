@@ -1,0 +1,183 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Genre profile: Open-World Narrative Tactical Shooter.
+# Also serves as the first regression fixture for the generic auditor
+# (see tests/expected/current_project_baseline.json).
+#
+# NOTE: this profile only declares STRUCTURE and RULE TYPES. It must NOT
+# contain project-specific lore (character names, factions, plot). Concrete
+# anchors/deprecated terms live in that project's STYLE_GUIDE.md (see D9).
+
+schema_version: 1
+
+profile:
+  name: open_world_narrative_tactical_shooter
+  description: >
+    Open-world narrative tactical shooter with faction conflict, mission/event
+    structure, character sheets, resources, and multi-channel narrative delivery.
+  primary_type: open_world_narrative_tactical_shooter
+  secondary_types:
+    - faction_drama
+    - resource_pressure
+    - camp_requests
+
+# Documents this project type maintains as authority sources.
+# `enabled_docs` is what the auditor reads (this file is also the regression
+# fixture). `recommended_docs` mirrors it so this file matches the genre-profile
+# shape used by the other profiles (see modules/03_genre_profiles.md).
+recommended_docs:
+  - Design_Document.md
+  - Narrative_Bible.md
+  - Gameplay_Systems.md
+  - Mission_Design.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Narrative_Pipeline.md
+  - Narrative_Script.md
+  - Collectibles_Design.md
+  - Resource_And_Economy.md
+  - Naming.md
+  - STYLE_GUIDE.md
+
+enabled_docs:
+  - Design_Document.md
+  - Narrative_Bible.md
+  - Gameplay_Systems.md
+  - Mission_Design.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Narrative_Pipeline.md
+  - Narrative_Script.md
+  - Collectibles_Design.md
+  - Resource_And_Economy.md
+  - Naming.md
+  - STYLE_GUIDE.md
+
+optional_docs:
+  - Level_Design.md
+  - Encounter_Design.md
+  - Progression_Design.md
+
+disabled_docs:
+  - Multiplayer_Design.md
+  - LiveOps_Design.md
+  - Monetization_Design.md
+
+non_authority_files:
+  - Design_Document.docx
+  - prompts.md
+  - 人工笔记.txt
+
+high_risk_boundaries:
+  - GDD vs sub-documents
+  - Mission vs World
+  - Narrative Bible vs Narrative Script
+  - Character vs Gameplay
+  - Resource vs Collectibles
+  - Naming vs Fact
+
+audit_focus:
+  - GDD keeps only summaries and links
+  - Mission body text does not flow back into World
+  - World truths are not scattered into Script
+  - Character docs do not maintain gameplay numbers
+  - Collectibles do not mix in ordinary resources
+  - Naming does not carry world facts
+  - No deprecated settings remain
+
+suggested_doc_modules:
+  - Narrative_Bible
+  - Narrative_Script
+  - Narrative_Pipeline
+  - Character_Sheets
+  - Mission_Design
+  - World_Design
+  - Gameplay_Systems
+  - Resource_And_Economy
+  - Collectibles_Design
+
+# Anchors and deprecated terms are read from the project's STYLE_GUIDE.md
+# (project-specific; not embedded here per D9). Left empty on purpose.
+deprecated_terms: []
+
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+  require_history: true
+  require_json: true
+  require_markdown: true
+
+file_versioning:
+  mode: canonical
+  version_pattern: "\\((\\d+)\\)"
+  latest_strategy: highest_version_suffix
+
+# ── Data-driven boundary checks (migrated from the project's hard-coded
+#    check_gdd_summary / check_character_values / check_mission_world /
+#    check_resource_collectibles) ──
+boundary_checks:
+  - id: GDD-SUMMARY-ONLY-ENERGY
+    description: GDD must summarise, not carry energy-rate numbers, without a Gameplay link.
+    files: [Design_Document.md]
+    forbid_regex: '\d+%/s'
+    unless_near: [Gameplay_Systems.md]
+    near_window: 200
+    stop_at: "[已迁移]"
+    level: P2
+    message: "Possible energy rate in GDD without Gameplay_Systems link."
+
+  - id: CHAR-NO-WEAPON-STATS
+    description: Character docs must not maintain concrete weapon stats.
+    files: [Character_Sheets.md]
+    forbid_regex: '\d+/\s*发'
+    unless_near: [Gameplay_Systems.md, 数值权威]
+    near_window: 200
+    level: P2
+    message: "Character document may contain a weapon stat without a Gameplay reference."
+
+  - id: WORLD-NO-EVENT-BODY
+    description: World_Design holds map structure, not event body text.
+    files: [World_Design.md]
+    forbid_regex: '选择.*后果|RNG.*决定'
+    stop_at: "[已迁移]"
+    near_window: 200
+    level: P2
+    message: "Possible event body text in World_Design main section."
+
+  - id: COLLECTIBLES-NO-RESOURCE
+    description: Collectibles are narrative objects, not ordinary resources.
+    files: [Collectibles_Design.md]
+    forbid_any: [电池, 药品, 食物, 零件, 净水, 碎片]
+    unless_near: [叙事, �—物, 唯一, 集合]
+    near_window: 80
+    match: first_per_term
+    level: P3
+    message: "Resource-like item may appear in Collectibles."
+
+# ── Data-driven consistency checks (migrated from check_consistency) ──
+consistency_checks:
+  - id: FACT-PROTAGONIST-NOT-CYBORG
+    description: Protagonist must not be described as a cyborg unless explicitly negated.
+    files: ["*"]
+    term: '改造人'
+    require_negation_near: [不是, 并非, 禁止, 非]
+    near_window: 40
+    level: P0
+    message: "Protagonist may be described as cyborg (改造人) without negation."
+
+  - id: FACT-CHAR-C-NOT-ABANDONED
+    description: Sentinel C must not be framed as an abandoned outcast.
+    files: ["*"]
+    term: '弃子'
+    require_all_context_near: [尖兵, C]
+    near_window: 40
+    level: P0
+    message: "Sentinel C (尖兵C) framed as an abandoned outcast (弃子)."
+
+link_checks:
+  enabled: true
+  ignored_dirs: [audit, export, archive]
+
+exceptions: []

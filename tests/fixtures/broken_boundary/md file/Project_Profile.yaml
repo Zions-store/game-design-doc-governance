@@ -1,0 +1,30 @@
+schema_version: 1
+profile:
+  name: broken_boundary
+  description: Deliberately triggers boundary checks to confirm the data-driven rules work.
+enabled_docs:
+  - Design_Document.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Naming.md
+  - STYLE_GUIDE.md
+non_authority_files: []
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+boundary_checks:
+  - id: WORLD-NO-EVENT-BODY
+    files: [World_Design.md]
+    forbid_regex: '选择.*后果|RNG.*决定'
+    level: P2
+    message: "Event body text found in World_Design."
+  - id: CHAR-NO-WEAPON-STATS
+    files: [Character_Sheets.md]
+    forbid_regex: '\d+/\s*发'
+    level: P2
+    message: "Weapon stat found in Character without Gameplay reference."
+consistency_checks: []
+link_checks:
+  enabled: true
+exceptions: []

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/audit_report.schema.json",
+  "title": "Audit Report",
+  "description": "Schema for audit_report.json output. Schema version 1; backward-compatible in 1.x.",
+  "type": "object",
+  "required": ["audit_id", "time", "script_version", "style_file", "profile_file", "root_dir", "out_dir", "p0", "p1", "p2", "p3", "issues"],
+  "properties": {
+    "audit_id": { "type": "string" },
+    "time": { "type": "string" },
+    "script_version": { "type": "string" },
+    "style_file": { "type": "string" },
+    "profile_file": { "type": "string" },
+    "root_dir": { "type": "string" },
+    "out_dir": { "type": "string" },
+    "p0": { "type": "integer" },
+    "p1": { "type": "integer" },
+    "p2": { "type": "integer" },
+    "p3": { "type": "integer" },
+    "info": { "type": "integer" },
+    "suppressed": { "type": "integer" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_id": { "type": "string" },
+          "status": { "type": "string" },
+          "level": { "type": "string" },
+          "file": { "type": "string" },
+          "msg": { "type": "string" },
+          "rule": { "type": "string" }
+        }
+      }
+    },
+    "loaded_rules": {
+      "type": "object",
+      "properties": {
+        "docs": { "type": "integer" },
+        "anchors": { "type": "integer" },
+        "deprecated": { "type": "integer" },
+        "boundary_checks": { "type": "integer" },
+        "consistency_checks": { "type": "integer" }
+      }
+    }
+  }
+}

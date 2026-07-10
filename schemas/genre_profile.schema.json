@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/genre_profile.schema.json",
+  "title": "Genre Profile",
+  "description": "Schema for a genre profile (type-library entry). Schema version 1; backward-compatible in 1.x.",
+  "type": "object",
+  "required": ["schema_version", "profile", "recommended_docs"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1, "maximum": 1 },
+    "profile": {
+      "type": "object",
+      "required": ["name", "description", "primary_type"],
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "primary_type": { "type": "string" },
+        "secondary_types": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "recommended_docs": { "type": "array", "items": { "type": "string" } },
+    "optional_docs": { "type": "array", "items": { "type": "string" } },
+    "disabled_docs": { "type": "array", "items": { "type": "string" } },
+    "high_risk_boundaries": { "type": "array", "items": { "type": "string" } },
+    "audit_focus": { "type": "array", "items": { "type": "string" } },
+    "suggested_doc_modules": { "type": "array", "items": { "type": "string" } },
+
+    "enabled_docs": { "type": "array", "items": { "type": "string" } },
+    "non_authority_files": { "type": "array", "items": { "type": "string" } },
+    "deprecated_terms": { "type": "array" },
+    "audit": { "type": "object" },
+    "file_versioning": { "type": "object" },
+    "boundary_checks": { "type": "array" },
+    "consistency_checks": { "type": "array" },
+    "link_checks": { "type": "object" },
+    "exceptions": { "type": "array" }
+  },
+  "additionalProperties": false
+}

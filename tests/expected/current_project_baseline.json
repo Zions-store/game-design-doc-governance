@@ -1,0 +1,20 @@
+{
+  "description": "Regression baseline: ThirdPersonTest project audited with the open_world_narrative_tactical_shooter profile. The generic auditor must reproduce these counts (P3 message text may vary; the issue must be equivalent).",
+  "source_project": "ThirdPersonTest (Design Document/md file)",
+  "profile": "open_world_narrative_tactical_shooter.yaml",
+  "p0": 0,
+  "p1": 0,
+  "p2": 0,
+  "p3": 1,
+  "info": 0,
+  "loaded_rules": {
+    "docs": 12,
+    "anchors": 15,
+    "deprecated": 6,
+    "boundary_checks": 4,
+    "consistency_checks": 2
+  },
+  "known_p3": [
+    "AUD-P3-d33cd196  RULE-NAMING-FACT-BOUNDARY: RULE anchor has no REF"
+  ]
+}

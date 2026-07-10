@@ -1,0 +1,28 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "game-design-doc-governance"
+version = "1.1.0"
+description = "Reusable governance framework for game design documentation"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml",
+    "jsonschema",
+]
+
+[project.scripts]
+gdd-audit = "game_design_doc_governance.audit:main"
+gdd-profile-validate = "game_design_doc_governance.profile_validation:main"
+gdd-scaffold = "game_design_doc_governance.scaffold:main"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[project.optional-dependencies]
+test = ["pytest"]

@@ -1,0 +1,39 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Puzzle Adventure.
+schema_version: 1
+
+profile:
+  name: puzzle_adventure
+  description: Puzzle-driven adventure with hand-crafted levels, interaction rules and light narrative.
+  primary_type: puzzle_adventure
+  secondary_types: [hand_crafted]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Puzzle_Design.md
+  - Level_Design.md
+  - Narrative_Script.md
+  - Interaction_Design.md
+  - UI_UX_Design.md
+
+optional_docs: [Collectibles_Design.md]
+disabled_docs: [Multiplayer_Design.md, Resource_And_Economy.md, LiveOps_Design.md]
+
+high_risk_boundaries:
+  - Puzzle Logic vs Level Layout
+  - Narrative Hint vs Puzzle Solution
+  - Interaction Rules vs UI
+
+audit_focus:
+  - Puzzle answers not scattered
+  - Hints do not leak solutions ahead of time
+  - Level structure separated from puzzle logic
+
+suggested_doc_modules:
+  - Level_Design
+  - Narrative_Script
+  - UI_UX_Design
+  - Collectibles_Design

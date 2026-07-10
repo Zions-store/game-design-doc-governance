@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/project_profile.schema.json",
+  "title": "Project Profile",
+  "description": "Schema for a project-instance Project_Profile.yaml. Schema version 1; backward-compatible in 1.x.",
+  "type": "object",
+  "required": ["schema_version", "enabled_docs"],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1, "maximum": 1 },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "profile_name": { "type": "string" },
+        "primary_type": { "type": "string" },
+        "secondary_types": { "type": "array", "items": { "type": "string" } },
+        "phase": { "type": "string" }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "properties": {
+        "root_dir": { "type": "string" },
+        "audit_dir": { "type": "string" },
+        "export_dir": { "type": "string" },
+        "archive_dir": { "type": "string" }
+      }
+    },
+    "enabled_docs": { "type": "array", "items": { "type": "string" } },
+    "recommended_docs": { "type": "array", "items": { "type": "string" } },
+    "optional_docs": { "type": "array", "items": { "type": "string" } },
+    "disabled_docs": { "type": "array", "items": { "type": "string" } },
+    "non_authority_files": { "type": "array", "items": { "type": "string" } },
+    "high_risk_boundaries": { "type": "array", "items": { "type": "string" } },
+    "audit_focus": { "type": "array", "items": { "type": "string" } },
+    "suggested_doc_modules": { "type": "array", "items": { "type": "string" } },
+    "authority": {
+      "type": "object",
+      "properties": {
+        "high_risk_boundaries": { "type": "array", "items": { "type": "string" } },
+        "audit_focus": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "deprecated_terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "old": { "type": "array", "items": { "type": "string" } },
+          "current": { "type": "string" },
+          "search_scope": { "type": "array", "items": { "type": "string" } },
+          "allowed_context": { "type": "array", "items": { "type": "string" } },
+          "level": { "type": "string" }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "properties": {
+        "fail_on_p0": { "type": "boolean" },
+        "fail_on_p1": { "type": "boolean" },
+        "fail_on_p2_in_strict_mode": { "type": "boolean" },
+        "require_history": { "type": "boolean" },
+        "require_json": { "type": "boolean" },
+        "require_markdown": { "type": "boolean" }
+      }
+    },
+    "file_versioning": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string" },
+        "version_pattern": { "type": "string" },
+        "latest_strategy": { "type": "string" }
+      }
+    },
+    "boundary_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "files", "level", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "forbid_regex": { "type": "string" },
+          "forbid_any": { "type": "array", "items": { "type": "string" } },
+          "unless_near": { "type": "array", "items": { "type": "string" } },
+          "near_window": { "type": "integer" },
+          "stop_at": { "type": "string" },
+          "match": { "type": "string", "enum": ["all", "first_per_term"] },
+          "level": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "consistency_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "files", "term", "level", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "term": { "type": "string" },
+          "require_negation_near": { "type": "array", "items": { "type": "string" } },
+          "require_all_context_near": { "type": "array", "items": { "type": "string" } },
+          "near_window": { "type": "integer" },
+          "level": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    },
+    "link_checks": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "ignored_dirs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "file": { "type": "string" },
+          "reason": { "type": "string" },
+          "expires": { "type": ["string", "null"] }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

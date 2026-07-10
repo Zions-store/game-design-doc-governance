@@ -1,0 +1,46 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Horror Narrative.
+schema_version: 1
+
+profile:
+  name: horror_narrative
+  description: Narrative horror with pacing-driven level design, encounters, audio and collectible lore.
+  primary_type: horror_narrative
+  secondary_types: [cinematic_narrative, pacing_driven]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Narrative_Bible.md
+  - Narrative_Script.md
+  - Level_Design.md
+  - Encounter_Design.md
+  - Audio_Design.md
+  - Pacing_Design.md
+  - Collectibles_Design.md
+  - UI_UX_Design.md
+
+optional_docs: [Character_Sheets.md]
+disabled_docs: [Multiplayer_Design.md, LiveOps_Design.md, Monetization_Design.md]
+
+high_risk_boundaries:
+  - Script vs Level
+  - Audio vs Encounter
+  - Collectibles vs Narrative Bible
+  - Pacing vs Mission / Level
+
+audit_focus:
+  - Horror pacing not broken by system tables
+  - Audio trigger authority
+  - Narrative-fragment authority
+  - Performance separated from level triggers
+
+suggested_doc_modules:
+  - Narrative_Bible
+  - Narrative_Script
+  - Level_Design
+  - Encounter_Design
+  - Collectibles_Design
+  - UI_UX_Design

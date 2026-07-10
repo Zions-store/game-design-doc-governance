@@ -1,0 +1,47 @@
+# Project profile for the self-contained regression fixture (sanitized).
+# No real project lore; exercises the engine end-to-end with a deterministic result.
+
+schema_version: 1
+
+profile:
+  name: sample_open_world
+  description: Self-contained sanitized fixture for regression of the generic auditor.
+  primary_type: open_world_narrative_tactical_shooter
+
+enabled_docs:
+  - Design_Document.md
+  - Gameplay_Systems.md
+  - Naming.md
+  - STYLE_GUIDE.md
+
+non_authority_files: []
+
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+
+file_versioning:
+  version_pattern: "\\((\\d+)\\)"
+
+# Present to exercise the data-driven paths; crafted to yield zero hits on the fixture.
+boundary_checks:
+  - id: SAMPLE-NO-STATS
+    files: [Naming.md]
+    forbid_regex: 'zzz_not_present_zzz'
+    level: P2
+    message: "Sample boundary check (should not trigger)."
+
+consistency_checks:
+  - id: SAMPLE-FACT
+    files: ["*"]
+    term: 'zzz_not_present_zzz'
+    require_negation_near: [not]
+    level: P0
+    message: "Sample consistency check (should not trigger)."
+
+link_checks:
+  enabled: true
+  ignored_dirs: [audit]
+
+exceptions: []

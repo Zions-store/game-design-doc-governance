@@ -1,0 +1,45 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Genre profile: Survival Crafting.
+schema_version: 1
+
+profile:
+  name: survival_crafting
+  description: Open survival with resources, crafting recipes, base building and creature AI.
+  primary_type: survival_crafting
+  secondary_types: [open_world, base_building]
+
+recommended_docs:
+  - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
+  - Gameplay_Systems.md
+  - Resource_And_Economy.md
+  - Crafting_Design.md
+  - World_Design.md
+  - Progression_Design.md
+  - Base_Building_Design.md
+  - AI_Creature_Design.md
+  - UI_UX_Design.md
+
+optional_docs: [Narrative_Bible.md]
+disabled_docs: [LiveOps_Design.md, Monetization_Design.md]
+
+high_risk_boundaries:
+  - Resource vs Crafting
+  - World vs Resource Placement
+  - Progression vs Crafting Unlocks
+  - Base Building vs Gameplay Systems
+
+audit_focus:
+  - Material table single authority
+  - Recipes not duplicated across docs
+  - Resource spawn rules not scattered
+  - Building numbers not scattered
+
+suggested_doc_modules:
+  - Gameplay_Systems
+  - Resource_And_Economy
+  - World_Design
+  - Progression_Design
+  - UI_UX_Design

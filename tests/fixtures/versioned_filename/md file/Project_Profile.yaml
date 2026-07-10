@@ -1,0 +1,20 @@
+schema_version: 1
+profile:
+  name: versioned_filename
+  description: Tests find_latest / check_file_list with versioned file naming.
+enabled_docs:
+  - Design_Document.md
+  - Naming.md
+  - STYLE_GUIDE.md
+non_authority_files: []
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+file_versioning:
+  version_pattern: "\\((\\d+)\\)"
+boundary_checks: []
+consistency_checks: []
+link_checks:
+  enabled: true
+exceptions: []

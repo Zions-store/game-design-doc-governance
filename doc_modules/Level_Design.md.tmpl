@@ -1,0 +1,26 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Level_Design
+
+## 1. Applies when
+Linear levels, boxed levels, dungeons, chapter-based maps, or arena maps.
+
+## 2. This document owns
+Level objectives; spatial structure; routes; pacing; encounter placement; resource
+points; checkpoints; guidance; fail recovery.
+
+## 3. This document does NOT own
+Large-map structure (that is World_Design); enemy raw stats; full cutscene scripts.
+
+## 4. Recommended chapter structure
+1. Document role · 2. Objectives · 3. Layout · 4. Routes · 5. Encounter placement ·
+6. Pacing · 7. Resources & checkpoints · 8. Guidance · 9. TODO
+
+## 5. Common boundaries
+- Level vs World — a single playable space vs large-map structure.
+- Level vs Encounter — placement/count vs composition/rules.
+- Level vs Script — triggers vs cutscene performance.
+
+## 6. Common audit rules
+- Level does not re-define encounter rules; it references Encounter_Design.
+- Guidance/routes must not be mixed into World_Design (map structure).
