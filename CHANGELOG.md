@@ -6,6 +6,27 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
+## [1.1.1] - 2026-07-10 -- Standalone Governance Cleanup
+
+### Fixed
+- Fixed `SKILL.md` frontmatter encoding and description mojibake.
+- Added standalone repository release history to `CHANGELOG.md`.
+- Repaired `open_world_narrative_tactical_shooter.yaml` UTF-8 encoding.
+- Added CI UTF-8 text-file and mojibake pattern checks.
+- Updated `MANIFEST.md`, `requirements.txt`, and docs path references for standalone use.
+
+---
+## [1.1.0] - 2026-07-10 -- Standalone Repository Release
+
+### Changed
+- Extracted `game-design-doc-governance` from `project-ledger` into a standalone repository.
+- Updated package, CI, release, installation, and opencode wiring paths for standalone use.
+- Switched release tags to standard `vX.Y.Z` format.
+
+### Notes
+- Historical monorepo skill-scoped tags remain in `project-ledger` and are not moved.
+
+---
 ## [0.4.1] - 2026-07-09 -- CI Hotfix
 
 ### Fixed

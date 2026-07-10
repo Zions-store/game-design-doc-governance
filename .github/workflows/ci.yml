@@ -150,6 +150,41 @@ jobs:
           print("All checked text files are valid UTF-8.")
           PY
 
+      - name: Check mojibake patterns
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          patterns = ["-", "---", "-?", "--?", "??"]
+          exts = {".md", ".yaml", ".yml", ".json", ".py", ".toml", ".txt"}
+          bad = []
+
+          for p in Path(".").rglob("*"):
+              if not p.is_file():
+                  continue
+              if any(part in {".git", "__pycache__", ".pytest_cache", ".venv"} for part in p.parts):
+                  continue
+              if p.suffix.lower() not in exts:
+                  continue
+              text = p.read_text(encoding="utf-8", errors="replace")
+              for i, line in enumerate(text.splitlines(), 1):
+                  if any(x in line for x in patterns):
+                      bad.append((str(p), i, line.strip()[:120]))
+
+          if bad:
+              print("Possible mojibake found:")
+              for p, i, line in bad:
+                  print(f"- {p}:{i}: {line}")
+              print("\nReplace with: -\n"
+                    "  Em-dash = ---\n"
+                    "  -? = -\n"
+                    "  --? = --\n")
+              raise SystemExit(1)
+
+          print("No mojibake patterns found.")
+          PY
+
   pytest:
     runs-on: ubuntu-latest
     steps:
