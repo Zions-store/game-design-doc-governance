@@ -43,6 +43,99 @@ _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 - Historical monorepo skill-scoped tags remain in `project-ledger` and are not moved.
 
 ---
+## [1.0.1] - 2026-07-09 -- Markdown Lint Hotfix
+
+### Fixed
+- Normalized README blank lines to satisfy markdownlint MD012.
+
+---
+## [1.0.0] - 2026-07-09 -- Stable Release
+
+### Stable
+- Profile schema v1 frozen; CLI, audit output, issue_state, scaffold frozen.
+- 1.x backward-compatible; breaking changes reserved for 2.x.
+
+### Includes
+- 10 genre profiles, 16 doc-module skeletons, 9 governance modules, 6 templates,
+  4 JSON schemas, self-contained regression fixtures, `docs/` 10 guides, CI 5 jobs.
+
+---
+## [0.9.0] - 2026-07-09 -- Release Candidate
+
+### Added
+- `docs/` 10 standalone guides (quickstart, installation, setup, migration,
+  audit, schema, markers, issue_state, troubleshooting, release process).
+- CI markdown-lint extended to docs/.
+- Feature freeze: no new features before 1.0.0.
+
+---
+## [0.8.0] - 2026-07-09 -- Scaffold
+
+### Added
+- `gdd-scaffold`: initialize a new design-doc project from a genre profile.
+- Console script support; en-US and zh-CN language.
+- CI scaffold smoke + pytest test_scaffold_and_audit.
+
+---
+## [0.7.1] - 2026-07-09 -- CI working-directory hotfix
+
+### Fixed
+- Fixed `pip install -e .` by targeting the `game-design-doc-governance/`
+  subdirectory (`working-directory`) instead of the monorepo root.
+
+---
+## [0.7.0] - 2026-07-09 -- Packaging / CLI
+
+### Added
+- `pyproject.toml` + `requirements.txt`; `src/game_design_doc_governance/` package.
+- Console scripts: `gdd-audit`, `gdd-profile-validate`.
+- `pip install -e .` installation; CI uses console scripts.
+
+---
+## [0.6.3] - 2026-07-09 -- Template key alignment
+
+### Fixed
+- Aligned `PROJECT_PROFILE_TEMPLATE.yaml` top-level key from `project` to `profile`.
+
+---
+## [0.6.2] - 2026-07-09 -- Schema Validation Hotfix
+
+### Fixed
+- Allowed `open_world_narrative_tactical_shooter` as a hybrid genre + project profile.
+- Tightened project schema: unknown top-level fields rejected.
+- Aligned project schema nested key to `profile`.
+
+---
+## [0.6.1] - 2026-07-09 -- Schema import hotfix
+
+### Fixed
+- CI pytest job runs from skill root so `tools.validate_profile` is importable.
+- conftest.py adds skill root to sys.path as a fallback.
+
+---
+## [0.6.0] - 2026-07-09 -- Schema validation
+
+### Added
+- 4 JSON Schemas (`project_profile`, `genre_profile`, `audit_report`, `issue_state`).
+- `tools/validate_profile.py` CLI; `jsonschema`-based.
+- pytest schema tests (10 genre profiles + template pass validation).
+- `schema_version: 1` backward-compatible throughout 1.x.
+
+---
+## [0.5.1] - 2026-07-09 -- Test and CI Hotfix
+
+### Fixed
+- pytest argument collision, monkeypatch leakage, fixture P3 expectations.
+- CI restored to green after 0.5.0 fixture/pytest introduction.
+
+---
+## [0.5.0] - 2026-07-09 -- Self-contained test suite + pytest
+
+### Added
+- 6 self-contained fixtures, 5 expected baselines.
+- pytest suite (17 tests); CI pytest job.
+
+---
 ## [0.4.1] - 2026-07-09 -- CI Hotfix
 
 ### Fixed
