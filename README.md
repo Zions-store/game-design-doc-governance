@@ -74,6 +74,66 @@ python tools/global_doc_audit.py --root <md dir> --out <audit dir> \
 
 Requires Python 3 and `PyYAML`.
 
+## Quick Start
+
+### Install
+
+```bash
+git clone git@github.com:Zions-store/game-design-doc-governance.git
+cd game-design-doc-governance
+pip install -e .
+```
+
+### New project
+
+```bash
+gdd-scaffold \
+  --profile profiles/open_world_narrative_tactical_shooter.yaml \
+  --out "MyGame/Design Document/md file" \
+  --project-name "MyGame" \
+  --language en-US
+```
+
+### Existing project (migration)
+
+```bash
+# Scaffold into a clean directory first (don't overwrite existing docs)
+gdd-scaffold \
+  --profile profiles/open_world_narrative_tactical_shooter.yaml \
+  --out "MyGame/Design Document/md file_new" \
+  --project-name "MyGame"
+
+# Migrate one content domain at a time, audit after each, drive P0/P1 to zero.
+# Then replace the old directory with the new one.
+```
+
+### Audit
+
+```bash
+gdd-audit \
+  --root "MyGame/Design Document/md file" \
+  --style "MyGame/Design Document/md file/STYLE_GUIDE.md" \
+  --profile "MyGame/Design Document/md file/Project_Profile.yaml" \
+  --out "MyGame/Design Document/audit"
+```
+
+### Wire into opencode
+
+```powershell
+# Windows (PowerShell)
+New-Item -ItemType Junction \
+  -Path "$env:USERPROFILE\.config\opencode\skills\game-design-doc-governance" \
+  -Target "C:\...\game-design-doc-governance"
+```
+
+```bash
+# Linux / macOS
+ln -s "/path/to/game-design-doc-governance" \
+      "$HOME/.config/opencode/skills/game-design-doc-governance"
+```
+
+For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and `docs/migration_guide.md`.
+
 ## Status
 
 **v1.1.8 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
