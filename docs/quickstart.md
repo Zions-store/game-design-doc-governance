@@ -5,9 +5,9 @@ The fastest path from zero to a governed, auditable game design document set.
 ## 1. Install
 
 ```bash
-git clone git@github.com:Zions-store/game-design-doc-governance.git
+git clone https://github.com/Zions-store/game-design-doc-governance.git
 cd game-design-doc-governance
-pip install -e .
+py -m pip install -e .
 ```
 
 Three console commands are now available: `gdd-audit`, `gdd-profile-validate`,

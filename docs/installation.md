@@ -11,10 +11,19 @@ The only runtime dependencies are `pyyaml` and `jsonschema` (declared in
 ## From source (recommended for local use)
 
 ```bash
-git clone git@github.com:Zions-store/game-design-doc-governance.git
+git clone https://github.com/Zions-store/game-design-doc-governance.git
 cd game-design-doc-governance
-pip install -e .
+py -m pip install -e .
 ```
+
+If the `py` launcher is not available, use:
+
+```bash
+python -m pip install -e .
+```
+
+> **Contributors with a GitHub SSH key configured** can use the SSH URL instead:
+> `git clone git@github.com:Zions-store/game-design-doc-governance.git`
 
 Three console scripts are registered:
 
@@ -60,3 +69,17 @@ gdd-audit --help
 gdd-profile-validate --help
 gdd-scaffold --help
 ```
+
+## Troubleshooting
+
+### `Permission denied (publickey)`
+
+This happens when using the SSH clone URL without a GitHub SSH key configured.
+
+Use the HTTPS clone URL instead:
+
+```bash
+git clone https://github.com/Zions-store/game-design-doc-governance.git
+```
+
+If you need SSH, [add an SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) first.

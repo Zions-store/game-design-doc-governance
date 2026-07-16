@@ -79,9 +79,9 @@ Requires Python 3 and `PyYAML`.
 ### Install
 
 ```bash
-git clone git@github.com:Zions-store/game-design-doc-governance.git
+git clone https://github.com/Zions-store/game-design-doc-governance.git
 cd game-design-doc-governance
-pip install -e .
+py -m pip install -e .
 ```
 
 ### New project
