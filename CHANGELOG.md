@@ -6,6 +6,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
+## [1.1.9] - 2026-07-11 -- Installation UX Hotfix
+
 ### Fixed
 - Default install commands in `README.md`, `docs/installation.md`, and `docs/quickstart.md` now use HTTPS (`https://github.com/...`) instead of SSH (`git@github.com:...`). SSH remains documented as an option for contributors with a configured key.
 - Added `py -m pip install -e .` as the recommended Windows install command.
