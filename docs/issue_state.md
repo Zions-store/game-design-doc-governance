@@ -40,5 +40,5 @@ for baseline regression, where you want the raw counts).
    `reason`.
 3. Re-run `gdd-audit`. The accepted issue will be suppressed.
 
-In the future, a profile-level `exceptions` field will allow registering waivers
-declaratively in `Project_Profile.yaml`.
+In addition, a profile-level `exceptions` field allows registering waivers
+declaratively in `Project_Profile.yaml`. See `docs/profile_schema.md`.

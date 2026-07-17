@@ -6,7 +6,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
-## [1.1.9] - 2026-07-11 -- Installation UX Hotfix
+## [1.1.10] - 2026-07-17 -- Baseline Integrity Release
+
+### Fixed
+- `tools/global_doc_audit.py` `SCRIPT_VERSION` synced from `v1.1.1-generic` to `v1.1.10-generic` (was 8 versions behind).
+- `CHANGELOG.md` [1.1.9] date corrected from `2026-07-11` to `2026-07-17` (matched actual tag commit date).
+- `docs/issue_state.md` updated: removed stale "In the future" language for `exceptions` field (already implemented since v0.3.0).
+- `MANIFEST.md` updated: added missing release payload entries (`tools/scaffold_project.py`, `tools/validate_profile.py`, `schemas/`, `docs/`, `src/`, `.github/workflows/`).
+- `docs/release_process.md` updated: added `tools/global_doc_audit.py` `SCRIPT_VERSION` to the version-bump checklist.
+- `templates/PROJECT_PROFILE_TEMPLATE.yaml` fixed residual `-?` mojibake on line 4.
+
+## [1.1.9] - 2026-07-17 -- Installation UX Hotfix
 
 ### Fixed
 - Default install commands in `README.md`, `docs/installation.md`, and `docs/quickstart.md` now use HTTPS (`https://github.com/...`) instead of SSH (`git@github.com:...`). SSH remains documented as an option for contributors with a configured key.

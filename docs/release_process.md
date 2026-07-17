@@ -32,6 +32,7 @@ How to cut and publish a release of the `game-design-doc-governance` Skill.
 #    - README.md:  Status vX.Y.Z
 #    - pyproject.toml:  version = "X.Y.Z"
 #    - CHANGELOG.md:  ## [X.Y.Z] - YYYY-MM-DD - title
+#    - tools/global_doc_audit.py:  SCRIPT_VERSION = "vX.Y.Z-generic"
 
 # 2. Commit
 git add .

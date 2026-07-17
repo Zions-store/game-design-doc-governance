@@ -13,8 +13,12 @@ templates/          6 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT
                     AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY)
 doc_modules/        16 per-document skeletons (*.md.tmpl)
 profiles/           10 genre profiles (*.yaml)
-tools/              global_doc_audit.py (generic auditor)
+schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)
+tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py
+src/                Python package (audit / scaffold / profile_validation entry points)
+docs/               10 user guides (quickstart / installation / migration / audit / schema / etc.)
 tests/              fixtures/ + expected/ + README (self-contained regression)
+.github/workflows/  CI configuration (ci.yml)
 ```
 
 ## Excluded (never part of a release)
