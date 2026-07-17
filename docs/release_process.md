@@ -14,7 +14,7 @@ How to cut and publish a release of the `game-design-doc-governance` Skill.
 
 ## Pre-release checklist
 
-1. CI all green: `python-health` + `markdown-lint` + `code-block-check` + `pytest`.
+1. CI all green: `markdown-lint` + `code-block-check` + `python-health` + `utf8-check` + `pytest`.
 2. `pytest` passes locally (if pip proxy allows; otherwise verified in CI).
 3. Fixture baseline regression: `gdd-audit --no-state --baseline …` → EQUIVALENT.
 4. Origin project regression (if available): `gdd-audit --no-state --baseline …`.

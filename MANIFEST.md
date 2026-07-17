@@ -40,4 +40,4 @@ Install from the repository root with `pip install -e .`.
 - Package version lives in `SKILL.md` frontmatter.
 - Git tags use standard repository tags: `vX.Y.Z`.
 - Historical monorepo skill-scoped tags remain in `project-ledger` and are not moved.
-- `0.4.0` is a **pre-1.0** release; interfaces are not frozen until `1.0.0`.
+- `1.0.0` froze all interface surfaces (`schema_version: 1`, CLI, audit output, issue-state, scaffold). Breaking changes are reserved for `2.x`.

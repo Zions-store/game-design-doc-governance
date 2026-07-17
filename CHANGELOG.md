@@ -6,7 +6,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: patch fixes only unless a new 1.x-compatible feature is planned._
 
-## [1.1.10] - 2026-07-17 -- Baseline Integrity Release
+## [1.1.11] - 2026-07-18 -- Baseline Integrity Patch
+
+### Fixed
+- `CHANGELOG.md` [1.1.10] date corrected from `2026-07-17` to `2026-07-18` (matched actual tag commit date).
+- `docs/release_process.md` CI job count corrected from 4 to 5 (added `utf8-check`).
+- `docs/issue_state.md` added current limitation note: `exceptions.expires` and `reason` are defined in schema but not yet enforced by the engine.
+- `README.md` added known 1.x limitations disclosure (profile mixing, scaffold behavior, partial field enforcement).
+- `MANIFEST.md` replaced outdated `0.4.0` pre-1.0 language with `1.0.0` freeze policy.
+
+## [1.1.10] - 2026-07-18 -- Baseline Integrity Release
 
 ### Fixed
 - `tools/global_doc_audit.py` `SCRIPT_VERSION` synced from `v1.1.1-generic` to `v1.1.10-generic` (was 8 versions behind).

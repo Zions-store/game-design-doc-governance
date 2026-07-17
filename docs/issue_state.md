@@ -42,3 +42,8 @@ for baseline regression, where you want the raw counts).
 
 In addition, a profile-level `exceptions` field allows registering waivers
 declaratively in `Project_Profile.yaml`. See `docs/profile_schema.md`.
+
+> **Current limitation**: `exceptions` matches by rule `id` globally and by
+> `(file, id)` pair; `expires` and `reason` sub-fields are defined in the
+> schema but not yet enforced by the audit engine. File-scoped exceptions
+> that match only in specific documents require the `file` field.

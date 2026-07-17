@@ -136,7 +136,7 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v1.1.10 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v1.1.11 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
 16 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
 validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
 regression fixtures (6 projects + pytest 22/22), and complete documentation
@@ -146,6 +146,14 @@ All interface surfaces are **frozen** in 1.x: the Profile schema (`schema_versio
 CLI (`gdd-audit`, `gdd-profile-validate`, `gdd-scaffold`), audit output format,
 issue-state format, and scaffold output structure. Breaking changes are reserved
 for 2.x.
+
+> **Known 1.x limitations**: the first genre profile (`open_world_narrative_tactical_shooter`)
+> also serves as the regression fixture and contains project-specific terms.
+> Scaffold creates all optional docs by default and does not check for non-empty
+> target directories. Several Profile fields (`expires`, `reason`, `mode`,
+> `latest_strategy`, `allowed_context`, `level`) are declared in schemas but not
+> yet fully enforced by the audit engine. These are tracked in the v1.2–v2.0 roadmap.
+> ThirdPersonTest governance remains unaffected.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).
 For opencode: wire a junction `~/.config/opencode/skills/game-design-doc-governance`
