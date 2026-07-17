@@ -1,0 +1,41 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Language pack: Simplified Chinese (zh-CN).
+# Provides Chinese-specific terms, regex patterns, and context words
+# for boundary and consistency checks. Loaded by a project profile's
+# `language_pack` field.
+
+schema_version: 1
+
+language: zh-CN
+
+stat_patterns:
+  shots_per_unit:
+    - '\d+/\s*发'
+  percentage_per_second:
+    - '\d+%/s'
+    - '\d+％/秒'
+
+event_body_patterns:
+  - '选择.*后果'
+  - '后果.*选择'
+  - 'RNG.*决定'
+
+resource_terms:
+  - 电池
+  - 药品
+  - 食物
+  - 零件
+  - 净水
+  - 碎片
+
+project_fact_terms:
+  cyborg:
+    - 改造人
+    - 赛博格
+    - 体内纳米
+  abandoned:
+    - 弃子
+    - 被抛弃
+    - 被盟友出卖

@@ -2,6 +2,10 @@ Copyright (C) 2026 ZionXiaoxiSuOGLocGo
 SPDX-License-Identifier: GPL-3.0-or-later
 # Module 09 - AI Collaboration Rules
 
+> **Optional module.** Applies only when an AI assistant is editing, scaffolding,
+> or auditing the governed document set. Teams not using AI agents can skip this
+> module without affecting the governance framework.
+
 Rules for an AI agent editing a governed document set, so it does not create new
 inconsistencies while "helping".
 

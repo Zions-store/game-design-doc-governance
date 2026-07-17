@@ -5,9 +5,9 @@
 Validate a Project_Profile.yaml or genre profile against its JSON Schema.
 
 Usage:
-  python tools/validate_profile.py profiles/open_world_rpg.yaml
+  python tools/validate_profile.py profiles/genre/open_world_rpg.yaml
   python tools/validate_profile.py --kind project MyProject/Project_Profile.yaml
-  python tools/validate_profile.py --kind genre profiles/roguelite.yaml
+  python tools/validate_profile.py --kind genre profiles/genre/roguelite.yaml
 
 If --kind is omitted: auto-detected - a profile with `recommended_docs` (but not
 `enabled_docs`) is treated as a genre profile; otherwise project.

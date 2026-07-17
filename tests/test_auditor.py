@@ -238,7 +238,7 @@ def test_all_genre_profiles_valid():
     if _yaml is None:
         pytest.skip("yaml not available")
     skill = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    for p in _glob.glob(os.path.join(skill, "profiles", "*.yaml")):
+    for p in _glob.glob(os.path.join(skill, "profiles", "genre", "*.yaml")):
         errors = _validate_file(p, "genre")
         assert errors == [], f"{os.path.basename(p)}: {errors}"
 
@@ -269,7 +269,7 @@ def test_missing_required_detected(tmp_path):
 # ────────────────────────────────────────────────────────
 def test_scaffold_and_audit(tmp_path):
     skill = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    profile = os.path.join(skill, "profiles", "open_world_narrative_tactical_shooter.yaml")
+    profile = os.path.join(skill, "profiles", "genre", "open_world_narrative_tactical_shooter.yaml")
     out = tmp_path / "md file"
     audit = tmp_path / "audit"
     # Import the scaffold engine and run it programmatically

@@ -4,7 +4,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: patch fixes only unless a new 1.x-compatible feature is planned._
+_Next: v1.3.0 doc-module expansion or patch fixes._
+
+## [1.2.0] - 2026-07-18 -- Generalization Boundary Release
+
+### Added
+- `profiles/genre/` — genre profiles moved from flat `profiles/` (10 profiles).
+- `examples/third_person_test/` — example project profile, baseline, README.
+- `rules/language_packs/zh-CN.yaml` and `en-US.yaml` — per-language audit term packs.
+- `profile_type` field added to genre and project profile JSON schemas.
+- `project_fact_checks` and `language_pack` fields added to project profile schema.
+- README: four usage modes (opencode / CLI / template / human checklist).
+- `modules/09_ai_collaboration_rules.md` marked optional.
+
+### Changed
+- `open_world_narrative_tactical_shooter.yaml`: removed `enabled_docs`, project-specific `consistency_checks` (FACT-PROTAGONIST-NOT-CYBORG, FACT-CHAR-C-NOT-ABANDONED), Chinese regex and term lists. Now a pure genre profile with rule type references.
+- All 22 path references across 13 files updated from `profiles/` to `profiles/genre/`.
+- `tests/test_auditor.py`: test paths updated for new directory layout.
+- README Status: v1.1.11 → v1.2.0.
 
 ## [1.1.11] - 2026-07-18 -- Baseline Integrity Patch
 

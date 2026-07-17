@@ -2,7 +2,7 @@ Copyright (C) 2026 ZionXiaoxiSuOGLocGo
 SPDX-License-Identifier: GPL-3.0-or-later
 # Module 03 - Genre Profiles
 
-Different game types need different documents. A **genre profile** (`profiles/*.yaml`)
+Different game types need different documents. A **genre profile** (`profiles/genre/*.yaml`)
 declares a recommended document set, high-risk boundaries and audit focus for one
 game type. Pick one to start a project; enable the recommended docs plus any needed
 optional docs.

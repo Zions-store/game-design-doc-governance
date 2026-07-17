@@ -30,7 +30,9 @@ game-design-doc-governance/
 
 --------- doc_modules/             # per-document "applies / owns / not-owns" skeletons
 
---------- profiles/                # genre profiles (.yaml)
+--------- profiles/genre/            # genre profiles (.yaml)
+--------- examples/               # example project profiles
+--------- rules/language_packs/    # per-language audit term packs
 
 --------- tools/global_doc_audit.py# generic, data-driven auditor
 
@@ -74,6 +76,15 @@ python tools/global_doc_audit.py --root <md dir> --out <audit dir> \
 
 Requires Python 3 and `PyYAML`.
 
+## Usage Modes
+
+1. **opencode Skill mode** — Wire via junction; `SKILL.md` guides AI-assisted documentation governance.
+2. **CLI audit mode** — Use `gdd-audit`, `gdd-profile-validate`, and `gdd-scaffold` standalone (no opencode required).
+3. **Template library mode** — Copy `profiles/genre/` and `doc_modules/` templates manually into your project.
+4. **Human checklist mode** — Use the authority matrix and boundary rules without running Python tools.
+
+See `docs/usage_modes.md` for details.
+
 ## Quick Start
 
 ### Install
@@ -88,7 +99,7 @@ py -m pip install -e .
 
 ```bash
 gdd-scaffold \
-  --profile profiles/open_world_narrative_tactical_shooter.yaml \
+  --profile profiles/genre/open_world_narrative_tactical_shooter.yaml \
   --out "MyGame/Design Document/md file" \
   --project-name "MyGame" \
   --language en-US
@@ -99,7 +110,7 @@ gdd-scaffold \
 ```bash
 # Scaffold into a clean directory first (don't overwrite existing docs)
 gdd-scaffold \
-  --profile profiles/open_world_narrative_tactical_shooter.yaml \
+  --profile profiles/genre/open_world_narrative_tactical_shooter.yaml \
   --out "MyGame/Design Document/md file_new" \
   --project-name "MyGame"
 
@@ -136,7 +147,7 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v1.1.11 -- Stable.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v1.2.0 -- Generalization Boundary Release.** Ships: the generic data-driven auditor, 10 genre profiles,
 16 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
 validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
 regression fixtures (6 projects + pytest 22/22), and complete documentation
@@ -152,7 +163,7 @@ for 2.x.
 > Scaffold creates all optional docs by default and does not check for non-empty
 > target directories. Several Profile fields (`expires`, `reason`, `mode`,
 > `latest_strategy`, `allowed_context`, `level`) are declared in schemas but not
-> yet fully enforced by the audit engine. These are tracked in the v1.2–v2.0 roadmap.
+> yet fully enforced by the audit engine. These are tracked in the v1.2鈥搗2.0 roadmap.
 > ThirdPersonTest governance remains unaffected.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).

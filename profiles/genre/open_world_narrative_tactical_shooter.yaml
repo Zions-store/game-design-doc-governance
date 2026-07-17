@@ -1,0 +1,124 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Genre profile: Open-World Narrative Tactical Shooter.
+# Declares the document structure, high-risk boundaries, and audit focus
+# for this game type. Contains NO project-specific lore, character names,
+# factions, or language-specific terms. Project facts belong in a separate
+# Project_Profile.yaml (see examples/third_person_test/).
+
+schema_version: 1
+
+profile_type: genre
+
+profile:
+  name: open_world_narrative_tactical_shooter
+  description: >
+    Open-world narrative tactical shooter with faction conflict, mission/event
+    structure, character sheets, resources, and multi-channel narrative delivery.
+  primary_type: open_world_narrative_tactical_shooter
+  secondary_types:
+    - faction_drama
+    - resource_pressure
+    - camp_requests
+
+recommended_docs:
+  - Design_Document.md
+  - Narrative_Bible.md
+  - Gameplay_Systems.md
+  - Mission_Design.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Narrative_Pipeline.md
+  - Narrative_Script.md
+  - Collectibles_Design.md
+  - Resource_And_Economy.md
+  - Naming.md
+  - STYLE_GUIDE.md
+
+optional_docs:
+  - Level_Design.md
+  - Encounter_Design.md
+  - Progression_Design.md
+
+disabled_docs:
+  - Multiplayer_Design.md
+  - LiveOps_Design.md
+  - Monetization_Design.md
+
+high_risk_boundaries:
+  - GDD vs sub-documents
+  - Mission vs World
+  - Narrative Bible vs Narrative Script
+  - Character vs Gameplay
+  - Resource vs Collectibles
+  - Naming vs Fact
+
+audit_focus:
+  - GDD keeps only summaries and links
+  - Mission body text does not flow back into World
+  - World truths are not scattered into Script
+  - Character docs do not maintain gameplay numbers
+  - Collectibles do not mix in ordinary resources
+  - Naming does not carry world facts
+  - No deprecated settings remain
+
+suggested_doc_modules:
+  - Narrative_Bible
+  - Narrative_Script
+  - Narrative_Pipeline
+  - Character_Sheets
+  - Mission_Design
+  - World_Design
+  - Gameplay_Systems
+  - Resource_And_Economy
+  - Collectibles_Design
+
+# Boundary check TYPE references (language-specific terms/patterns live in
+# rules/language_packs/; project-specific facts live in the project profile).
+boundary_checks:
+  - id: GDD-SUMMARY-ONLY-ENERGY
+    type: gdd_summary_only
+    pattern_ref: stat_patterns.percentage_per_second
+    files: [Design_Document.md]
+    message: "Possible energy rate in GDD without Gameplay_Systems link."
+
+  - id: CHAR-NO-WEAPON-STATS
+    type: character_no_gameplay_numbers
+    pattern_ref: stat_patterns.shots_per_unit
+    files: [Character_Sheets.md]
+    message: "Character document may contain a weapon stat without a Gameplay reference."
+
+  - id: WORLD-NO-EVENT-BODY
+    type: world_no_event_body
+    pattern_ref: event_body_patterns
+    files: [World_Design.md]
+    message: "Possible event body text in World_Design main section."
+
+  - id: COLLECTIBLES-NO-RESOURCE
+    type: collectibles_no_resource
+    term_ref: resource_terms
+    files: [Collectibles_Design.md]
+    message: "Resource-like item may appear in Collectibles."
+
+consistency_checks: []
+
+# Anchors, deprecated terms, and project-specific fact checks are
+# read from the project's STYLE_GUIDE.md and Project_Profile.yaml (per D9).
+deprecated_terms: []
+
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true
+
+file_versioning:
+  mode: canonical
+  version_pattern: "\\((\\d+)\\)"
+  latest_strategy: highest_version_suffix
+
+link_checks:
+  enabled: true
+  ignored_dirs: [audit, export, archive]
+
+exceptions: []

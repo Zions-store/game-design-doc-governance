@@ -8,13 +8,13 @@ What a release of this Skill contains, and what it deliberately excludes.
 
 ```
 SKILL.md            README.md   CHANGELOG.md   LICENSE   MANIFEST.md
-modules/            01–09 governance modules
+modules/            01閳?9 governance modules
 templates/          6 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT /
                     AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY)
 doc_modules/        16 per-document skeletons (*.md.tmpl)
-profiles/           10 genre profiles (*.yaml)
+profiles/genre/     10 genre profiles (*.yaml)
 schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)
-tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py
+tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py) + scaffold_project.py + validate_profile.py
 src/                Python package (audit / scaffold / profile_validation entry points)
 docs/               10 user guides (quickstart / installation / migration / audit / schema / etc.)
 tests/              fixtures/ + expected/ + README (self-contained regression)

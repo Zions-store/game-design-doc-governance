@@ -15,11 +15,11 @@ Three console commands are now available: `gdd-audit`, `gdd-profile-validate`,
 
 ## 2. Scaffold a new project
 
-Pick a genre profile from `profiles/` (e.g. `open_world_narrative_tactical_shooter`):
+Pick a genre profile from `profiles/genre/` (e.g. `open_world_narrative_tactical_shooter`):
 
 ```bash
 gdd-scaffold \
-  --profile profiles/open_world_narrative_tactical_shooter.yaml \
+  --profile profiles/genre/open_world_narrative_tactical_shooter.yaml \
   --out "<my-game>/Design Document/md file" \
   --project-name "My Game" \
   --language en-US

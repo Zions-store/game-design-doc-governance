@@ -20,7 +20,7 @@ List all existing documents and their effective content:
 
 ### 2. Choose a genre profile
 
-Pick the closest profile from `profiles/` and note the `recommended_docs` list.
+Pick the closest profile from `profiles/genre/` and note the `recommended_docs` list.
 Scaffold it into a clean directory (`gdd-scaffold`), NOT into the existing
 directory (keep the old files for reference during migration).
 
@@ -57,4 +57,4 @@ and add `<!-- FACT-... -->` / `<!-- REF: ... -->` comments. See
 
 - Full-text copy-paste into new docs without classification.
 - Maintaining the old body and the new body at the same time.
-- Skipping the audit step ("I'll audit later" → debt accumulates).
+- Skipping the audit step ("I'll audit later" 鈫?debt accumulates).

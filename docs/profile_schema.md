@@ -4,7 +4,7 @@
 
 | Shape | File | Purpose |
 |---|---|---|
-| **Genre profile** | `profiles/*.yaml` | Recommends a document set for one game type |
+| **Genre profile** | `profiles/genre/*.yaml` | Recommends a document set for one game type |
 | **Project profile** | `Design Document/md file/Project_Profile.yaml` | Carries enabled docs + audit rules for one project |
 
 A genre profile is turned into a project profile by `gdd-scaffold`, or by hand.
@@ -57,11 +57,11 @@ exceptions: []
 ```yaml
 - id: CHAR-NO-STATS              # unique
   files: [Character_Sheets.md]   # or ["*"]
-  forbid_regex: '\d+/\s*发'      # regex to catch
-  # forbid_any: [电池, 药品]     # OR list of literal words
+  forbid_regex: '\d+/\s*鍙?      # regex to catch
+  # forbid_any: [鐢垫睜, 鑽搧]     # OR list of literal words
   unless_near: [Gameplay_Systems.md]  # nearby mention = safe
   near_window: 200
-  stop_at: "[已迁移]"            # optional: scan only before this marker
+  stop_at: "[宸茶縼绉籡"            # optional: scan only before this marker
   match: all                     # "all" | "first_per_term"
   level: P2
   message: "Weapon stat in character doc without gameplay ref."
@@ -72,9 +72,9 @@ exceptions: []
 ```yaml
 - id: FACT-NOT-CYBORG
   files: ["*"]
-  term: '改造人'
-  require_negation_near: [不是, 并非]
-  # require_all_context_near: [尖兵, C]  # only when ALL present
+  term: '鏀归€犱汉'
+  require_negation_near: [涓嶆槸, 骞堕潪]
+  # require_all_context_near: [灏栧叺, C]  # only when ALL present
   near_window: 40
   level: P0
   message: "Protagonist described as cyborg without negation."
@@ -87,7 +87,7 @@ Both rule types support `exceptions` (registered waivers with `id`, `file`,
 
 ```bash
 gdd-profile-validate Project_Profile.yaml
-gdd-profile-validate --kind genre profiles/roguelite.yaml
+gdd-profile-validate --kind genre profiles/genre/roguelite.yaml
 ```
 
 Validates against the JSON Schemas in `schemas/`. `schema_version: 1` is

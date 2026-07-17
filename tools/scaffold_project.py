@@ -5,7 +5,7 @@
 Initialize a new project's design-document directory from a genre profile.
 
 Usage:
-  gdd-scaffold --profile profiles/open_world_narrative_tactical_shooter.yaml \\
+  gdd-scaffold --profile profiles/genre/open_world_narrative_tactical_shooter.yaml \\
                --out "<project>/Design Document/md file" \\
                --project-name "My Game" [--language en-US]
 
@@ -36,14 +36,14 @@ LANGS = {
         },
     },
     "zh-CN": {
-        "gdd_title": "设计文档 (GDD)",
-        "gdd_tagline": "仅作索引--完整内容在子文档中。",
-        "gdd_systems": "## 系统",
-        "gdd_system_link": "- 参见 [{doc}]({doc}.md)",
+        "gdd_title": "璁捐鏂囨。 (GDD)",
+        "gdd_tagline": "浠呬綔绱㈠紩--瀹屾暣鍐呭鍦ㄥ瓙鏂囨。涓€?,
+        "gdd_systems": "## 绯荤粺",
+        "gdd_system_link": "- 鍙傝 [{doc}]({doc}.md)",
         "style_chapters": {
-            "2": "文件清单",
-            "6.2": "已建立锚点清单",
-            "6.3": "废弃说法登记表",
+            "2": "鏂囦欢娓呭崟",
+            "6.2": "宸插缓绔嬮敋鐐规竻鍗?,
+            "6.3": "搴熷純璇存硶鐧昏琛?,
         },
     },
 }
@@ -86,7 +86,7 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
         else:
             # Minimal skeleton
             with open(dst, "w", encoding="utf-8") as f:
-                f.write(f"# {base}\n\n🔲 TODO - skeleton for {doc}.\n")
+                f.write(f"# {base}\n\n馃敳 TODO - skeleton for {doc}.\n")
 
     # 3. Design_Document.md from template or minimal
     gdd_tmpl = os.path.join(TEMPLATES, "DESIGN_DOCUMENT_TEMPLATE.md")
@@ -117,7 +117,7 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
     style_out = os.path.join(out_dir, "STYLE_GUIDE.md")
     if os.path.exists(style_tmpl):
         # Build a minimal enabled-docs table
-        rows = "\n".join(f"| {d} | - | ✅ |" for d in enabled)
+        rows = "\n".join(f"| {d} | - | 鉁?|" for d in enabled)
         _fill_template(style_tmpl, style_out, {
             "{{PROJECT_NAME}}": project_name,
             "{{ENABLED_DOCS_TABLE}}": rows,
@@ -181,7 +181,7 @@ def main():
     if ok:
         print(f"Scaffolded project '{args.project_name}' in {args.out}")
         print(f"  enabled docs: {len(os.listdir(args.out)) - sum(1 for _ in os.scandir(args.out) if _.is_dir())} md files + Project_Profile.yaml")
-        print("  Next: populate docs → run gdd-audit")
+        print("  Next: populate docs 鈫?run gdd-audit")
     return 0 if ok else 1
 
 

@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 1.1.11
+version: 1.2.0
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
@@ -19,10 +19,10 @@ Different games enable different documents, but all obey the same principles.
 
 ## When to use
 
-- "set up / organize game design documents", "建立设计文档体系", "doc governance"
+- "set up / organize game design documents", "寤虹珛璁捐鏂囨。浣撶郴", "doc governance"
 - Starting a new game's GDD and unsure which documents to create
 - An existing GDD has become an everything-bucket and needs splitting
-- "audit my design docs" / "check design doc consistency" / "更新审计"
+- "audit my design docs" / "check design doc consistency" / "鏇存柊瀹¤"
 - Migrating an old design doc set into a governed structure
 
 ## Core principles
@@ -50,7 +50,7 @@ The audit script prints English; report language can be configured later.
 ## Quick workflow  - new project setup
 
 1. **Step 0**: choose output language.
-2. **Pick a Profile** from `profiles/` matching the game's genre
+2. **Pick a Profile** from `profiles/genre/` matching the game's genre
    (e.g. `open_world_narrative_tactical_shooter`, `multiplayer_shooter`). See
    `modules/03_genre_profiles.md`.
 3. **Create the doc set**: from the selected genre Profile's `recommended_docs`
@@ -92,7 +92,7 @@ python tools/global_doc_audit.py \
 | `modules/03_genre_profiles.md` | Genre  - document set matrix (10 genres) |
 | `modules/04_authority_boundaries.md` | Authority matrix + cross-document boundary rules |
 | `modules/05_anchor_and_change_safety.md` | Anchors, REF usage, deprecated registry, 5-layer change safety |
-| `modules/06_audit_workflow.md` | Audit order, issue levels (P0–P3/INFO), issue states |
+| `modules/06_audit_workflow.md` | Audit order, issue levels (P0鈥揚3/INFO), issue states |
 | `modules/07_export_and_snapshot.md` | Non-authority snapshots (.docx/.pdf) |
 | `modules/08_migration_workflow.md` | Migrating an existing GDD |
 | `modules/09_ai_collaboration_rules.md` | What the AI must/must not do when editing docs |
@@ -101,7 +101,7 @@ python tools/global_doc_audit.py \
 
 - `templates/PROJECT_PROFILE_TEMPLATE.yaml`  - per-project profile skeleton.
 - `templates/STYLE_GUIDE_TEMPLATE.md`  - 15-chapter document constitution, with placeholders.
-- `profiles/*.yaml`  - 10 genre profiles (the current project ships as the first, and as the regression fixture).
+- `profiles/genre/*.yaml`  - 10 genre profiles (the current project ships as the first, and as the regression fixture).
 - `doc_modules/*.md.tmpl`  - 16 per-document skeletons (applies / owns / not-owns / chapters / boundaries / audit).
 - `tools/global_doc_audit.py`  - the generic, data-driven auditor.
 - `tests/expected/current_project_baseline.json`  - regression baseline.

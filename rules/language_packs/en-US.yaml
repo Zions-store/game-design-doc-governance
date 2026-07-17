@@ -1,0 +1,31 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Language pack: English (en-US).
+# Provides English-specific terms, regex patterns, and context words
+# for boundary and consistency checks. Loaded by a project profile's
+# `language_pack` field.
+
+schema_version: 1
+
+language: en-US
+
+stat_patterns:
+  shots_per_unit:
+    - '\d+\s*/\s*shot'
+  percentage_per_second:
+    - '\d+%/s'
+    - '\d+\s*percent per second'
+
+event_body_patterns:
+  - 'choice.*consequence'
+  - 'consequence.*choice'
+  - 'RNG.*decides?'
+
+resource_terms:
+  - battery
+  - medicine
+  - food
+  - parts
+  - clean water
+  - fragments

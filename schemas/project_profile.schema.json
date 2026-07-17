@@ -7,6 +7,7 @@
   "required": ["schema_version", "enabled_docs"],
   "properties": {
     "schema_version": { "type": "integer", "minimum": 1, "maximum": 1 },
+    "profile_type": { "enum": ["project"] },
     "profile": {
       "type": "object",
       "properties": {
@@ -14,7 +15,9 @@
         "profile_name": { "type": "string" },
         "primary_type": { "type": "string" },
         "secondary_types": { "type": "array", "items": { "type": "string" } },
-        "phase": { "type": "string" }
+        "phase": { "type": "string" },
+        "language": { "type": "string" },
+        "genre_profile": { "type": "string" }
       }
     },
     "paths": {
@@ -117,6 +120,23 @@
       "properties": {
         "enabled": { "type": "boolean" },
         "ignored_dirs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "language_pack": { "type": "string" },
+    "project_fact_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "authority": { "type": "string" },
+          "forbid_terms": { "type": "array", "items": { "type": "string" } },
+          "require_negation_near": { "type": "array", "items": { "type": "string" } },
+          "require_context_near": { "type": "array", "items": { "type": "string" } },
+          "level": { "type": "string" },
+          "message": { "type": "string" },
+          "expected_statement": { "type": "string" }
+        }
       }
     },
     "exceptions": {

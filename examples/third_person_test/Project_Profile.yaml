@@ -1,0 +1,106 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Project profile: ThirdPersonTest.
+# This is the PROJECT INSTANCE profile. It inherits from the open_world
+# narrative tactical shooter genre profile and adds project-specific fact
+# checks, language rules, and the enabled document list.
+
+schema_version: 1
+
+profile_type: project
+
+profile:
+  name: third_person_test
+  language: zh-CN
+  genre_profile: open_world_narrative_tactical_shooter
+  phase: production
+
+enabled_docs:
+  - Design_Document.md
+  - Narrative_Bible.md
+  - Gameplay_Systems.md
+  - Mission_Design.md
+  - World_Design.md
+  - Character_Sheets.md
+  - Narrative_Pipeline.md
+  - Narrative_Script.md
+  - Collectibles_Design.md
+  - Resource_And_Economy.md
+  - Naming.md
+  - STYLE_GUIDE.md
+
+language_pack: rules/language_packs/zh-CN.yaml
+
+project_fact_checks:
+  - id: FACT-SHEPHERD-HUMAN
+    authority: Character_Sheets.md
+    forbid_terms:
+      - 改造人
+      - 赛博格
+      - 体内纳米
+    require_negation_near:
+      - 不是
+      - 并非
+      - 非
+    level: P0
+    message: "Protagonist may be described as cyborg (改造人) without negation."
+    expected_statement: Shepherd 是普通人类，纳米技术存在于可穿戴装备中。
+
+  - id: FACT-CHAR-C-STATUS
+    authority: Character_Sheets.md
+    forbid_terms:
+      - 弃子
+      - 被抛弃
+      - 被盟友出卖
+    require_context_near:
+      - 尖兵
+      - C
+    level: P0
+    message: "Sentinel C (尖兵C) framed as an abandoned outcast (弃子)."
+    expected_statement: 尖兵 C 是主动选择者，主动离开联盟。
+
+boundary_checks:
+  - id: GDD-SUMMARY-ONLY-ENERGY
+    files: [Design_Document.md]
+    forbid_regex: '\d+%/s'
+    unless_near: [Gameplay_Systems.md]
+    near_window: 200
+    stop_at: "[已迁移]"
+    level: P2
+    message: "Possible energy rate in GDD without Gameplay_Systems link."
+
+  - id: CHAR-NO-WEAPON-STATS
+    files: [Character_Sheets.md]
+    forbid_regex: '\d+/\s*发'
+    unless_near: [Gameplay_Systems.md, 数值权威]
+    near_window: 200
+    level: P2
+    message: "Character document may contain a weapon stat without a Gameplay reference."
+
+  - id: WORLD-NO-EVENT-BODY
+    files: [World_Design.md]
+    forbid_regex: '选择.*后果|RNG.*决定'
+    stop_at: "[已迁移]"
+    near_window: 200
+    level: P2
+    message: "Possible event body text in World_Design main section."
+
+  - id: COLLECTIBLES-NO-RESOURCE
+    files: [Collectibles_Design.md]
+    forbid_any: [电池, 药品, 食物, 零件, 净水, 碎片]
+    unless_near: [叙事, 遗物, 唯一, 集合]
+    near_window: 80
+    match: first_per_term
+    level: P3
+    message: "Resource-like item may appear in Collectibles."
+
+non_authority_files:
+  - Design_Document.docx
+  - prompts.md
+  - 人工笔记.txt
+
+audit:
+  fail_on_p0: true
+  fail_on_p1: true
+  fail_on_p2_in_strict_mode: true

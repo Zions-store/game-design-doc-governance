@@ -97,7 +97,7 @@ jobs:
           gdd-scaffold --help
       - name: Scaffold smoke (open-world profile)
         run: |
-          gdd-scaffold --profile profiles/open_world_narrative_tactical_shooter.yaml \
+          gdd-scaffold --profile profiles/genre/open_world_narrative_tactical_shooter.yaml \
             --out /tmp/gdd-scaffold/md\ file --project-name "CI Smoke" --language en-US
           gdd-audit --root /tmp/gdd-scaffold/md\ file \
             --style /tmp/gdd-scaffold/md\ file/STYLE_GUIDE.md \
@@ -158,8 +158,7 @@ jobs:
 
           # High-confidence mojibake patterns (literal match, NOT regex).
           # "-?" is excluded because it matches empty strings as a regex
-          # and would false-positive on template patterns like \d+/\s*-?。
-          # "---" / "??" excluded — false-positive on table syntax / yaml / code.
+          # and would false-positive on template patterns like \d+/\s*-?銆?          # "---" / "??" excluded 鈥?false-positive on table syntax / yaml / code.
           patterns = ["\ufffd"]
           exts = {".md", ".yaml", ".yml", ".json", ".py", ".toml", ".txt"}
           skip = {".git", "__pycache__", ".pytest_cache", ".venv", "node_modules", ".tmp_validation"}
