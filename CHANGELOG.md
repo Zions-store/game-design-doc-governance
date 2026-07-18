@@ -1,4 +1,4 @@
-Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+﻿Copyright (C) 2026 ZionXiaoxiSuOGLocGo
 SPDX-License-Identifier: GPL-3.0-or-later
 # game-design-doc-governance Changelog
 
@@ -6,6 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
+$rc4
 ## [2.0.0-rc.3] - 2026-07-18 — Release Candidate 3
 
 ### Fixed (since rc.2)

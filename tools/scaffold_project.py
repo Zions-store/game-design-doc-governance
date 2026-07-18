@@ -302,8 +302,9 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang):
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
         text = text.replace("enabled_docs: []", f"enabled_docs:\n{docs_yaml}")
+        # Add v2 fields after schema_version (before the existing profile: block — avoids duplicate mapping key)
         text = text.replace("schema_version: 1",
-                           f"schema_version: 1\nprofile_type: project\n\nprofile:\n  language: {language}")
+                           f"schema_version: 1\nprofile_type: project")
         _safe_write(prof_out, text)
 
 
