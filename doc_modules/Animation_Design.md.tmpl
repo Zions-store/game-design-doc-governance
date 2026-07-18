@@ -1,0 +1,36 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Animation_Design
+
+## 1. Applies when
+Games with character animation, creature animation, facial animation, or cutscene animation.
+
+## 2. This document owns
+Animation style, principles, and quality targets.
+Character locomotion, combat, and interaction animations.
+Facial animation and lip-sync specifications.
+Creature and enemy animation behaviors.
+Animation state machine design (in coordination with Gameplay_Systems).
+Cutscene animation direction and keyframe specifications.
+Animation blending, layering, and IK systems.
+
+## 3. This document does NOT own
+Rigging and skeleton setup (→ Technical_Art).
+Animation Blueprint implementation (→ Technical_Design).
+Cutscene scripting and timing (→ Narrative_Pipeline).
+Gameplay state transitions that trigger animations (→ Gameplay_Systems).
+
+## 4. Recommended chapter structure
+1. Animation Style & Principles · 2. Character Locomotion ·
+3. Combat & Interaction Animations · 4. Facial Animation & Lip-Sync ·
+5. Creature & Enemy Animation · 6. Animation State Machines ·
+7. Cutscene Animation · 8. Blending, Layering & IK
+
+## 5. Common boundaries
+- Animation owns "how it moves"; Gameplay_Systems owns "when it triggers".
+- State machine transitions belong in both docs (coordination boundary).
+- Facial animation references Narrative_Script for dialogue beats.
+
+## 6. Common audit rules
+- Check cross-references with Gameplay_Systems for trigger conditions.
+- Check cross-references with Character_Sheets for character-specific animation notes.

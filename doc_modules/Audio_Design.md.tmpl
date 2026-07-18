@@ -1,0 +1,35 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Audio_Design
+
+## 1. Applies when
+Games with deliberate audio direction, sound effects, voice-over, ambient soundscapes, or music systems.
+
+## 2. This document owns
+Audio direction and sonic identity.
+Sound effect specifications and implementation notes.
+Voice-over casting, recording, and integration guidelines.
+Ambient audio and environmental soundscapes.
+Music system design (dynamic, layered, adaptive).
+Audio middleware and toolchain decisions.
+Mixing, mastering, and platform-specific audio targets.
+
+## 3. This document does NOT own
+Narrative dialogue content (→ Narrative_Script).
+Cutscene direction or timing (→ Narrative_Pipeline).
+UI sound triggers (→ UI_UX_Design).
+Technical audio implementation details (→ Technical_Design, for engine-level audio pipeline).
+
+## 4. Recommended chapter structure
+1. Audio Direction & Sonic Identity · 2. Sound Effects (SFX) · 3. Voice-Over (VO) ·
+4. Ambient & Environmental Audio · 5. Music System · 6. Audio Middleware & Toolchain ·
+7. Mixing, Mastering & Platform Targets
+
+## 5. Common boundaries
+- Audio owns "what it sounds like"; Script owns "what is said".
+- Music system behavior belongs here; music asset lists may live in a production tracker.
+- Platform-specific audio constraints (memory, channels) belong here or in Technical_Design.
+
+## 6. Common audit rules
+- Check that VO guidelines reference Narrative_Script for dialogue content.
+- Check that music system references narrative pacing from Narrative_Pipeline.

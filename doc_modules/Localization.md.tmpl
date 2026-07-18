@@ -1,0 +1,24 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Localization
+
+## 1. Applies when
+Games shipping in multiple languages or targeting international markets.
+
+## 2. This document owns
+Localization strategy and language coverage; text extraction, string tables, and localization pipeline; font and typography support for target scripts (CJK, Arabic, Cyrillic, etc.); cultural adaptation guidelines (imagery, symbols, references); voice-over localization and dubbing specifications; locale-specific UI layout adjustments (text expansion, RTL); localization QA process and linguistic testing.
+
+## 3. This document does NOT own
+Original dialogue and narrative text (→ Narrative_Script); UI layout and interaction design (→ UI_UX_Design); font rendering and engine-level text support (→ Technical_Design); accessibility features (→ Accessibility).
+
+## 4. Recommended chapter structure
+1. Localization Strategy & Language Coverage · 2. Text Pipeline & String Tables · 3. Font & Typography Support · 4. Cultural Adaptation · 5. Voice-Over Localization · 6. Locale-Specific UI · 7. Localization QA & Linguistic Testing
+
+## 5. Common boundaries
+- Localization owns "how it's translated"; Narrative_Script owns "what is said".
+- RTL / script-specific UI adaptations belong here; general UI design belongs to UI_UX_Design.
+- Font support specs live here; font rendering implementation lives in Technical_Design.
+
+## 6. Common audit rules
+- Check that localized text references the original source in Narrative_Script.
+- Check that locale count matches the declared language coverage.

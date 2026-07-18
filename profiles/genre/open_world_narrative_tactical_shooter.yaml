@@ -40,6 +40,12 @@ optional_docs:
   - Level_Design.md
   - Encounter_Design.md
   - Progression_Design.md
+  - Audio_Design.md
+  - Art_Style_Guide.md
+  - Animation_Design.md
+  - Technical_Art.md
+  - Accessibility.md
+  - Localization.md
 
 disabled_docs:
   - Multiplayer_Design.md

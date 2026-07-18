@@ -1,0 +1,36 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Technical_Art
+
+## 1. Applies when
+Games with complex art pipelines, shader development, procedural content, or performance-critical visuals.
+
+## 2. This document owns
+Art pipeline design, optimization, and automation.
+Shader development and material function libraries.
+Procedural content generation (Houdini, geometry scripts, etc.).
+LOD systems, mesh optimization, and draw call budgets.
+Rigging standards, skeleton compatibility, and animation retargeting.
+Visual effects (VFX) technical implementation.
+Art performance profiling and budgets.
+
+## 3. This document does NOT own
+Visual style and art direction (→ Art_Style_Guide).
+Animation style and keyframe specifications (→ Animation_Design).
+Rendering pipeline and engine-level graphics (→ Technical_Design).
+UI implementation (→ UI_UX_Design).
+
+## 4. Recommended chapter structure
+1. Art Pipeline & Automation · 2. Shader Development & Material Functions ·
+3. Procedural Content Generation · 4. LOD & Mesh Optimization ·
+5. Rigging & Animation Retargeting · 6. VFX Technical Implementation ·
+7. Art Performance Profiling
+
+## 5. Common boundaries
+- Technical_Art owns "how it's built"; Art_Style_Guide owns "how it looks".
+- Rigging lives here; animation state machines live in Animation_Design.
+- VFX implementation lives here; VFX design direction may live in Art_Style_Guide.
+
+## 6. Common audit rules
+- Check cross-references with Art_Style_Guide for visual targets.
+- Check cross-references with Technical_Design for rendering constraints.

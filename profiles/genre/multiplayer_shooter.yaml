@@ -21,7 +21,7 @@ recommended_docs:
   - UI_UX_Design.md
   - Technical_Design.md
 
-optional_docs: [LiveOps_Design.md, Monetization_Design.md]
+optional_docs: [LiveOps_Design.md, Monetization_Design.md, Audio_Design.md, Animation_Design.md, Technical_Art.md, QA_Test_Plan.md]
 disabled_docs: [Narrative_Script.md, Narrative_Pipeline.md, Collectibles_Design.md, Narrative_Bible.md]
 
 high_risk_boundaries:

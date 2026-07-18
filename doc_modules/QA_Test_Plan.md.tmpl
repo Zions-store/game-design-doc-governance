@@ -1,0 +1,24 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# QA_Test_Plan
+
+## 1. Applies when
+Always. QA planning is a baseline requirement for any shipped product.
+
+## 2. This document owns
+QA strategy, test phases, and coverage targets; functional testing: gameplay, systems, progression, save/load; compatibility testing: platforms, hardware configurations, OS versions; performance testing: frame rate, memory, load times, stress tests; compliance testing: platform certification requirements (Xbox, PlayStation, Steam); bug tracking workflow and severity classification; automation testing strategy and tooling.
+
+## 3. This document does NOT own
+Game design validation (→ Design_Document, verified via audit); specific gameplay balance values (→ Gameplay_Systems); build and release pipeline (→ Build_And_Release); localization testing (→ Localization, coordinates with QA).
+
+## 4. Recommended chapter structure
+1. QA Strategy & Test Phases · 2. Functional Testing · 3. Compatibility Testing · 4. Performance Testing · 5. Compliance Testing · 6. Bug Tracking & Severity · 7. Automation Testing
+
+## 5. Common boundaries
+- QA owns "what to test and how"; Gameplay_Systems owns "what the correct behavior is".
+- Performance targets belong here; rendering budgets belong to Technical_Design.
+- Compliance checklists belong here; platform-specific implementations belong to Technical_Design.
+
+## 6. Common audit rules
+- Check that test coverage references enabled game systems from Gameplay_Systems.
+- Check that compliance targets reference platform documentation.

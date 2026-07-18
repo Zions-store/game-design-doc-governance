@@ -4,7 +4,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.3.0 doc-module expansion or patch fixes._
+_Next: v1.4.0 Audit Engine v2 Alpha, or patch fixes._
+
+## [1.3.0] - 2026-07-18 -- Doc-Module Coverage Release
+
+### Added
+- 10 new doc_module skeletons: `Audio_Design`, `Art_Style_Guide`, `Animation_Design`, `Technical_Art`, `Accessibility`, `Localization`, `QA_Test_Plan`, `Production_Roadmap`, `Build_And_Release`, `Analytics_And_Telemetry` (16 → 26 total).
+- Each skeleton follows the 6-section format: Applies / Owns / Does not own / Recommended chapters / Common boundaries / Audit notes.
+- Expanded optional docs for `open_world_narrative_tactical_shooter` (+6) and `multiplayer_shooter` (+4) genre profiles.
+
+### Changed
+- README Status: doc-module count updated (16→26), version v1.2.0 → v1.3.0.
 
 ## [1.2.0] - 2026-07-18 -- Generalization Boundary Release
 

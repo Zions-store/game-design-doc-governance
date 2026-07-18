@@ -1,0 +1,35 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Accessibility
+
+## 1. Applies when
+Always. Accessibility is a baseline requirement, not an optional feature.
+
+## 2. This document owns
+Accessibility design principles and compliance targets.
+Visual accessibility: colorblind modes, high-contrast, text scaling.
+Auditory accessibility: subtitles, closed captions, audio cues visualization.
+Motor accessibility: input remapping, toggle vs. hold, assist modes.
+Cognitive accessibility: difficulty options, tutorial design, UI clarity.
+Accessibility testing and player feedback integration.
+Platform-specific accessibility requirements (Xbox, PlayStation, etc.).
+
+## 3. This document does NOT own
+UI layout specifics (→ UI_UX_Design, but coordinates closely).
+Tutorial content and scripting (→ Narrative_Pipeline or Mission_Design).
+Input system implementation (→ Gameplay_Systems or Technical_Design).
+Localization and translation (→ Localization).
+
+## 4. Recommended chapter structure
+1. Accessibility Principles & Compliance · 2. Visual Accessibility ·
+3. Auditory Accessibility · 4. Motor Accessibility · 5. Cognitive Accessibility ·
+6. Testing & Player Feedback · 7. Platform Requirements
+
+## 5. Common boundaries
+- Accessibility owns "what accommodations exist"; UI_UX_Design owns "how they're presented".
+- Subtitles specifications belong here; dialogue text belongs to Narrative_Script.
+- Input remapping belongs here; input action design belongs to Gameplay_Systems.
+
+## 6. Common audit rules
+- Check that accessibility requirements are referenced in UI_UX_Design.
+- Check that subtitle/caption specs reference Narrative_Script.

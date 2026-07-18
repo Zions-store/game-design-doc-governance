@@ -1,0 +1,24 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Build_And_Release
+
+## 1. Applies when
+Always. Build and release process is required for any shipped product.
+
+## 2. This document owns
+Build pipeline: compilation, cooking, packaging, and staging; version numbering scheme and branch strategy; release candidate criteria and sign-off process; platform-specific build requirements and submission checklists; patch and hotfix deployment process; continuous integration and continuous delivery (CI/CD) configuration; build artifact storage, distribution, and retention policies.
+
+## 3. This document does NOT own
+QA testing of builds (→ QA_Test_Plan); feature content included in a release (→ Production_Roadmap); code architecture and module dependencies (→ Technical_Design); release notes and changelogs (→ coordinated with all design docs).
+
+## 4. Recommended chapter structure
+1. Build Pipeline · 2. Versioning & Branch Strategy · 3. Release Candidate Criteria · 4. Platform Submission Checklists · 5. Patch & Hotfix Process · 6. CI/CD Configuration · 7. Artifact Storage & Distribution
+
+## 5. Common boundaries
+- Build owns "how it's assembled"; QA owns "whether it passes".
+- Version numbering lives here; version history lives in changelogs.
+- Platform submission checklists reference compliance from QA_Test_Plan.
+
+## 6. Common audit rules
+- Check that build pipeline references project structure docs.
+- Check that version scheme is consistent with tag / CHANGELOG conventions.

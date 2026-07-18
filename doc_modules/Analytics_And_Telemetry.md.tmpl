@@ -1,0 +1,25 @@
+<!-- Copyright (C) 2026 ZionXiaoxiSuOGLocGo -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+# Analytics_And_Telemetry
+
+## 1. Applies when
+Games with live operations, monetization, player progression tracking, or data-driven iteration.
+
+## 2. This document owns
+Analytics strategy, key metrics, and data collection design; telemetry event schema and instrumentation specifications; player behavior tracking: retention, engagement, progression, churn; monetization analytics: conversion, ARPU, LTV, purchase funnels; A/B testing framework and experiment design; data pipeline, storage, and visualization tooling; privacy compliance: GDPR, CCPA, COPPA, data retention policies.
+
+## 3. This document does NOT own
+Game design decisions driven by data (→ respective design docs); monetization design and pricing (→ Monetization_Design or Resource_And_Economy); server infrastructure and data storage implementation (→ Technical_Design); live operations event scheduling (→ LiveOps_Design).
+
+## 4. Recommended chapter structure
+1. Analytics Strategy & Key Metrics · 2. Telemetry Event Schema · 3. Player Behavior Tracking · 4. Monetization Analytics · 5. A/B Testing Framework · 6. Data Pipeline & Visualization · 7. Privacy & Compliance
+
+## 5. Common boundaries
+- Analytics owns "what to measure"; Gameplay_Systems owns "what the mechanic is".
+- Telemetry events reference game systems but don't redefine them.
+- Privacy compliance lives here; legal review may produce separate documentation.
+
+## 6. Common audit rules
+- Check that telemetry events reference game systems from Gameplay_Systems.
+- Check that retention metrics reference progression from Progression_Design.
+- Check that privacy compliance references platform-specific requirements.
