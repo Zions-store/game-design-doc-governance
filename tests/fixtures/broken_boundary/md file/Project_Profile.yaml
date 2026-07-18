@@ -1,5 +1,7 @@
 schema_version: 1
+profile_type: project
 profile:
+  language: en-US
   name: broken_boundary
   description: Deliberately triggers boundary checks to confirm the data-driven rules work.
 enabled_docs:

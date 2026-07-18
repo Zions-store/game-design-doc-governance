@@ -7,6 +7,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
 
+
+## [2.0.0-rc.7] - 2026-07-18 — Release Candidate 7
+
+### Fixed (since rc.6)
+- **Template**: PROJECT_PROFILE_TEMPLATE.yaml now includes profile_type: project and profile.language.
+- **Schema**: Project Schema requires profile object at root level (closes bypass).
+- **Schema**: Genre Schema removed enabled_docs, consistency_checks, deprecated_terms, udit, ile_versioning, 
+on_authority_files — now rejected by dditionalProperties: false.
+- **Profile**: open_world_narrative_tactical_shooter genre profile cleaned of remaining project-only fields.
+- **Contract**: Finding/State/Report/Waiver sections updated to → v2.1; Migration Path corrected; skeleton count 24/48.
+- **Fixtures**: 6 test fixture Project_Profile.yaml files updated with profile_type: project + profile.language: en-US.
+- **Language regex**: expanded to accept broad BCP-47 variants (zh-Hans, es-419, r-CA).
+- **run_audit()**: Python API default engine_version 1→2 (matches CLI).
+
 ## [2.0.0-rc.6] - 2026-07-18 — Release Candidate 6
 
 ### Fixed (since rc.5)

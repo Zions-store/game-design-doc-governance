@@ -107,22 +107,6 @@ boundary_checks:
     files: [Collectibles_Design.md]
     message: "Resource-like item may appear in Collectibles."
 
-consistency_checks: []
-
-# Anchors, deprecated terms, and project-specific fact checks are
-# read from the project's STYLE_GUIDE.md and Project_Profile.yaml (per D9).
-deprecated_terms: []
-
-audit:
-  fail_on_p0: true
-  fail_on_p1: true
-  fail_on_p2_in_strict_mode: true
-
-file_versioning:
-  mode: canonical
-  version_pattern: "\\((\\d+)\\)"
-  latest_strategy: highest_version_suffix
-
 link_checks:
   enabled: true
   ignored_dirs: [audit, export, archive]

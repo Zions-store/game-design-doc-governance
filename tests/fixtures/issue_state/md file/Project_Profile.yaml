@@ -2,8 +2,10 @@
 # No real project lore; exercises the engine end-to-end with a deterministic result.
 
 schema_version: 1
+profile_type: project
 
 profile:
+  language: en-US
   name: sample_open_world
   description: Self-contained sanitized fixture for regression of the generic auditor.
   primary_type: open_world_narrative_tactical_shooter

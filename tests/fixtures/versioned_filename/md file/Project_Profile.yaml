@@ -1,5 +1,7 @@
 schema_version: 1
+profile_type: project
 profile:
+  language: en-US
   name: versioned_filename
   description: Tests find_latest / check_file_list with versioned file naming.
 enabled_docs:

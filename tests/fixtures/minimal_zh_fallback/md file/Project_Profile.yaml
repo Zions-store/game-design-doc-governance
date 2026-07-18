@@ -1,6 +1,8 @@
 # Profile for the minimal Chinese-heading fallback fixture.
 schema_version: 1
+profile_type: project
 profile:
+  language: en-US
   name: minimal_zh_fallback
   description: Tests the title-heuristic STYLE parsing path (no AUDIT markers).
 enabled_docs:

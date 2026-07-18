@@ -56,7 +56,10 @@
 
 ---
 
-## 2. Audit Finding v2
+## 2. Audit Finding v2 (→ v2.1 full pipeline)
+
+> **v2.0**: schema + config validation + `--engine 2` default.
+> **v2.1**: full Finding/Waiver/State/Report pipeline wired into audit chain.
 
 ### 2.1 Finding Identity
 
@@ -92,9 +95,9 @@
 
 ---
 
-## 3. State Schema v2
+## 3. State Schema v2 (→ v2.1)
 
-### 3.1 Issue State File (`audit/issue_state.jsonl`)
+> **v2.1**: StateManager wired into audit chain.
 
 - **Schema marker**: `"_schema": 1` on every entry.
 - **Atomic writes**: tempfile + rename. No partial writes.
@@ -115,9 +118,9 @@
 
 ---
 
-## 4. Report Schema v2
+## 4. Report Schema v2 (→ v2.1)
 
-### 4.1 Report Structure
+> **v2.1**: Report v2 rendered by audit engine.
 
 ```markdown
 # Audit Report v2
@@ -194,7 +197,7 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ## 6. Skeleton Support Rules v2
 
-- **27 of 48 unique game-design doc names** have formal skeletons.
+- **24 of 48 unique game-design doc names** have formal skeletons.
 - **22 doc names** are known gaps (referenced by profiles, no skeleton).
 - A profile **may** reference docs without skeletons; scaffold will produce a clear placeholder.
 - Scaffold **must not** silently generate TODO fallback emoji shells.
@@ -212,7 +215,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ---
 
-## 8. Waiver v2
+## 8. Waiver v2 (→ v2.1)
+
+> **v2.1**: WaiverManager wired into audit chain.
 
 - Waivers are loaded from `profile.exceptions[]`.
 - Matching is by **rule name** (e.g. `"GDD-SUMMARY-ONLY-ENERGY"`) + **file scope**.
@@ -251,12 +256,12 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ## 11. Migration Path (v1 → v2)
 
-1. Run `gdd-profile-validate --kind project Project_Profile.yaml` (v1 passes)
+1. Run `gdd-profile-validate --kind project Project_Profile.yaml`
 2. Add `profile_type: project` to your project profile
-3. Move any `enabled_docs` from genre profile to project profile
-4. Move any `consistency_checks` with project facts to `project_fact_checks`
-5. Move any Chinese regex/terms to `rules/language_packs/zh-CN.yaml`
-6. Re-run `gdd-audit` with `--engine 2`
+3. Add `profile.language` to your project profile's `profile:` block
+4. Move any `enabled_docs` from genre profile to project profile
+5. Keep existing `consistency_checks` and `boundary_checks` in project profile (v2.1 will add `project_fact_checks`/`language_pack` runtime consumption)
+6. Re-run `gdd-audit` with `--engine 2` (default since v2.0)
 7. Verify EQUIVALENT with v1 baseline
 
 ---

@@ -1,5 +1,7 @@
 schema_version: 1
+profile_type: project
 profile:
+  language: en-US
   name: strict_mode
   description: Tests --strict / --pedantic / --fail-on-p2 behavior.
 enabled_docs:

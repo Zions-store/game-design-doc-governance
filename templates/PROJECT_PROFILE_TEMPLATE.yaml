@@ -9,6 +9,7 @@
 # if this file will be shared as a genre profile.
 
 schema_version: 1
+profile_type: project
 
 profile:
   name: "{{PROJECT_NAME}}"
@@ -16,6 +17,7 @@ profile:
   primary_type: "{{PRIMARY_TYPE}}"
   secondary_types: []
   phase: prototype                           # prototype | production | live
+  language: "{{LANGUAGE}}"                   # BCP 47 tag, e.g. en-US, zh-CN, ja
 
 paths:
   root_dir: "Design Document/md file"

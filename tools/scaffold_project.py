@@ -124,8 +124,8 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
         language = normalize_language(language)
     except ImportError:
         pass
-    # Safety: restrict language value to prevent YAML injection
-    if not re.match(r'^[a-z]{2,3}(-[A-Z]{2,3})?$', language):
+    # Safety: restrict language value to prevent YAML injection (accepts broad BCP-47 variants)
+    if not re.match(r'^[a-z]{2,4}(-[A-Z][a-z]{2,4})?(-[A-Z]{2,4})?$', language):
         print(f"Warning: language '{language}' is not a valid BCP-47 tag; falling back to en-US", file=sys.stderr)
         language = "en-US"
 

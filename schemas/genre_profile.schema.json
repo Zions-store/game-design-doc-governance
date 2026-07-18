@@ -24,14 +24,7 @@
     "high_risk_boundaries": { "type": "array", "items": { "type": "string" } },
     "audit_focus": { "type": "array", "items": { "type": "string" } },
     "suggested_doc_modules": { "type": "array", "items": { "type": "string" } },
-
-    "enabled_docs": { "type": "array", "items": { "type": "string" } },
-    "non_authority_files": { "type": "array", "items": { "type": "string" } },
-    "deprecated_terms": { "type": "array" },
-    "audit": { "type": "object" },
-    "file_versioning": { "type": "object" },
     "boundary_checks": { "type": "array" },
-    "consistency_checks": { "type": "array" },
     "link_checks": { "type": "object" },
     "exceptions": { "type": "array" }
   },

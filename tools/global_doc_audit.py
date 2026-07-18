@@ -29,7 +29,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-rc.6-generic"
+SCRIPT_VERSION = "v2.0.0-rc.7-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -482,7 +482,7 @@ def write_issue_state(out_dir, active_issues, suppressed, prev, when):
 def run_audit(root_dir, out_dir, profile_path, style_path,
               strict=False, pedantic=False, write_history=True,
               json_only=False, md_only=False, baseline_path=None,
-              write_state=True, lang="en", engine_version=1):
+              write_state=True, lang="en", engine_version=2):
     global issues
     issues = []
     now = datetime.now()
