@@ -4,7 +4,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.8.0 Any-language generation engineering, or patch fixes._
+_Next: v1.9.0 v2 contract freeze, or patch fixes._
+
+## [1.8.0] - 2026-07-18 -- Any-Language Generation
+
+### Added
+- `src/game_design_doc_governance/i18n.py` — any-language generation module.
+- **LanguageProvider** (ABC): abstract base for model-driven document translation.
+- **FakeProvider**: offline implementation for CI/testing — wraps source with language markers, never claims false completion.
+- **GenerationMetadata**: tracks target language, provider type, model ID, prompt version, profile ID, and structure validation result per generation.
+- **validate_structure()**: post-generation check that placeholders, YAML keys, anchors, REFs, document links, and rule IDs survive generation intact. Returns list of issues.
+- **normalize_language()**: normalizes BCP 47 tags to 20 supported languages with prefix fallback.
+- **SUPPORTED_LANGUAGES**: 20 languages (en-US, zh-CN, ja, ko, fr, de, es, pt-BR, ar, ru, it, nl, pl, tr, th, vi, id, ms, hi, fr-CA).
+
+### Changed
+- Scaffold `--language` now accepts any value (not limited to en-US/zh-CN). Unknown languages return as-is; provider decides support.
+- `src/__init__.py` exports i18n symbols.
 
 ## [1.7.0] - 2026-07-18 -- Skeleton Coverage Release
 

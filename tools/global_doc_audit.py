@@ -29,7 +29,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v1.7.0-generic"
+SCRIPT_VERSION = "v1.8.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []

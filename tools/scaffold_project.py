@@ -115,6 +115,13 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
     disabled_docs = disabled_docs or []
     lang = LANGS.get(language, LANGS["en-US"])
 
+    # Normalize language for any-language support
+    try:
+        from game_design_doc_governance.i18n import normalize_language
+        language = normalize_language(language)
+    except ImportError:
+        pass
+
     # 1. Load the genre profile
     try:
         import yaml
@@ -295,8 +302,8 @@ def main():
     ap.add_argument("--profile", required=True, help="Path to genre profile (.yaml)")
     ap.add_argument("--out", required=True, help="Output directory (e.g. '<project>/Design Document/md file')")
     ap.add_argument("--project-name", default="Untitled Game", help="Project name")
-    ap.add_argument("--language", default="en-US", choices=["en-US", "zh-CN"],
-                    help="Output language (default: en-US)")
+    ap.add_argument("--language", default="en-US",
+                    help="Output language (e.g. en-US, zh-CN, ja, fr, ar). Default: en-US")
     ap.add_argument("--dry-run", action="store_true", help="Preview plan without writing files")
     ap.add_argument("--force", action="store_true", help="Allow writing to non-empty directory")
     ap.add_argument("--enable-doc", action="append", default=[],

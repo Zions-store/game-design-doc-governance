@@ -12,3 +12,7 @@ from game_design_doc_governance.engine import (
     AuditContext, Finding, Waiver, WaiverManager, StateManager,
     validate_profile, render_report_v2, render_counts, render_verdict
 )
+from game_design_doc_governance.i18n import (
+    LanguageProvider, FakeProvider, GenerationMetadata,
+    validate_structure, normalize_language, SUPPORTED_LANGUAGES
+)
