@@ -4,7 +4,24 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.0.0-rc (default switch), or patch fixes._
+_Next: v2.1.x feature releases, or patch fixes._
+
+## [2.0.0] - 2026-07-18 — Stable Release
+
+### Changed
+- **Engine v2 is now the default** (`--engine 2`). v1 engine still available with `--engine 1`.
+- **Scaffold v2 safety defaults**: non-empty directory protection, explicit optional docs, atomic writes.
+- All v1.2–v1.9 features promoted from opt-in to default.
+
+### Retained
+- v1 Reader (`--engine 1`)
+- v1 Validator (`gdd-profile-validate`)
+- v1→v2 Migrator (manual: add `profile_type`, move `enabled_docs`, split facts)
+- Legacy scaffold (`--legacy`)
+- v1 support through v2.x; earliest v1 removal: v3.0.0
+
+### Contract
+- See `docs/v2_contract.md` for the complete frozen specification (11 sections).
 
 ## [1.9.0] - 2026-07-18 — v2 Contract Freeze
 
