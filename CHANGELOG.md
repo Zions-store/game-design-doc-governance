@@ -4,7 +4,23 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.6.0 Safe Scaffold v2 Preview, or patch fixes._
+_Next: v1.7.0 Skeleton coverage completeness, or patch fixes._
+
+## [1.6.0] - 2026-07-18 -- Safe Scaffold v2
+
+### Added
+- **Dry-run** (`--dry-run`): preview all files that would be created without writing.
+- **Non-empty directory protection**: refuses to write to existing non-empty dir without `--force`.
+- **Path validation**: rejects directory traversal (`..`) and filesystem root targets.
+- **`--enable-doc`**: explicitly select optional docs (repeatable). Optional docs are no longer created by default.
+- **`--disable-doc`**: exclude a recommended doc (repeatable).
+- **`--legacy`**: restore v1 behavior (all optional docs included, no safety checks).
+- **Atomic writes**: all file writes use tempfile + rename to prevent partial output.
+- **`_cleanup()`**: removes partially created files on failure — no half-finished projects.
+
+### Changed
+- `scaffold()`: signature extended with `dry_run`, `force`, `extra_docs`, `disabled_docs`, `legacy` parameters.
+- Unsupported docs now produce a clear placeholder (not a TODO emoji fallback).
 
 ## [1.5.1] - 2026-07-18 -- Finding/Waiver/State/Report v2 Patch
 
