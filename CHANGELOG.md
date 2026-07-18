@@ -4,7 +4,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.9.0 v2 contract freeze, or patch fixes._
+_Next: v2.0.0-rc (default switch), or patch fixes._
+
+## [1.9.0] - 2026-07-18 — v2 Contract Freeze
+
+### Added
+- `docs/v2_contract.md` — complete frozen specification for v2.0.0 (11 sections).
+- **Frozen contracts**: Profile Schema v2, Audit Finding v2, State Schema v2, Report Schema v2, Scaffold safety semantics, Skeleton support rules, Multi-language structure protection, Waiver v2, Audit Engine v2, v1 compatibility & deprecation table, Migration path.
+- **Version gate**: v1.9.0 is feature-frozen. Only bug fixes and docs from this point.
+
+### Changed
+- No functional changes. All v2 behavior remains opt-in (`--engine 2`) until v2.0.0-rc.
 
 ## [1.8.0] - 2026-07-18 -- Any-Language Generation
 
