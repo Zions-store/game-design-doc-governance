@@ -6,8 +6,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
-$rc4
-## [2.0.0-rc.3] - 2026-07-18 — Release Candidate 3
+## [2.0.0-rc.5] - 2026-07-18 — Release Candidate 5
+
+### Fixed (since rc.4)
+- **P0**: scaffold now injects `profile.language` into existing `profile:` block (no duplicate mapping).
+- **P0**: CHANGELOG rc.4 literal `$rc4` replaced with actual entry.
+- **P2**: coverage counts synced (24 of 48 doc names have matching skeletons).
+
+## [2.0.0-rc.4] - 2026-07-18 — Release Candidate 4 (superseded)
+
+### Fixed (since rc.3)
+- **P0**: scaffold YAML injection no longer creates duplicate `profile:` mapping. `profile_type: project` as top-level field.
+- **P0**: 9 genre profiles missing `profile_type: genre` — all 10 now have it.
+
+## [2.0.0-rc.3] - 2026-07-18 — Release Candidate 3 (superseded)
 
 ### Fixed (since rc.2)
 - **Schema enforcement**: `profile_type` now required in both genre and project profile schemas.

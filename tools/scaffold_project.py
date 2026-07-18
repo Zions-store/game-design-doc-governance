@@ -192,7 +192,7 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
 
     # Execute plan
     try:
-        _execute_plan(profile, enabled, out_dir, project_name, lang)
+        _execute_plan(profile, enabled, out_dir, project_name, lang, language)
     except Exception as e:
         print(f"ERROR during scaffold: {e}", file=sys.stderr)
         _cleanup()
@@ -229,7 +229,7 @@ def _build_plan(profile, enabled, out_dir, project_name, language):
     return plan
 
 
-def _execute_plan(profile, enabled, out_dir, project_name, lang):
+def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US"):
     os.makedirs(out_dir, exist_ok=True)
 
     # Copy doc_module skeletons
@@ -302,9 +302,11 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang):
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
         text = text.replace("enabled_docs: []", f"enabled_docs:\n{docs_yaml}")
-        # Add v2 fields after schema_version (before the existing profile: block — avoids duplicate mapping key)
+        # Add v2 fields: profile_type at top level, language inside existing profile block
         text = text.replace("schema_version: 1",
                            f"schema_version: 1\nprofile_type: project")
+        # Inject language into the existing profile: mapping safely
+        text = text.replace("profile:\n  name:", f"profile:\n  language: {language}\n  name:")
         _safe_write(prof_out, text)
 
 

@@ -147,8 +147,8 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.0.0-rc.4 — Release Candidate.** Ships: the generic data-driven auditor, 10 genre profiles,
-27 doc-module skeletons (48 unique doc names; 21 gaps), 9 modules, 6 templates,
+**v2.0.0-rc.5 — Release Candidate.** Ships: the generic data-driven auditor, 10 genre profiles,
+27 doc-module skeletons (24 of 48 unique doc names covered), 9 modules, 6 templates,
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, self-contained regression fixtures (6 projects + pytest 22/22),
 and complete documentation (`docs/` 12 guides).
