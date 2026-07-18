@@ -135,7 +135,7 @@ def test_fixture_versioned_filename():
 # ────────────────────────────────────────────────────────
 def _issue_state_seed_id():
     # P3 issue for the RULE anchor without REF: file=anchor_id, msg fixed
-    raw = "RULE-SAMPLE-ONLY||RULE anchor has no REF"
+    raw = "RULE-SAMPLE-ONLY|ANCHOR-RULE-NO-REF|RULE anchor has no REF"
     return "AUD-P3-" + hashlib.md5(raw.encode()).hexdigest()[:8]
 
 def _seed_state(out_dir, status, reason=""):
@@ -156,6 +156,7 @@ def test_issue_state_suppression():
     passed, c, issues = run_auditor(
         root, fixture_profile("issue_state"),
         out=out, write_state=True, write_history=False,
+        engine_version=1,
     )
     assert c["p3"] == 0
     assert c["p0"] == 0
@@ -168,6 +169,7 @@ def test_issue_state_no_state_opt_out():
     passed, c, _ = run_auditor(
         root, fixture_profile("issue_state"),
         out=out, write_state=False, write_history=False,
+        engine_version=1,
     )
     assert c["p3"] == 1
 

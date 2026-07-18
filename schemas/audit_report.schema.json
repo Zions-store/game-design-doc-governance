@@ -2,13 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/audit_report.schema.json",
   "title": "Audit Report",
-  "description": "Schema for audit_report.json output. Schema version 1; backward-compatible in 1.x.",
+  "description": "Schema for audit_report.json output. v2.1 adds engine and waiver metadata while retaining v1 fields.",
   "type": "object",
   "required": ["audit_id", "time", "script_version", "style_file", "profile_file", "root_dir", "out_dir", "p0", "p1", "p2", "p3", "issues"],
   "properties": {
     "audit_id": { "type": "string" },
     "time": { "type": "string" },
     "script_version": { "type": "string" },
+    "engine_version": { "type": "integer" },
     "style_file": { "type": "string" },
     "profile_file": { "type": "string" },
     "root_dir": { "type": "string" },
@@ -19,17 +20,24 @@
     "p3": { "type": "integer" },
     "info": { "type": "integer" },
     "suppressed": { "type": "integer" },
+    "waivers_active": { "type": "integer" },
+    "waivers_expired": { "type": "integer" },
     "issues": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
           "issue_id": { "type": "string" },
+          "id": { "type": "string" },
           "status": { "type": "string" },
           "level": { "type": "string" },
           "file": { "type": "string" },
           "msg": { "type": "string" },
-          "rule": { "type": "string" }
+          "message": { "type": "string" },
+          "rule": { "type": "string" },
+          "location": { "type": "string" },
+          "suppressed": { "type": "boolean" },
+          "suppression_reason": { "type": "string" }
         }
       }
     },
@@ -40,7 +48,8 @@
         "anchors": { "type": "integer" },
         "deprecated": { "type": "integer" },
         "boundary_checks": { "type": "integer" },
-        "consistency_checks": { "type": "integer" }
+        "consistency_checks": { "type": "integer" },
+        "project_fact_checks": { "type": "integer" }
       }
     }
   }

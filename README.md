@@ -147,7 +147,7 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.0.0 — Formal release.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v2.1.0 — Formal release.** Adds the complete Engine v2 Finding/Waiver/State/Report runtime pipeline to the generic data-driven auditor, alongside 10 genre profiles,
 27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 6 templates,
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
@@ -160,10 +160,11 @@ CLI (`gdd-audit`, `gdd-profile-validate`, `gdd-scaffold`), audit output format,
 issue-state format, and scaffold output structure. Breaking changes are reserved
 for 2.x.
 
-> **Current boundary**: Engine v2 now schema-validates the project profile before
-> auditing. The complete v2 Finding/Waiver/State/Report pipeline, including
-> waiver expiry in live audit output, remains v2.1 work. `project_fact_checks`
-> and `language_pack` are schema-supported but not yet consumed at runtime.
+> **Current boundary**: Engine v2 schema-validates the project profile before
+> auditing, applies file-scoped expiring waivers, persists the versioned state
+> ledger, and renders Report v2. `project_fact_checks` run across all authority
+> documents; a configured `language_pack` resolves the selected genre profile's
+> `pattern_ref` / `term_ref` rules. Only maintained packs may be selected.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).
 For opencode: wire a junction `~/.config/opencode/skills/game-design-doc-governance`

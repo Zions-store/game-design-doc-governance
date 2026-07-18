@@ -14,6 +14,7 @@ profile_type: project
 profile:
   name: "{{PROJECT_NAME}}"
   profile_name: "{{PROFILE_NAME}}"          # e.g. open_world_narrative_tactical_shooter
+  genre_profile: "{{PROFILE_NAME}}"          # enables built-in genre rules when language_pack is set
   primary_type: "{{PRIMARY_TYPE}}"
   secondary_types: []
   phase: prototype                           # prototype | production | live
@@ -87,6 +88,20 @@ consistency_checks: []
 link_checks:
   enabled: true
   ignored_dirs: [audit, export, archive]
+
+# Optional v2.1 runtime rules. Set language_pack to an available built-in tag
+# (currently en-US or zh-CN), or to a project-local YAML path. Do not set it
+# for a language without a maintained pack.
+# language_pack: en-US
+# project_fact_checks: []
+# - id: FACT-EXAMPLE
+#   authority: Narrative_Bible.md
+#   forbid_terms: [incorrect wording]
+#   require_negation_near: [not]
+#   require_context_near: []
+#   near_window: 40
+#   level: P0
+#   message: "Project fact may be stated incorrectly."
 
 # Registered waivers that suppress a known issue.
 exceptions: []

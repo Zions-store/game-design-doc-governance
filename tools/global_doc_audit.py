@@ -21,7 +21,7 @@ Usage:
 """
 
 import os, re, argparse, json, sys, glob, hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 from collections import defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,7 +34,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-generic"
+SCRIPT_VERSION = "v2.1.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -247,10 +247,10 @@ def resolve_files(files, enabled_docs):
 def check_file_list(root, enabled_docs, non_authority, version_pattern=r'\((\d+)\)'):
     for name in enabled_docs:
         if not doc_exists(root, name, version_pattern):
-            add("P0", name, "Missing expected authority doc")
+            add("P0", name, "Missing expected authority doc", rule="DOC-MISSING")
     for n in non_authority:
         if os.path.exists(os.path.join(root, n)):
-            add("INFO", n, "Non-authority file in document directory")
+            add("INFO", n, "Non-authority file in document directory", rule="NONAUTH-FILE")
 
 
 def check_tables(doc_name, text):
@@ -262,13 +262,13 @@ def check_tables(doc_name, text):
             if "---" in s:
                 col = actual
             elif col and actual != col:
-                add("P2", doc_name, f"L{i+1}: table row has {actual} cols, expected {col}")
+                add("P2", doc_name, f"L{i+1}: table row has {actual} cols, expected {col}", rule="TABLE-COLUMN-COUNT")
         else:
             col = None
         if s.startswith("<!--") and s.endswith("-->") and 0 < i < len(lines) - 1:
             prev, nxt = lines[i-1].strip(), lines[i+1].strip()
             if prev.startswith("|") and prev.endswith("|") and nxt.startswith("|") and nxt.endswith("|"):
-                add("P2", doc_name, f"L{i+1}: HTML comment between table rows")
+                add("P2", doc_name, f"L{i+1}: HTML comment between table rows", rule="TABLE-HTML-COMMENT")
 
 
 def check_anchors(all_texts):
@@ -286,14 +286,14 @@ def check_anchors(all_texts):
     for aid in ANCHOR_LIST:
         entries = am.get(aid, [])
         if not entries:
-            add("P1", aid, "Registered anchor has zero occurrences")
+            add("P1", aid, "Registered anchor has zero occurrences", rule="ANCHOR-ZERO-OCCURRENCES")
         else:
             if "auth" not in entries:
-                add("P1", aid, "No authority occurrence")
+                add("P1", aid, "No authority occurrence", rule="ANCHOR-NO-AUTHORITY")
             if aid.startswith("FACT-") and "ref" not in entries:
-                add("P2", aid, "FACT anchor has no REF")
+                add("P2", aid, "FACT anchor has no REF", rule="ANCHOR-FACT-NO-REF")
             elif aid.startswith("RULE-") and "ref" not in entries:
-                add("P3", aid, "RULE anchor has no REF")
+                add("P3", aid, "RULE anchor has no REF", rule="ANCHOR-RULE-NO-REF")
 
 
 def check_deprecated(all_texts, profile_terms):
@@ -317,7 +317,7 @@ def check_deprecated(all_texts, profile_terms):
                     if re.search(r'不是|并非|禁止|非|deprecated|旧称|误称', ctx):
                         continue
                     sev = "P1" if len(kw) > 5 else "P2"
-                    add(sev, doc_name, f"Deprecated term '{kw}' (-> {new_entry})")
+                    add(sev, doc_name, f"Deprecated term '{kw}' (-> {new_entry})", rule="DEPRECATED-TERM")
                     break
 
 
@@ -334,7 +334,7 @@ def check_links(all_texts, root_dir, ignored_dirs=None, version_pattern=r'\((\d+
                 continue
             tf = base.split('/')[-1]
             if tf != doc_name and not doc_exists(root_dir, tf, version_pattern):
-                add("P1", doc_name, f"Broken link: [{m.group(1)}]({m.group(2)})")
+                add("P1", doc_name, f"Broken link: [{m.group(1)}]({m.group(2)})", rule="LINK-BROKEN")
 
 
 # ─── data-driven checks (from profile) ───
@@ -396,6 +396,64 @@ def run_consistency_checks(texts, checks, enabled_docs):
                     continue
                 add(level, doc_name, msg, rule=chk.get("id"))
                 break
+
+
+def run_project_fact_checks(texts, checks, enabled_docs):
+    """Run project-owned fact rules across every authority document.
+
+    ``authority`` identifies the source document for human review; it is not a
+    scan restriction. Project facts must remain correct wherever they appear.
+    """
+    for chk in checks:
+        if not isinstance(chk, dict):
+            add("P0", "Project_Profile.yaml", "project_fact_checks entry is not a mapping", rule="CONFIG-PROJECT-FACT")
+            continue
+        rule = chk.get("id")
+        authority = chk.get("authority")
+        terms = chk.get("forbid_terms")
+        if not rule or not authority or not isinstance(terms, list) or not all(isinstance(term, str) for term in terms):
+            add("P0", "Project_Profile.yaml", "project_fact_checks entries require id, authority, and forbid_terms", rule="CONFIG-PROJECT-FACT")
+            continue
+        if authority not in enabled_docs:
+            add("P0", "Project_Profile.yaml", f"Project fact authority is not enabled: {authority}", rule="CONFIG-PROJECT-FACT")
+            continue
+        level = chk.get("level", "P1")
+        message = chk.get("message", f"project fact check {rule}")
+        window = int(chk.get("near_window", 40))
+        negation = chk.get("require_negation_near", []) or []
+        context = chk.get("require_context_near", []) or []
+        for doc_name in resolve_files(["*"], enabled_docs):
+            text = texts.get(doc_name)
+            if not text:
+                continue
+            clean = clean_for_scan(text)
+            reported = False
+            for term in terms:
+                for match in re.finditer(re.escape(term), clean):
+                    nearby = clean[max(0, match.start()-window):match.end()+window]
+                    if negation and any(word in nearby for word in negation):
+                        continue
+                    if context and not all(word in nearby for word in context):
+                        continue
+                    add(level, doc_name, message, rule=rule)
+                    reported = True
+                    break
+                if reported:
+                    break
+
+
+def _to_v2_findings(legacy_issues, finding_type):
+    """Convert legacy check output to structured Findings with stable IDs."""
+    return [
+        finding_type(
+            id=finding_type.make_id(issue.p, issue.rule or "LEGACY-UNCLASSIFIED", issue.msg, issue.file),
+            level=issue.p,
+            rule=issue.rule or "LEGACY-UNCLASSIFIED",
+            message=issue.msg,
+            file=issue.file,
+        )
+        for issue in legacy_issues
+    ]
 
 
 def apply_exceptions(exceptions):
@@ -490,33 +548,42 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
               write_state=True, lang="en", engine_version=2):
     global issues
     issues = []
-    now = datetime.now()
+    now = datetime.now(timezone.utc) if engine_version >= 2 else datetime.now()
     audit_time = now.strftime("%Y-%m-%d %H:%M")
     audit_id = f"AUDIT-{now.strftime('%Y%m%d-%H%M')}"
 
     profile = load_profile(profile_path)
+    v2 = engine_version >= 2
+    waiver_manager = None
+    v2_components = {}
 
     # ─── v2 engine: pre-validate config ───────────────────
-    if engine_version >= 2:
+    if v2:
         try:
-            from game_design_doc_governance.engine import validate_profile, WaiverManager
-        except ImportError:
-            print("Warning: engine module not importable; falling back to v1 validation")
-        else:
-            config_issues = validate_profile(profile, strict=True)
-            if config_issues:
+            from game_design_doc_governance.engine import (
+                AuditContext, Finding, StateManager, WaiverManager,
+                render_counts, render_report_v2,
+            )
+            from game_design_doc_governance.engine import validate_profile
+            from game_design_doc_governance.runtime_rules import load_runtime_boundary_checks
+        except ImportError as exc:
+            print(f"P0 CONFIG-ENGINE-UNAVAILABLE: Engine v2 is unavailable: {exc}", file=sys.stderr)
+            return False
+        v2_components = {
+            "AuditContext": AuditContext, "Finding": Finding, "StateManager": StateManager,
+            "render_counts": render_counts, "render_report_v2": render_report_v2,
+            "load_runtime_boundary_checks": load_runtime_boundary_checks,
+        }
+        config_issues = validate_profile(profile, strict=True)
+        if config_issues:
+            for index, ci in enumerate(config_issues):
+                add(ci.level, f"Project_Profile.yaml#config-{index}", ci.message, rule=ci.rule)
+            if any(ci.level in ("P0", "P1") for ci in config_issues):
                 for ci in config_issues:
-                    add(ci.level, ci.rule, ci.message)
-                if any(ci.level in ("P0", "P1") for ci in config_issues):
-                    for ci in config_issues:
-                        print(f"{ci.level} {ci.rule}: {ci.message}", file=sys.stderr)
-                    return False
-
-            # v2 waiver manager: enforce (rule, file) binding + expires
-            wm = WaiverManager()
-            wm.load_from_profile(profile.get("exceptions", []))
-            # Store for later use after issues are collected
-            _v2_waiver_manager = wm
+                    print(f"{ci.level} {ci.rule}: {ci.message}", file=sys.stderr)
+                return False
+        waiver_manager = WaiverManager()
+        waiver_manager.load_from_profile(profile.get("exceptions", []))
     if not style_path:
         # try profile paths or default
         style_path, _ = find_latest(root_dir, "STYLE_GUIDE.md")
@@ -525,7 +592,7 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
             load_style_rules(f.read())
         style_file = os.path.basename(style_path)
     else:
-        add("P0", "STYLE_GUIDE.md", "Cannot load STYLE_GUIDE")
+        add("P0", "STYLE_GUIDE.md", "Cannot load STYLE_GUIDE", rule="STYLE-MISSING")
         style_file = "STYLE_GUIDE.md"
 
     enabled_docs = profile.get("enabled_docs") or EXPECTED_DOCS
@@ -556,8 +623,98 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
     lc = profile.get("link_checks", {}) or {}
     if lc.get("enabled", True):
         check_links(all_texts, root_dir, ignored_dirs=lc.get("ignored_dirs"), version_pattern=ver_pat)
-    run_boundary_checks(texts, profile.get("boundary_checks", []), enabled_docs)
+    boundary_checks = profile.get("boundary_checks", [])
+    if v2:
+        runtime_checks, runtime_errors = v2_components["load_runtime_boundary_checks"](profile, profile_path)
+        for index, (rule, message) in enumerate(runtime_errors):
+            add("P0", f"Project_Profile.yaml#runtime-{index}", message, rule=rule)
+        boundary_checks = boundary_checks + runtime_checks
+    run_boundary_checks(texts, boundary_checks, enabled_docs)
     run_consistency_checks(texts, profile.get("consistency_checks", []), enabled_docs)
+    if v2:
+        run_project_fact_checks(texts, profile.get("project_fact_checks", []), enabled_docs)
+
+        findings = _to_v2_findings(issues, v2_components["Finding"])
+        waiver_manager.apply(findings)
+        state_manager = v2_components["StateManager"](out_dir)
+        previous_state = state_manager.load() if write_state else {}
+        if write_state:
+            for finding in findings:
+                status = previous_state.get(finding.id, {}).get("status")
+                if status in ("FALSE_POSITIVE", "ACCEPTED_EXCEPTION"):
+                    finding.suppressed = True
+                    finding.suppression_reason = f"state: {status}"
+            state_manager.save(findings, previous_state)
+
+        counts = v2_components["render_counts"](findings)
+        profile_name = os.path.basename(profile_path) if profile_path else "(none)"
+        context = v2_components["AuditContext"](
+            root=root_dir, style=style_path or "", profile=profile_path or "", out=out_dir,
+            strict=strict or pedantic, no_state=not write_state, no_history=not write_history,
+            md_only=md_only, json_only=json_only, baseline_file=baseline_path,
+            engine_version=engine_version, profile_data=profile, run_id=audit_id,
+            started_at=now.isoformat(), completed_at=datetime.now(timezone.utc).isoformat(),
+        )
+        report_text = v2_components["render_report_v2"](findings, context,
+                                                         waiver_manager._waivers and [
+                                                             waiver for waiver in waiver_manager._waivers
+                                                             if not waiver.is_expired()
+                                                         ],
+                                                         [waiver for waiver in waiver_manager._waivers
+                                                          if waiver.is_expired()])
+        passed = not ((audit_cfg.get("fail_on_p0", True) and counts.get("P0", 0) > 0) or
+                      (audit_cfg.get("fail_on_p1", True) and counts.get("P1", 0) > 0))
+        if (strict or pedantic) and audit_cfg.get("fail_on_p2_in_strict_mode", True):
+            passed = passed and counts.get("P2", 0) == 0
+        print(report_text)
+        active_waivers = [waiver for waiver in waiver_manager._waivers if not waiver.is_expired()]
+        expired_waivers = [waiver for waiver in waiver_manager._waivers if waiver.is_expired()]
+        if not json_only:
+            with open(os.path.join(out_dir, "audit_report.md"), "w", encoding="utf-8") as f:
+                f.write(report_text)
+        if not md_only:
+            report_data = {
+                "audit_id": audit_id, "time": now.isoformat(), "script_version": SCRIPT_VERSION,
+                "engine_version": engine_version, "style_file": style_file, "profile_file": profile_name,
+                "root_dir": root_dir, "out_dir": out_dir,
+                "p0": counts.get("P0", 0), "p1": counts.get("P1", 0),
+                "p2": counts.get("P2", 0), "p3": counts.get("P3", 0),
+                "info": counts.get("INFO", 0),
+                "suppressed": sum(1 for finding in findings if finding.suppressed),
+                "waivers_active": len(active_waivers), "waivers_expired": len(expired_waivers),
+                "issues": [finding.to_dict() for finding in findings],
+                "loaded_rules": {
+                    "docs": len(enabled_docs), "anchors": len(ANCHOR_LIST),
+                    "deprecated": len(DEPRECATED_LIST), "boundary_checks": len(boundary_checks),
+                    "consistency_checks": len(profile.get("consistency_checks", [])),
+                    "project_fact_checks": len(profile.get("project_fact_checks", [])),
+                },
+            }
+            with open(os.path.join(out_dir, "audit_report.json"), "w", encoding="utf-8") as f:
+                json.dump(report_data, f, ensure_ascii=False, indent=2)
+        if write_history and not json_only:
+            history_path = os.path.join(out_dir, "audit_history.md")
+            new_history = not os.path.exists(history_path)
+            with open(history_path, "a", encoding="utf-8") as f:
+                if new_history:
+                    f.write("# Audit History\n\n")
+                f.write(f"## {audit_id} — {now.isoformat()}\n\n")
+                f.write(f"**Engine**: v{engine_version} | **Script**: {SCRIPT_VERSION}\n\n")
+                for level in ("P0", "P1", "P2", "P3", "INFO"):
+                    f.write(f"| {level} | {counts.get(level, 0)} |\n")
+                f.write("\n")
+        if baseline_path and os.path.exists(baseline_path):
+            with open(baseline_path, "r", encoding="utf-8") as f:
+                base = json.load(f)
+            keys = ["p0", "p1", "p2", "p3"]
+            current = {key: counts.get(key.upper(), 0) for key in keys}
+            equivalent = all(base.get(key) == current.get(key) for key in keys)
+            print(f"Baseline compare: {'EQUIVALENT' if equivalent else 'DIVERGED'} "
+                  f"(baseline {[base.get(key) for key in keys]} vs current {[current[key] for key in keys]})")
+            if not equivalent:
+                passed = False
+        return passed
+
     apply_exceptions(profile.get("exceptions", []))
 
     prev_state = load_issue_state(out_dir) if write_state else {}
@@ -672,7 +829,7 @@ def main():
     ap.add_argument("--no-state", action="store_true", help="Do not read/write issue_state.jsonl")
     ap.add_argument("--baseline", default=None, help="Baseline JSON to compare counts against")
     ap.add_argument("--engine", type=int, default=2, choices=[1, 2],
-                    help="Engine version: 1=legacy, 2=v2 (default; config validation + structured waiver schema). Full v2 Finding/Waiver/State/Report pipeline is v2.1.")
+                    help="Engine version: 1=legacy, 2=v2 (default; full Finding/Waiver/State/Report pipeline).")
     args = ap.parse_args()
 
     if not os.path.isdir(args.root):

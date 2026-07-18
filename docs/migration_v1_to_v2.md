@@ -12,7 +12,7 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 | Engine v2 default | `--engine 2` is now default; `--engine 1` for rollback |
 | Scaffold safety | Non-empty dirs refused without `--force`; optional docs only with `--enable-doc` |
 
-> **v2.1 planned**: `project_fact_checks`, `language_pack` runtime consumption, and full Engine v2 Finding/Waiver/State/Report pipeline.
+> **v2.1 available**: `project_fact_checks`, an explicitly selected maintained `language_pack`, and the full Engine v2 Finding/Waiver/State/Report pipeline run at audit time.
 
 ---
 
@@ -54,20 +54,18 @@ If your genre profile (in `profiles/genre/`) contains `enabled_docs`, move it to
 
 ### 4. Move project facts out of genre profile
 
-> **Note**: `project_fact_checks` and `language_pack` are declared schema fields in v2.0.0.
-> The audit engine currently runs `consistency_checks` and `boundary_checks` from the project profile.
-> Full runtime consumption of `project_fact_checks` and `language_pack` is planned for v2.1.
-> For now, keep your existing `consistency_checks` in your project profile unchanged.
+> **v2.1 behavior**: `project_fact_checks` run across every authority document.
+> Keep existing `consistency_checks` in your project profile unchanged; they remain independently supported.
 
 If your genre profile contains `consistency_checks` with project-specific facts, ensure they are in your
 project profile (not the genre profile). Genre profiles must NOT contain project-specific fact checks.
 
-### 5. Language rules: future path
+### 5. Language rules
 
-> **Note**: `language_pack` field is declared but not yet consumed by the audit engine at runtime.
-> Boundary checks with `forbid_regex`/`forbid_any` in your project profile continue to work
-> as before. The `rules/language_packs/` directory and v1.8 `i18n.py` are infrastructure
-> for future language-independent checks planned for v2.1.
+> **v2.1 behavior**: setting `language_pack` to a maintained built-in tag (currently
+> `en-US` or `zh-CN`) resolves the selected `profile.genre_profile`'s `pattern_ref`
+> / `term_ref` checks. A project boundary rule with the same ID overrides the generic
+> rule. Do not set `language_pack` for a language without a maintained pack.
 
 ### 6. Update profile paths in scripts
 
@@ -157,5 +155,5 @@ If v2 causes issues in your project:
 - [ ] `gdd-audit` v2 baseline EQUIVALENT with v1
 - [ ] Scaffold scripts updated (`--enable-doc`, `--force`, or `--legacy`)
 
-> **v2.1 planned**: `project_fact_checks` and `language_pack` runtime consumption.
-> For now, keep `consistency_checks` and `boundary_checks` in your project profile unchanged.
+> **v2.1 available**: project facts and an explicitly selected maintained language
+> pack run in addition to existing `consistency_checks` and `boundary_checks`.

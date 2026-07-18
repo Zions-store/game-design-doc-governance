@@ -138,16 +138,19 @@
       "type": "array",
       "items": {
         "type": "object",
+        "required": ["id", "authority", "forbid_terms", "level", "message"],
         "properties": {
           "id": { "type": "string" },
           "authority": { "type": "string" },
           "forbid_terms": { "type": "array", "items": { "type": "string" } },
           "require_negation_near": { "type": "array", "items": { "type": "string" } },
           "require_context_near": { "type": "array", "items": { "type": "string" } },
+          "near_window": { "type": "integer", "minimum": 0 },
           "level": { "type": "string" },
           "message": { "type": "string" },
           "expected_statement": { "type": "string" }
-        }
+        },
+        "additionalProperties": false
       }
     },
     "exceptions": {

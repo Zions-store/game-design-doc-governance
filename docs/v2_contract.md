@@ -56,10 +56,10 @@
 
 ---
 
-## 2. Audit Finding v2 (→ v2.1 full pipeline)
+## 2. Audit Finding v2
 
 > **v2.0**: schema + config validation + `--engine 2` default.
-> **v2.1**: full Finding/Waiver/State/Report pipeline wired into audit chain.
+> **v2.1**: full Finding/Waiver/State/Report pipeline wired into the audit chain.
 
 ### 2.1 Finding Identity
 
@@ -95,9 +95,9 @@
 
 ---
 
-## 3. State Schema v2 (→ v2.1)
+## 3. State Schema v2
 
-> **v2.1**: StateManager wired into audit chain.
+> **v2.1**: StateManager is wired into the `--engine 2` audit chain.
 
 - **Schema marker**: `"_schema": 1` on every entry.
 - **Atomic writes**: tempfile + rename. No partial writes.
@@ -118,9 +118,9 @@
 
 ---
 
-## 4. Report Schema v2 (→ v2.1)
+## 4. Report Schema v2
 
-> **v2.1**: Report v2 rendered by audit engine.
+> **v2.1**: Report v2 is rendered by the audit engine.
 
 ```markdown
 # Audit Report v2
@@ -216,9 +216,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ---
 
-## 8. Waiver v2 (→ v2.1)
+## 8. Waiver v2
 
-> **v2.1**: WaiverManager wired into audit chain.
+> **v2.1**: WaiverManager is wired into the `--engine 2` audit chain.
 
 - Waivers are loaded from `profile.exceptions[]`.
 - Matching is by **rule name** (e.g. `"GDD-SUMMARY-ONLY-ENERGY"`) + **file scope**.
@@ -230,9 +230,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 ## 9. Audit Engine v2
 
 - `--engine 1`: v1 legacy path (global mutable state, no config pre-validation).
-- `--engine 2` (default in v2.0): validates the project profile against the packaged JSON Schema before audit checks. The full Finding/Waiver/State/Report pipeline is **v2.1**.
+- `--engine 2` (default since v2.0): validates the project profile against the packaged JSON Schema before audit checks, then runs the full Finding/Waiver/State/Report pipeline.
   - v2.0: config validation + structured waiver schema + `--engine 2` default.
-  - v2.1: WaiverManager.apply(), StateManager, render_report_v2 wired into the actual audit chain.
+  - v2.1: WaiverManager.apply(), StateManager, Report v2, project-fact checks, and language-pack genre rule resolution are wired into the actual audit chain.
 
 ## 10. v1 Compatibility & Deprecation
 
@@ -261,7 +261,7 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 2. Add `profile_type: project` to your project profile
 3. Add `profile.language` to your project profile's `profile:` block
 4. Move any `enabled_docs` from genre profile to project profile
-5. Keep existing `consistency_checks` and `boundary_checks` in project profile (v2.1 will add `project_fact_checks`/`language_pack` runtime consumption)
+5. Keep existing `consistency_checks` and `boundary_checks` in the project profile; v2.1 additionally consumes `project_fact_checks` and an explicitly selected maintained `language_pack`.
 6. Re-run `gdd-audit` with `--engine 2` (default since v2.0)
 7. Verify EQUIVALENT with v1 baseline
 
@@ -271,5 +271,5 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 - **v1.9.0**: Contract freeze. No new features.
 - **v2.0.0-rc**: Default switch. `--engine 2` default, scaffold v2 safety, profile_type required.
-- **v2.0.0**: Formal release. v1 reader retained. Full engine pipeline (Finding/Waiver/State/Report) → v2.1.
-- **v2.1**: Engine v2 complete — WaiverManager, StateManager, Report v2 wired into audit chain.
+- **v2.0.0**: v1 reader retained; Engine v2 is the default.
+- **v2.1.0**: Engine v2 complete — WaiverManager, StateManager, Report v2, project facts, and language-pack genre rules are wired into the audit chain.

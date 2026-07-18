@@ -26,7 +26,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-generic"
+SCRIPT_VERSION = "v2.1.0-generic"
 STATE_SCHEMA_VERSION = 1
 
 
@@ -81,7 +81,7 @@ class AuditContext:
     md_only: bool = False
     json_only: bool = False
     baseline_file: Optional[str] = None
-    engine_version: int = 1
+    engine_version: int = 2
     profile_data: dict = field(default_factory=dict)
     style_rules: dict = field(default_factory=dict)
     findings: list = field(default_factory=list)
@@ -215,23 +215,48 @@ class StateManager:
 
     def save(self, findings: list[Finding], prev_state: dict) -> dict:
         """Write updated state file atomically. Returns the new state dict."""
-        updated = dict(prev_state)
+        updated = {}
         now = datetime.now(timezone.utc).isoformat()
 
         for f in findings:
-            if f.id not in updated:
-                updated[f.id] = {"issue_id": f.id, "status": "OPEN", "updated_at": now}
+            previous = prev_state.get(f.id, {})
+            previous_status = previous.get("status")
+            if previous_status in ("VERIFIED", "FIXED_PENDING_VERIFY"):
+                status = "REOPENED"
+            elif previous_status:
+                status = previous_status
             else:
-                entry = updated[f.id]
-                if entry["status"] == "OPEN":
-                    pass  # keep OPEN
-                elif entry["status"] == "FIXED_PENDING_VERIFY":
-                    entry["status"] = "VERIFIED"
-                    entry["updated_at"] = now
-                elif entry["status"] == "REOPENED":
-                    pass
+                status = "OPEN"
+            updated[f.id] = {
+                "_schema": STATE_SCHEMA_VERSION,
+                "issue_id": f.id,
+                "status": status,
+                "level": f.level,
+                "file": f.file,
+                "rule": f.rule,
+                "msg": f.message,
+                "message": f.message,
+                "updated_at": now if status != previous_status else previous.get("updated_at", now),
+            }
+
+        for issue_id, previous in prev_state.items():
+            if issue_id in updated:
+                continue
+            status = previous.get("status", "OPEN")
+            if status in ("FALSE_POSITIVE", "ACCEPTED_EXCEPTION", "CORRUPT", "VERIFIED"):
+                updated[issue_id] = previous
+                continue
+            revised = dict(previous)
+            if status in ("OPEN", "REOPENED"):
+                revised["status"] = "FIXED_PENDING_VERIFY"
+            elif status == "FIXED_PENDING_VERIFY":
+                revised["status"] = "VERIFIED"
+            revised["updated_at"] = now
+            revised.setdefault("_schema", STATE_SCHEMA_VERSION)
+            updated[issue_id] = revised
 
         # Write atomically: temp file + rename
+        tmp = None
         try:
             fd, tmp = tempfile.mkstemp(dir=os.path.dirname(self.path), prefix=".issue_state_")
             with os.fdopen(fd, "w", encoding="utf-8") as f:
@@ -241,7 +266,7 @@ class StateManager:
                     f.write(json.dumps(entry, ensure_ascii=False) + "\n")
             os.replace(tmp, self.path)
         except OSError:
-            if os.path.exists(tmp):
+            if tmp and os.path.exists(tmp):
                 os.unlink(tmp)
             raise
 

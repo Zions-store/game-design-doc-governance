@@ -43,7 +43,7 @@ for baseline regression, where you want the raw counts).
 In addition, a profile-level `exceptions` field allows registering waivers
 declaratively in `Project_Profile.yaml`. See `docs/profile_schema.md`.
 
-> **Current limitation**: the legacy audit path applies profile exceptions, but
-> the structured v2 WaiverManager (including expiry reporting in the audit
-> output) is not wired into the live audit chain until v2.1. Use file-scoped
-> exceptions where a waiver must apply to one document only.
+> **v2.1 behavior**: `--engine 2` applies structured file-scoped waivers before
+> counting findings, reports active and expired waivers, and uses stable Finding
+> IDs for state suppression. `--engine 1` retains the legacy exception path for
+> compatibility.

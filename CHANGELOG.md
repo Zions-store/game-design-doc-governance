@@ -4,7 +4,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.1 — complete the Finding/Waiver/State/Report v2 runtime pipeline and consume `project_fact_checks` / `language_pack` at runtime._
+_Next: v2.2 — expand maintained language packs and evaluate an explicit language-pack fact-reference contract._
+
+## [2.1.0] - 2026-07-19 — Release-ready Runtime Pipeline
+
+### Added
+
+- **Engine v2 runtime pipeline**: `Finding`, precise `WaiverManager`, `StateManager`, and Report v2 now run in the actual `--engine 2` audit path; `--engine 1` retains its legacy output and behavior.
+- **Waivers**: file-scoped waivers apply by rule name; expired waivers reactivate findings and appear in Markdown/JSON output.
+- **State**: stable Finding IDs drive atomic `OPEN → FIXED_PENDING_VERIFY → VERIFIED → REOPENED` transitions; human `FALSE_POSITIVE` / `ACCEPTED_EXCEPTION` state entries suppress only their exact Finding IDs.
+- **Runtime rules**: project facts run across all authority documents; configured language packs compile a genre profile's `pattern_ref` / `term_ref` checks, while project rules with the same ID override the generic rule.
+
+### Changed
+
+- **Reports**: Engine v2 writes Report v2 Markdown and JSON with engine version, active/expired waiver totals, suppression detail, and structured Finding records.
+- **Profiles / scaffold**: `project_fact_checks` now validates its executable fields; scaffolded profiles carry `profile.genre_profile` and document explicit language-pack selection.
 
 ## [2.0.0] - 2026-07-19 — Formal Release
 
