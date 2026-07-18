@@ -16,9 +16,11 @@ profiles/genre/     10 genre profiles (*.yaml)
 schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)
 tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py) + scaffold_project.py + validate_profile.py
 src/                Python package (audit / scaffold / profile_validation entry points)
-docs/               10 user guides (quickstart / installation / migration / audit / schema / etc.)
+docs/               12 user guides (quickstart / installation / migration / migration_v1_to_v2 / audit / v2_contract / etc.)
 tests/              fixtures/ + expected/ + README (self-contained regression)
 .github/workflows/  CI configuration (ci.yml)
+examples/           example project profiles + baselines
+rules/              language packs (zh-CN / en-US)
 ```
 
 ## Excluded (never part of a release)

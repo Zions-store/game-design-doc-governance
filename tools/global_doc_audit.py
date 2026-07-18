@@ -29,7 +29,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-rc.2-generic"
+SCRIPT_VERSION = "v2.0.0-rc.3-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -665,7 +665,7 @@ def main():
     ap.add_argument("--no-state", action="store_true", help="Do not read/write issue_state.jsonl")
     ap.add_argument("--baseline", default=None, help="Baseline JSON to compare counts against")
     ap.add_argument("--engine", type=int, default=2, choices=[1, 2],
-                    help="Engine version: 1=legacy, 2=v2 (default)")
+                    help="Engine version: 1=legacy, 2=v2 (default; config validation + structured waiver schema). Full v2 Finding/Waiver/State/Report pipeline is v2.1.")
     args = ap.parse_args()
 
     if not os.path.isdir(args.root):

@@ -4,7 +4,7 @@
   "title": "Project Profile",
   "description": "Schema for a project-instance Project_Profile.yaml. Schema version 1; backward-compatible in 1.x.",
   "type": "object",
-  "required": ["schema_version", "enabled_docs"],
+  "required": ["schema_version", "profile_type", "enabled_docs"],
   "properties": {
     "schema_version": { "type": "integer", "minimum": 1, "maximum": 2 },
     "profile_type": { "enum": ["project"] },

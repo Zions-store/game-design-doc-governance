@@ -149,9 +149,10 @@ If v2 causes issues in your project:
 
 - [ ] `profile_type: project` added to Project_Profile.yaml
 - [ ] `enabled_docs` moved from genre profile to project profile
-- [ ] Project facts moved from `consistency_checks` to `project_fact_checks`
-- [ ] Language-specific terms moved to `rules/language_packs/`
-- [ ] Profile paths updated in scripts and CI
+- [ ] Profile paths updated in scripts and CI (`profiles/` → `profiles/genre/`)
 - [ ] `gdd-profile-validate` passes
 - [ ] `gdd-audit` v2 baseline EQUIVALENT with v1
 - [ ] Scaffold scripts updated (`--enable-doc`, `--force`, or `--legacy`)
+
+> **v2.1 planned**: `project_fact_checks` and `language_pack` runtime consumption.
+> For now, keep `consistency_checks` and `boundary_checks` in your project profile unchanged.

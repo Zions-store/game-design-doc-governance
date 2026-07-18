@@ -4,7 +4,7 @@
   "title": "Genre Profile",
   "description": "Schema for a genre profile (type-library entry). Schema version 1; backward-compatible in 1.x.",
   "type": "object",
-  "required": ["schema_version", "profile", "recommended_docs"],
+  "required": ["schema_version", "profile_type", "profile", "recommended_docs"],
   "properties": {
     "schema_version": { "type": "integer", "minimum": 1, "maximum": 2 },
     "profile_type": { "enum": ["genre"] },

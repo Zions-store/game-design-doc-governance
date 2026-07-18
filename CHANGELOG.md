@@ -6,37 +6,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
-## [2.0.0-rc.2] - 2026-07-18 — Release Candidate 2
+## [2.0.0-rc.3] - 2026-07-18 — Release Candidate 3
 
-### Fixed (since rc.1)
-- **Schema version constraints**: `genre_profile.schema.json` and `project_profile.schema.json` `maximum` raised from 1 to 2 to match v2 contract.
-- **engine.py SCRIPT_VERSION**: synced from stale `v1.7.0-generic` to `v2.0.0-rc.2-generic`.
-- **Scaffold path traversal**: raw `../` patterns now detected before normpath; fortified against normalization bypass.
-- **Migration guide**: corrected to note that `project_fact_checks` and `language_pack` are schema fields (runtime consumption planned for v2.1). Existing `consistency_checks` and `boundary_checks` still work.
-- **Document counts**: README and MANIFEST updated (27 skeletons, 12 docs guides).
-
-### Retained from rc.1
-- Engine v2 default (`--engine 2`). v1 still available (`--engine 1`).
-- Scaffold v2 safety defaults (non-empty protection, explicit optional docs, atomic writes where applicable).
-- `docs/v2_contract.md` frozen specifications.
-- `docs/migration_v1_to_v2.md` migration guide.
-- v1 support through v2.x; earliest v1 removal: v3.0.0.
+### Fixed (since rc.2)
+- **Schema enforcement**: `profile_type` now required in both genre and project profile schemas.
+- **Scaffold v2 output**: generated `Project_Profile.yaml` now includes `profile_type: project` and `profile.language` fields.
+- **`--dry-run` safety**: validation (non-empty dir, path traversal) now runs before preview output.
+- **`_build_plan` dedup**: `Design_Document.md` and `STYLE_GUIDE.md` no longer duplicated in plan when already in enabled docs.
+- **Migration checklist**: removed `project_fact_checks` and `language_pack` items (runtime consumption planned for v2.1). Kept `consistency_checks`/`boundary_checks` in project profile unchanged.
+- **`--engine` help**: documented that full v2 Finding/Waiver/State/Report pipeline is v2.1; engine v2 currently provides config validation + structured waiver schema.
+- **Doc counts**: README and MANIFEST updated (27 skeletons, 21 gaps, 12 docs guides).
 
 ### Release Gate (for v2.0.0 formal)
-- [x] ThirdPersonTest regression EQUIVALENT (P0=0/P1=0/P2=0/P3=1)
-- [x] Migration guide corrected
-- [x] v2 contract frozen + schema aligned
-- [x] Scaffold traversal fixed
-- [x] Version markers synced across all files
-- [ ] Full pytest suite
-- [ ] Wheel install test
+- [x] ThirdPersonTest regression EQUIVALENT
+- [x] Schema enforces profile_type + v2 contract
+- [x] Scaffold generates v2-compliant profiles
+- [x] Migration guide accurate
+- [x] --dry-run validation order fixed
+- [ ] Full pytest suite + wheel install
+- [ ] All 10 profiles scaffold→audit E2E
+
+## [2.0.0-rc.2] - 2026-07-18 — Release Candidate 2 (superseded)
 
 ## [2.0.0-rc.1] - 2026-07-18 — Release Candidate 1 (superseded)
-
-### Changed
-- Engine v2 default, scaffold v2 safety defaults.
-- `docs/migration_v1_to_v2.md` added.
-- `docs/v2_contract.md` frozen.
 
 ## [1.9.0] - 2026-07-18 — v2 Contract Freeze
 

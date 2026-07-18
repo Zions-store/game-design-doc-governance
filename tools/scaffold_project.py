@@ -160,6 +160,17 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
     # Plan output
     plan = _build_plan(profile, enabled, out_dir, project_name, language)
     if dry_run:
+        # Validate first, then preview
+        if not legacy:
+            if os.path.exists(out_dir) and not _is_empty_dir(out_dir) and not force:
+                print(f"ERROR: Output directory is not empty: {out_dir}", file=sys.stderr)
+                print("Use --force to overwrite, or --dry-run to preview.", file=sys.stderr)
+                return False
+            try:
+                _validate_path(out_dir)
+            except ValueError as e:
+                print(f"ERROR: {e}", file=sys.stderr)
+                return False
         print(f"[DRY RUN] Would create {len(plan)} file(s) in {out_dir}:")
         for p in plan:
             print(f"  {p}")
@@ -206,9 +217,15 @@ def _build_plan(profile, enabled, out_dir, project_name, language):
     plan = []
     for doc in enabled:
         plan.append(os.path.join(out_dir, doc))
-    plan.append(os.path.join(out_dir, "Design_Document.md"))
-    plan.append(os.path.join(out_dir, "STYLE_GUIDE.md"))
-    plan.append(os.path.join(out_dir, "Project_Profile.yaml"))
+    # Always scaffold Design_Document, STYLE_GUIDE, Project_Profile
+    out = os.path.join(out_dir, "Design_Document.md")
+    if out not in plan:
+        plan.append(out)
+    out = os.path.join(out_dir, "STYLE_GUIDE.md")
+    if out not in plan:
+        plan.append(out)
+    out = os.path.join(out_dir, "Project_Profile.yaml")
+    plan.append(out)
     return plan
 
 
@@ -285,6 +302,8 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang):
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
         text = text.replace("enabled_docs: []", f"enabled_docs:\n{docs_yaml}")
+        text = text.replace("schema_version: 1",
+                           f"schema_version: 1\nprofile_type: project\n\nprofile:\n  language: {language}")
         _safe_write(prof_out, text)
 
 
