@@ -84,11 +84,13 @@ def _safe_copy(src: str, dst: str):
 
 def _validate_path(out_dir: str) -> str:
     """Prevent directory traversal. Returns normalized absolute path."""
-    resolved = os.path.normpath(os.path.abspath(out_dir))
-    # Must be an absolute path with no '..' traversal beyond root
-    if '..' in resolved.split(os.sep):
+    # Check BEFORE normalization — raw '..' patterns are the threat
+    raw = out_dir.replace('\\', '/')
+    if '/../' in f'/{raw}/' or raw.startswith('../'):
         raise ValueError(f"Path contains traversal: {out_dir}")
-    # Must not be filesystem root
+    resolved = os.path.normpath(os.path.abspath(out_dir))
+    if '..' in resolved.split(os.sep):
+        raise ValueError(f"Path resolves with traversal: {out_dir} -> {resolved}")
     if resolved == os.sep or (os.path.splitdrive(resolved)[1] in ('\\', '/')):
         raise ValueError(f"Path must not be filesystem root: {out_dir}")
     return resolved

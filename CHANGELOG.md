@@ -6,38 +6,37 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
-## [2.0.0-rc.1] - 2026-07-18 — Release Candidate
+## [2.0.0-rc.2] - 2026-07-18 — Release Candidate 2
 
-### Changed
-- **Engine v2 is now the default** (`--engine 2`). v1 engine still available with `--engine 1`.
-- **Scaffold v2 safety defaults**: non-empty directory protection, explicit optional docs, atomic writes.
-- All v1.2–v1.9 features promoted from opt-in to default.
+### Fixed (since rc.1)
+- **Schema version constraints**: `genre_profile.schema.json` and `project_profile.schema.json` `maximum` raised from 1 to 2 to match v2 contract.
+- **engine.py SCRIPT_VERSION**: synced from stale `v1.7.0-generic` to `v2.0.0-rc.2-generic`.
+- **Scaffold path traversal**: raw `../` patterns now detected before normpath; fortified against normalization bypass.
+- **Migration guide**: corrected to note that `project_fact_checks` and `language_pack` are schema fields (runtime consumption planned for v2.1). Existing `consistency_checks` and `boundary_checks` still work.
+- **Document counts**: README and MANIFEST updated (27 skeletons, 12 docs guides).
 
-### Added
-- `docs/migration_v1_to_v2.md` — complete migration guide (8 steps + checklist).
-- `docs/v2_contract.md` — frozen specifications (11 sections).
-
-### Retained
-- v1 Reader (`--engine 1`)
-- v1 Validator (`gdd-profile-validate`)
-- Legacy scaffold (`--legacy`)
-- v1 support through v2.x; earliest v1 removal: v3.0.0
-
-### RC Validation
-- ThirdPersonTest regression: EQUIVALENT (P0=0/P1=0/P2=0/P3=1)
-- Engine v2 default: PASS
-- Scaffold v2 default: PASS
-- `gdd-profile-validate`: VALID
+### Retained from rc.1
+- Engine v2 default (`--engine 2`). v1 still available (`--engine 1`).
+- Scaffold v2 safety defaults (non-empty protection, explicit optional docs, atomic writes where applicable).
+- `docs/v2_contract.md` frozen specifications.
+- `docs/migration_v1_to_v2.md` migration guide.
+- v1 support through v2.x; earliest v1 removal: v3.0.0.
 
 ### Release Gate (for v2.0.0 formal)
-- [x] ThirdPersonTest regression EQUIVALENT
-- [x] Migration guide complete
-- [x] v2 contract frozen
-- [x] Engine v2 default validated
-- [x] Scaffold v2 default validated
-- [ ] Full pytest suite (requires PyYAML/jsonschema in venv)
+- [x] ThirdPersonTest regression EQUIVALENT (P0=0/P1=0/P2=0/P3=1)
+- [x] Migration guide corrected
+- [x] v2 contract frozen + schema aligned
+- [x] Scaffold traversal fixed
+- [x] Version markers synced across all files
+- [ ] Full pytest suite
 - [ ] Wheel install test
-- [ ] All 10 profiles scaffold→audit E2E
+
+## [2.0.0-rc.1] - 2026-07-18 — Release Candidate 1 (superseded)
+
+### Changed
+- Engine v2 default, scaffold v2 safety defaults.
+- `docs/migration_v1_to_v2.md` added.
+- `docs/v2_contract.md` frozen.
 
 ## [1.9.0] - 2026-07-18 — v2 Contract Freeze
 

@@ -6,7 +6,7 @@
   "type": "object",
   "required": ["schema_version", "enabled_docs"],
   "properties": {
-    "schema_version": { "type": "integer", "minimum": 1, "maximum": 1 },
+    "schema_version": { "type": "integer", "minimum": 1, "maximum": 2 },
     "profile_type": { "enum": ["project"] },
     "profile": {
       "type": "object",

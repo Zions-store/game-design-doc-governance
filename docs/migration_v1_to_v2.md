@@ -51,55 +51,20 @@ If your genre profile (in `profiles/genre/`) contains `enabled_docs`, move it to
 
 ### 4. Move project facts out of genre profile
 
-If your genre profile contains `consistency_checks` with project-specific facts (character names, faction names, lore terms), move them to `project_fact_checks` in your project profile.
+> **Note**: `project_fact_checks` and `language_pack` are declared schema fields in v2.0.0-rc.
+> The audit engine currently runs `consistency_checks` and `boundary_checks` from the project profile.
+> Full runtime consumption of `project_fact_checks` and `language_pack` is planned for v2.1.
+> For now, keep your existing `consistency_checks` in your project profile unchanged.
 
-**Before** (genre profile — WRONG in v2):
-```yaml
-consistency_checks:
-  - id: FACT-SHEPHERD-HUMAN
-    term: 改造人
-    require_negation_near: [不是, 并非]
-    level: P0
-```
+If your genre profile contains `consistency_checks` with project-specific facts, ensure they are in your
+project profile (not the genre profile). Genre profiles must NOT contain project-specific fact checks.
 
-**After** (project profile — CORRECT):
-```yaml
-project_fact_checks:
-  - id: FACT-SHEPHERD-HUMAN
-    authority: Character_Sheets.md
-    forbid_terms: [改造人]
-    require_negation_near: [不是, 并非, 非]
-    level: P0
-    message: "Protagonist may be described as cyborg (改造人) without negation."
-```
+### 5. Language rules: future path
 
-### 5. Move Chinese regex/terms to language pack
-
-If your genre profile contains language-specific regex patterns or resource terms, move them to a language pack.
-
-**Before** (in genre profile):
-```yaml
-boundary_checks:
-  - id: COLLECTIBLES-NO-RESOURCE
-    forbid_any: [电池, 药品, 食物, 零件, 净水, 碎片]
-```
-
-**After** (in `rules/language_packs/zh-CN.yaml`):
-```yaml
-resource_terms:
-  - 电池
-  - 药品
-  - 食物
-  - 零件
-  - 净水
-  - 碎片
-```
-
-Reference in project profile:
-```yaml
-language: zh-CN
-language_pack: rules/language_packs/zh-CN.yaml
-```
+> **Note**: `language_pack` field is declared but not yet consumed by the audit engine at runtime.
+> Boundary checks with `forbid_regex`/`forbid_any` in your project profile continue to work
+> as before. The `rules/language_packs/` directory and v1.8 `i18n.py` are infrastructure
+> for future language-independent checks planned for v2.1.
 
 ### 6. Update profile paths in scripts
 
