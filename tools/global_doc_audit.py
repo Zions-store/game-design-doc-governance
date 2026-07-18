@@ -29,7 +29,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v1.4.0-generic"
+SCRIPT_VERSION = "v1.5.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -494,7 +494,7 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
     # ─── v2 engine: pre-validate config ───────────────────
     if engine_version >= 2:
         try:
-            from game_design_doc_governance.engine import validate_profile
+            from game_design_doc_governance.engine import validate_profile, WaiverManager
         except ImportError:
             print("Warning: engine module not importable; falling back to v1 validation")
         else:
@@ -504,6 +504,12 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
                     add(ci.level, ci.rule, ci.message)
                 if any(ci.level in ("P0", "P1") for ci in config_issues):
                     return False
+
+            # v2 waiver manager: enforce (rule, file) binding + expires
+            wm = WaiverManager()
+            wm.load_from_profile(profile.get("exceptions", []))
+            # Store for later use after issues are collected
+            _v2_waiver_manager = wm
     if not style_path:
         # try profile paths or default
         style_path, _ = find_latest(root_dir, "STYLE_GUIDE.md")

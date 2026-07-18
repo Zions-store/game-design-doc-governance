@@ -8,4 +8,7 @@ and profile validator, plus the v2 audit engine core.
 v2 engine (engine.py) provides AuditContext, Finding, and config validation.
 """
 
-from game_design_doc_governance.engine import AuditContext, Finding, validate_profile
+from game_design_doc_governance.engine import (
+    AuditContext, Finding, Waiver, WaiverManager, StateManager,
+    validate_profile, render_report_v2, render_counts, render_verdict
+)

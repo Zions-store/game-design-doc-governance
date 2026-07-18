@@ -4,7 +4,20 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.5.0 Finding/State/Waiver/Report v2, or patch fixes._
+_Next: v1.6.0 Safe Scaffold v2 Preview, or patch fixes._
+
+## [1.5.0] - 2026-07-18 -- Finding/Waiver/State/Report v2
+
+### Added
+- **Stable Finding ID**: fingerprint based on (rule, file) pair, not message text. Wording changes no longer create false "new issues". Non-matching `make_id()` semantics for idempotent issue tracking.
+- **WaiverManager**: precise `(rule_id, file)` binding (not just global rule ID). `expires` field actually enforced — expired waivers auto-reactivate findings, reported separately.
+- **StateManager**: versioned `issue_state.jsonl` schema (`_schema: 1`), atomic writes via tempfile+rename, corruption detection per-line (invalid JSON → CORRUPT status, audit continues).
+- **Report v2** (`render_report_v2`): UTC ISO timestamps, Run ID, engine version, active/expired waiver counts, suppressed findings section with reasons.
+
+### Changed
+- `Finding.make_id()`: seed changed from `level|rule|file|message` → `level|rule|file`.
+- `tools/global_doc_audit.py` `--engine 2` now loads WaiverManager for structured exception handling.
+- Updated `__init__.py` exports: `Waiver`, `WaiverManager`, `StateManager`, `render_report_v2`.
 
 ## [1.4.0] - 2026-07-18 -- Audit Engine v2 Alpha
 
