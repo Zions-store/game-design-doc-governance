@@ -29,7 +29,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v1.3.0-generic"
+SCRIPT_VERSION = "v1.4.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -482,7 +482,7 @@ def write_issue_state(out_dir, active_issues, suppressed, prev, when):
 def run_audit(root_dir, out_dir, profile_path, style_path,
               strict=False, pedantic=False, write_history=True,
               json_only=False, md_only=False, baseline_path=None,
-              write_state=True, lang="en"):
+              write_state=True, lang="en", engine_version=1):
     global issues
     issues = []
     now = datetime.now()
@@ -490,6 +490,20 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
     audit_id = f"AUDIT-{now.strftime('%Y%m%d-%H%M')}"
 
     profile = load_profile(profile_path)
+
+    # ─── v2 engine: pre-validate config ───────────────────
+    if engine_version >= 2:
+        try:
+            from game_design_doc_governance.engine import validate_profile
+        except ImportError:
+            print("Warning: engine module not importable; falling back to v1 validation")
+        else:
+            config_issues = validate_profile(profile, strict=True)
+            if config_issues:
+                for ci in config_issues:
+                    add(ci.level, ci.rule, ci.message)
+                if any(ci.level in ("P0", "P1") for ci in config_issues):
+                    return False
     if not style_path:
         # try profile paths or default
         style_path, _ = find_latest(root_dir, "STYLE_GUIDE.md")
@@ -644,6 +658,8 @@ def main():
     ap.add_argument("--no-history", action="store_true")
     ap.add_argument("--no-state", action="store_true", help="Do not read/write issue_state.jsonl")
     ap.add_argument("--baseline", default=None, help="Baseline JSON to compare counts against")
+    ap.add_argument("--engine", type=int, default=1, choices=[1, 2],
+                    help="Engine version: 1=legacy (default), 2=strict config validation")
     args = ap.parse_args()
 
     if not os.path.isdir(args.root):
@@ -653,7 +669,8 @@ def main():
                        strict=args.strict, pedantic=args.pedantic or args.fail_on_p2,
                        write_history=not args.no_history,
                        json_only=args.json_only, md_only=args.md_only,
-                       baseline_path=args.baseline, write_state=not args.no_state)
+                       baseline_path=args.baseline, write_state=not args.no_state,
+                       engine_version=args.engine)
     sys.exit(0 if passed else 1)
 
 

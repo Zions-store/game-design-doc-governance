@@ -4,7 +4,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.4.0 Audit Engine v2 Alpha, or patch fixes._
+_Next: v1.5.0 Finding/State/Waiver/Report v2, or patch fixes._
+
+## [1.4.0] - 2026-07-18 -- Audit Engine v2 Alpha
+
+### Added
+- `src/game_design_doc_governance/engine.py` — v2 audit engine core with `AuditContext`, `Finding`, and `validate_profile()`.
+- `--engine 2` CLI flag: enables strict config validation before audit checks.
+- Config validation checks: missing `enabled_docs`, malformed `deprecated_terms`, `boundary_checks`, and `exceptions` entries.
+- `__init__.py` now exports `AuditContext`, `Finding`, and `validate_profile`.
+
+### Changed
+- `tools/global_doc_audit.py`: added `engine_version` parameter to `run_audit()` and `--engine` CLI arg. v2 engine validates profile structure before running checks; aborts on P0/P1 config issues.
+- v1 engine remains the default (`--engine 1`); all existing behavior unchanged.
 
 ## [1.3.0] - 2026-07-18 -- Doc-Module Coverage Release
 

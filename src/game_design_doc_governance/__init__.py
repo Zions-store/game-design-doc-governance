@@ -3,5 +3,9 @@
 """
 game-design-doc-governance - a reusable governance framework for game design
 documentation. This package provides console-script entry points for the auditor
-and profile validator; the canonical engine scripts remain in `tools/`.
+and profile validator, plus the v2 audit engine core.
+
+v2 engine (engine.py) provides AuditContext, Finding, and config validation.
 """
+
+from game_design_doc_governance.engine import AuditContext, Finding, validate_profile

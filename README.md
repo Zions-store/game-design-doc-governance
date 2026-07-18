@@ -147,7 +147,7 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v1.3.0 -- Doc-Module Coverage Release.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v1.4.0 -- Audit Engine v2 Alpha.** Ships: the generic data-driven auditor, 10 genre profiles,
 26 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
 validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
 regression fixtures (6 projects + pytest 22/22), and complete documentation
