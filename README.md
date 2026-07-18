@@ -147,11 +147,11 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v1.6.0 -- Safe Scaffold v2.** Ships: the generic data-driven auditor, 10 genre profiles,
-26 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
-validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
-regression fixtures (6 projects + pytest 22/22), and complete documentation
-(`docs/` 10 guides).
+**v1.7.0 -- Skeleton Coverage Release.** Ships: the generic data-driven auditor, 10 genre profiles,
+27 doc-module skeletons (22 additional doc names are known gaps), 9 modules, 6 templates,
+4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
+`issue_state.jsonl` state tracking, self-contained regression fixtures (6 projects + pytest 22/22),
+and complete documentation (`docs/` 10 guides).
 
 All interface surfaces are **frozen** in 1.x: the Profile schema (`schema_version: 1`),
 CLI (`gdd-audit`, `gdd-profile-validate`, `gdd-scaffold`), audit output format,

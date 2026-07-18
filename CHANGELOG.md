@@ -4,7 +4,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v1.7.0 Skeleton coverage completeness, or patch fixes._
+_Next: v1.8.0 Any-language generation engineering, or patch fixes._
+
+## [1.7.0] - 2026-07-18 -- Skeleton Coverage Release
+
+### Added
+- `Monetization_Design.md.tmpl` — 8-section skeleton (revenue model, premium currency, battle pass, loot boxes, subscriptions, advertising, store, responsible monetization). Highest-cited missing doc across profiles.
+- Full skeleton coverage audit: 27 of 48 unique doc names now have formal skeletons. 22 are documented gaps (no skeleton, listed in profiles).
+
+### Changed
+- `SKILL.md`: doc_module count updated to 27, with note about 22 known gaps.
+- `README.md`: Status updated with 27 skeletons, safe scaffold features.
 
 ## [1.6.0] - 2026-07-18 -- Safe Scaffold v2
 
