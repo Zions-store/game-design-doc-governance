@@ -234,18 +234,35 @@ def _build_plan(profile, enabled, out_dir, project_name, language):
     return plan
 
 
+def _validate_doc_name(doc: str) -> str:
+    """Reject doc names that would traverse the output directory."""
+    name = doc.strip()
+    if not name:
+        raise ValueError("Empty document name")
+    if '/' in name or '\\' in name:
+        raise ValueError(f"Document name contains path separator: {doc}")
+    if name.startswith('..') or '/../' in name:
+        raise ValueError(f"Document name contains traversal: {doc}")
+    if not name.endswith('.md') and not name.endswith('.yaml'):
+        raise ValueError(f"Document name must end in .md or .yaml: {doc}")
+    return name
+
+
 def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US"):
     os.makedirs(out_dir, exist_ok=True)
 
     # Copy doc_module skeletons
     for doc in enabled:
+        _validate_doc_name(doc)
         base = doc.replace(".md", "")
         src = os.path.join(DOC_MODULES, base + ".md.tmpl")
         dst = os.path.join(out_dir, doc)
+        # Double-check: resolved dst must be inside out_dir
+        if not os.path.abspath(dst).startswith(os.path.abspath(out_dir)):
+            raise ValueError(f"Document path escapes output directory: {doc}")
         if os.path.exists(src):
             _safe_copy(src, dst)
         else:
-            # Mark as unsupported - no TODO fallback
             with open(dst, "w", encoding="utf-8") as f:
                 f.write(f"# {base}\n\nThis document has no formal skeleton yet.\n"
                         f"Refer to the STYLE_GUIDE for authority and boundary rules.\n")
@@ -303,15 +320,11 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US
             "{{PROFILE_NAME}}": profile.get("profile", {}).get("name", ""),
             "{{PRIMARY_TYPE}}": profile.get("profile", {}).get("primary_type", ""),
             "{{SNAPSHOT_OR_LOG_FILE}}": "Design_Document.docx",
+            "{{LANGUAGE}}": language,
         })
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
         text = text.replace("enabled_docs: []", f"enabled_docs:\n{docs_yaml}")
-        # Add v2 fields: profile_type at top level, language inside existing profile block
-        text = text.replace("schema_version: 1",
-                           f"schema_version: 1\nprofile_type: project")
-        # Inject language into the existing profile: mapping safely
-        text = text.replace("profile:\n  name:", f"profile:\n  language: {language}\n  name:")
         _safe_write(prof_out, text)
 
 

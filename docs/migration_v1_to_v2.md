@@ -29,12 +29,13 @@ gdd-audit --root "<project>/Design Document/md file" \
 
 Record the baseline: `P0=N P1=N P2=N P3=N INFO=N`.
 
-### 2. Add `profile_type` to your Project_Profile.yaml
+### 2. Add `profile_type` and `profile.language` to your Project_Profile.yaml
 
 ```yaml
 schema_version: 1
 profile_type: project   # ← add this line
 profile:
+  language: en-US        # ← add this line (BCP 47 tag)
   name: My Project
   ...
 ```

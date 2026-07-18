@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "game-design-doc-governance"
-version = "2.0.0-rc.7"
+version = "2.0.0-rc.8"
 description = "Reusable governance framework for game design documentation"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}

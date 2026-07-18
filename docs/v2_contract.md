@@ -25,7 +25,7 @@
 | `audit_focus` | array | | |
 | `suggested_doc_modules` | array | | |
 | `boundary_checks` | array | | Rule type references only (no project facts) |
-| `consistency_checks` | array | | Must be empty `[]` in genre profiles |
+| `consistency_checks` | array | | Must be empty `[]` or absent in genre profiles |
 | `deprecated_terms` | array | | Must be empty `[]` in genre profiles |
 
 **Forbidden in genre profiles**:

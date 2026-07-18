@@ -8,17 +8,28 @@ _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
 
 
+
+## [2.0.0-rc.8] - 2026-07-18 — Release Candidate 8
+
+### Fixed (since rc.7)
+- **P0 scaffold double-inject**: template already has profile_type: project + language: {{LANGUAGE}}; scaffold now replaces {{LANGUAGE}} and no longer re-injects.
+- **P0 doc name traversal**: _validate_doc_name() rejects path separators, .., and non-md/yaml names. Output path containment verified after resolution.
+- **Contract**: consistency_checks clarified as "empty [] or absent" in genre profiles.
+- **Migration guide**: Step 2 now requires both profile_type: project and profile.language.
+- **CHANGELOG**: control characters (0x07, 0x0C) removed.
+- **Counts**: README/SKILL synced to 24 skeletons covering 48 profile doc names.
+
 ## [2.0.0-rc.7] - 2026-07-18 — Release Candidate 7
 
 ### Fixed (since rc.6)
 - **Template**: PROJECT_PROFILE_TEMPLATE.yaml now includes profile_type: project and profile.language.
 - **Schema**: Project Schema requires profile object at root level (closes bypass).
-- **Schema**: Genre Schema removed enabled_docs, consistency_checks, deprecated_terms, udit, ile_versioning, 
-on_authority_files — now rejected by dditionalProperties: false.
+- **Schema**: Genre Schema removed enabled_docs, consistency_checks, deprecated_terms, udit, ile_versioning, 
+on_authority_files — now rejected by dditionalProperties: false.
 - **Profile**: open_world_narrative_tactical_shooter genre profile cleaned of remaining project-only fields.
 - **Contract**: Finding/State/Report/Waiver sections updated to → v2.1; Migration Path corrected; skeleton count 24/48.
 - **Fixtures**: 6 test fixture Project_Profile.yaml files updated with profile_type: project + profile.language: en-US.
-- **Language regex**: expanded to accept broad BCP-47 variants (zh-Hans, es-419, r-CA).
+- **Language regex**: expanded to accept broad BCP-47 variants (zh-Hans, es-419, r-CA).
 - **run_audit()**: Python API default engine_version 1→2 (matches CLI).
 
 ## [2.0.0-rc.6] - 2026-07-18 — Release Candidate 6
