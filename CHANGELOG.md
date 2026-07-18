@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.2 — expand maintained language packs and evaluate an explicit language-pack fact-reference contract._
 
-## [2.1.0] - 2026-07-19 — Release-ready Runtime Pipeline
+## [2.1.0] - 2026-07-19 — Formal Release
 
 ### Added
 
