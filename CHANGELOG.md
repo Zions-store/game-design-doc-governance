@@ -4,24 +4,40 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.1.x feature releases, or patch fixes._
+_Next: v2.0.0 formal release after RC validation, or patch fixes._
 
-## [2.0.0] - 2026-07-18 — Stable Release
+## [2.0.0-rc.1] - 2026-07-18 — Release Candidate
 
 ### Changed
 - **Engine v2 is now the default** (`--engine 2`). v1 engine still available with `--engine 1`.
 - **Scaffold v2 safety defaults**: non-empty directory protection, explicit optional docs, atomic writes.
 - All v1.2–v1.9 features promoted from opt-in to default.
 
+### Added
+- `docs/migration_v1_to_v2.md` — complete migration guide (8 steps + checklist).
+- `docs/v2_contract.md` — frozen specifications (11 sections).
+
 ### Retained
 - v1 Reader (`--engine 1`)
 - v1 Validator (`gdd-profile-validate`)
-- v1→v2 Migrator (manual: add `profile_type`, move `enabled_docs`, split facts)
 - Legacy scaffold (`--legacy`)
 - v1 support through v2.x; earliest v1 removal: v3.0.0
 
-### Contract
-- See `docs/v2_contract.md` for the complete frozen specification (11 sections).
+### RC Validation
+- ThirdPersonTest regression: EQUIVALENT (P0=0/P1=0/P2=0/P3=1)
+- Engine v2 default: PASS
+- Scaffold v2 default: PASS
+- `gdd-profile-validate`: VALID
+
+### Release Gate (for v2.0.0 formal)
+- [x] ThirdPersonTest regression EQUIVALENT
+- [x] Migration guide complete
+- [x] v2 contract frozen
+- [x] Engine v2 default validated
+- [x] Scaffold v2 default validated
+- [ ] Full pytest suite (requires PyYAML/jsonschema in venv)
+- [ ] Wheel install test
+- [ ] All 10 profiles scaffold→audit E2E
 
 ## [1.9.0] - 2026-07-18 — v2 Contract Freeze
 

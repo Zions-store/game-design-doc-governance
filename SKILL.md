@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 2.0.0
+version: 2.0.0-rc.1
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
