@@ -29,3 +29,13 @@ resource_terms:
   - parts
   - clean water
   - fragments
+
+project_fact_terms:
+  cyborg:
+    - cyborg
+    - augments
+    - nanites in bloodstream
+  abandoned:
+    - discarded
+    - betrayed by allies
+    - abandoned
