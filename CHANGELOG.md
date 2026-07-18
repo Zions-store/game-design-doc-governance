@@ -6,6 +6,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.0.0 formal release after RC validation, or patch fixes._
 
+
+## [2.0.0-rc.6] - 2026-07-18 — Release Candidate 6
+
+### Fixed (since rc.5)
+- **Contract sync**: v2_contract.md Section 9 + Version Gate updated — full Engine v2 pipeline (WaiverManager/StateManager/Report v2) moved to v2.1.
+- **YAML safety**: scaffold --language now validated as BCP-47 tag before injection; invalid values fall back to en-US.
+- **Migration guide**: Quick Summary updated — removed project_fact_checks/language_pack from immediate migration steps.
+- **Schema**: project profile now requires profile.name + profile.language.
+
 ## [2.0.0-rc.5] - 2026-07-18 — Release Candidate 5
 
 ### Fixed (since rc.4)

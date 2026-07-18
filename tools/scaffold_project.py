@@ -20,6 +20,7 @@ v1 legacy (--legacy): restores pre-1.6 behavior (all optional docs, no safety).
 """
 
 import os
+import re
 import sys
 import shutil
 import argparse
@@ -123,6 +124,10 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
         language = normalize_language(language)
     except ImportError:
         pass
+    # Safety: restrict language value to prevent YAML injection
+    if not re.match(r'^[a-z]{2,3}(-[A-Z]{2,3})?$', language):
+        print(f"Warning: language '{language}' is not a valid BCP-47 tag; falling back to en-US", file=sys.stderr)
+        language = "en-US"
 
     # 1. Load the genre profile
     try:

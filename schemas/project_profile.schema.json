@@ -10,6 +10,7 @@
     "profile_type": { "enum": ["project"] },
     "profile": {
       "type": "object",
+      "required": ["name", "language"],
       "properties": {
         "name": { "type": "string" },
         "profile_name": { "type": "string" },

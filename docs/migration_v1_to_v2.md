@@ -7,10 +7,12 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 | Change | Action |
 |--------|--------|
 | `profiles/*.yaml` → `profiles/genre/*.yaml` | Update `--profile` paths in your scripts |
-| Genre profile cleanup | Move `enabled_docs` and project facts to your `Project_Profile.yaml` |
-| Language rules separated | Move Chinese/English terms to `rules/language_packs/` |
+| Genre profile cleanup | Move `enabled_docs` to your `Project_Profile.yaml` |
+| `profile_type: project` required | Add to your Project_Profile.yaml |
 | Engine v2 default | `--engine 2` is now default; `--engine 1` for rollback |
 | Scaffold safety | Non-empty dirs refused without `--force`; optional docs only with `--enable-doc` |
+
+> **v2.1 planned**: `project_fact_checks`, `language_pack` runtime consumption, and full Engine v2 Finding/Waiver/State/Report pipeline.
 
 ---
 

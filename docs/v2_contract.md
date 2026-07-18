@@ -224,13 +224,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 ## 9. Audit Engine v2
 
 - `--engine 1`: v1 legacy path (global mutable state, no config pre-validation).
-- `--engine 2`: v2 path:
-  - Pre-validates profile structure
-  - Loads WaiverManager from `exceptions`
-  - Structured Finding with stable IDs
-- v2 will become the default in v2.0.0.
-
----
+- `--engine 2` (default in v2.0): Pre-validates profile structure. The full Finding/Waiver/State/Report pipeline is **v2.1**.
+  - v2.0: config validation + structured waiver schema + `--engine 2` default.
+  - v2.1: WaiverManager.apply(), StateManager, render_report_v2 wired into the actual audit chain.
 
 ## 10. v1 Compatibility & Deprecation
 
@@ -268,5 +264,6 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 ## Version Gate
 
 - **v1.9.0**: Contract freeze. No new features.
-- **v2.0.0-rc**: Default switch. v2 becomes default for all new outputs.
-- **v2.0.0**: Formal release. v1 reader retained, v1 features stopped.
+- **v2.0.0-rc**: Default switch. `--engine 2` default, scaffold v2 safety, profile_type required.
+- **v2.0.0**: Formal release. v1 reader retained. Full engine pipeline (Finding/Waiver/State/Report) → v2.1.
+- **v2.1**: Engine v2 complete — WaiverManager, StateManager, Report v2 wired into audit chain.
