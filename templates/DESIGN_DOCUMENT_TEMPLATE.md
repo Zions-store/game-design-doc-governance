@@ -18,13 +18,7 @@
 
 | System | One-line summary | Authority document |
 |---|---|---|
-| Gameplay | {{GAMEPLAY_SUMMARY}} | [Gameplay_Systems.md](Gameplay_Systems.md) |
-| Missions/Events | {{MISSION_SUMMARY}} | [Mission_Design.md](Mission_Design.md) |
-| World/Map | {{WORLD_SUMMARY}} | [World_Design.md](World_Design.md) |
-| Narrative | {{NARRATIVE_SUMMARY}} | [Narrative_Bible.md](Narrative_Bible.md) |
-| Characters | {{CHARACTER_SUMMARY}} | [Character_Sheets.md](Character_Sheets.md) |
-| Resource/Economy | {{RESOURCE_SUMMARY}} | [Resource_And_Economy.md](Resource_And_Economy.md) |
-| Collectibles | {{COLLECTIBLES_SUMMARY}} | [Collectibles_Design.md](Collectibles_Design.md) |
+{{SYSTEM_SUMMARY_ROWS}}
 
 Add/remove rows to match the Profile's `enabled_docs`.
 

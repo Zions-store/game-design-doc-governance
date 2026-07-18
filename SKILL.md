@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 2.0.0-rc.8
+version: 2.0.0
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
@@ -101,8 +101,8 @@ python tools/global_doc_audit.py \
 
 - `templates/PROJECT_PROFILE_TEMPLATE.yaml`  - per-project profile skeleton.
 - `templates/STYLE_GUIDE_TEMPLATE.md`  - 15-chapter document constitution, with placeholders.
-- `profiles/genre/*.yaml`  - 10 genre profiles (the current project ships as the first, and as the regression fixture).
-- `doc_modules/*.md.tmpl`  - 24 per-document skeletons covering 48 unique profile doc names.
+- `profiles/genre/*.yaml`  - 10 reusable genre profiles; project regression fixtures live under `tests/fixtures/`.
+- `doc_modules/*.md.tmpl`  - 27 skeleton files; 24 cover the 48 unique profile doc names and 24 remain documented gaps.
 - `tools/global_doc_audit.py`  - the generic, data-driven auditor.
 - `tests/expected/current_project_baseline.json`  - regression baseline.
 

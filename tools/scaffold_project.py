@@ -25,10 +25,22 @@ import sys
 import shutil
 import argparse
 import tempfile
+import json
 
 SKILL_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DOC_MODULES = os.path.join(SKILL_ROOT, "doc_modules")
-TEMPLATES = os.path.join(SKILL_ROOT, "templates")
+
+
+def _asset_directory(name: str) -> str:
+    """Resolve source assets in a checkout or packaged assets in a wheel."""
+    try:
+        from game_design_doc_governance.profile_schema import asset_directory
+        return str(asset_directory(name))
+    except (ImportError, FileNotFoundError):
+        return os.path.join(SKILL_ROOT, name)
+
+
+DOC_MODULES = _asset_directory("doc_modules")
+TEMPLATES = _asset_directory("templates")
 
 LANGS = {
     "en-US": {
@@ -56,13 +68,20 @@ LANGS = {
 }
 
 CREATED = []  # Track created paths for cleanup
+CREATED_DIRS = []
+
+
+def _ensure_dir(path: str):
+    if path and not os.path.isdir(path):
+        os.makedirs(path, exist_ok=True)
+        CREATED_DIRS.append(path)
 
 
 def _safe_write(path: str, content: str):
     """Atomic write via temp file + rename."""
     d = os.path.dirname(path)
     if d:
-        os.makedirs(d, exist_ok=True)
+        _ensure_dir(d)
     fd, tmp = tempfile.mkstemp(dir=d or ".", prefix=".scaffold_")
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as f:
@@ -76,10 +95,20 @@ def _safe_write(path: str, content: str):
 
 
 def _safe_copy(src: str, dst: str):
+    """Atomically copy a skeleton to its destination."""
     d = os.path.dirname(dst)
     if d:
-        os.makedirs(d, exist_ok=True)
-    shutil.copy2(src, dst)
+        _ensure_dir(d)
+    fd, tmp = tempfile.mkstemp(dir=d or ".", prefix=".scaffold_")
+    try:
+        with os.fdopen(fd, "wb") as target, open(src, "rb") as source:
+            shutil.copyfileobj(source, target)
+        shutil.copystat(src, tmp)
+        os.replace(tmp, dst)
+    except OSError:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
     CREATED.append(dst)
 
 
@@ -111,23 +140,53 @@ def _is_empty_dir(path: str) -> bool:
     return len(os.listdir(path)) == 0
 
 
+def _yaml_quoted_content(value: object) -> str:
+    """Escape a scalar that replaces a placeholder inside YAML double quotes."""
+    return json.dumps(str(value), ensure_ascii=False)[1:-1]
+
+
+def _normalize_doc_names(docs):
+    normalized = []
+    seen = set()
+    for doc in docs:
+        name = _validate_doc_name(doc)
+        if name not in seen:
+            normalized.append(name)
+            seen.add(name)
+    return normalized
+
+
+def _gdd_system_rows(enabled):
+    rows = []
+    for doc in enabled:
+        if doc in {"Design_Document.md", "STYLE_GUIDE.md", "Project_Profile.yaml"}:
+            continue
+        title = doc.removesuffix(".md").replace("_", " ")
+        rows.append(f"| {title} |  | [{doc}]({doc}) |")
+    return "\n".join(rows) or "| No sub-document selected |  |  |"
+
+
 def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-US",
              dry_run=False, force=False, extra_docs=None, disabled_docs=None,
              legacy=False):
+    CREATED.clear()
+    CREATED_DIRS.clear()
     extra_docs = extra_docs or []
     disabled_docs = disabled_docs or []
-    lang = LANGS.get(language, LANGS["en-US"])
 
     # Normalize language for any-language support
     try:
         from game_design_doc_governance.i18n import normalize_language
+        from game_design_doc_governance.profile_schema import validate_language_tag
         language = normalize_language(language)
     except ImportError:
-        pass
-    # Safety: restrict language value to prevent YAML injection (accepts broad BCP-47 variants)
-    if not re.match(r'^[a-z]{2,4}(-[A-Z][a-z]{2,4})?(-[A-Z]{2,4})?$', language):
-        print(f"Warning: language '{language}' is not a valid BCP-47 tag; falling back to en-US", file=sys.stderr)
+        validate_language_tag = lambda value: bool(re.fullmatch(
+            r"[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?", value
+        ))
+    if not validate_language_tag(language):
+        print(f"Warning: language '{language}' is not a supported language tag; falling back to en-US", file=sys.stderr)
         language = "en-US"
+    lang = LANGS.get(language, LANGS["en-US"])
 
     # 1. Load the genre profile
     try:
@@ -146,6 +205,12 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
     recommended = profile.get("recommended_docs") or profile.get("enabled_docs") or []
     optional = profile.get("optional_docs") or []
     profile_disabled = profile.get("disabled_docs") or []
+    required_docs = {"Design_Document.md", "STYLE_GUIDE.md"}
+    requested_disabled = {str(doc).strip() for doc in disabled_docs + profile_disabled}
+    forbidden_disabled = required_docs & requested_disabled
+    if forbidden_disabled:
+        print(f"ERROR: Required documents cannot be disabled: {sorted(forbidden_disabled)}", file=sys.stderr)
+        return False
 
     # Compute enabled docs
     if legacy:
@@ -158,42 +223,31 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
                 enabled.append(od)
     # Remove explicitly disabled
     enabled = [d for d in enabled if d not in disabled_docs and d not in profile_disabled]
-    # Dedupe, preserve order
-    seen = set()
-    enabled = [d for d in enabled if not (d in seen or seen.add(d))]
+    try:
+        enabled = _normalize_doc_names(enabled)
+    except ValueError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        return False
 
-    # Plan output
-    plan = _build_plan(profile, enabled, out_dir, project_name, language)
-    if dry_run:
-        # Validate first, then preview
-        if not legacy:
-            if os.path.exists(out_dir) and not _is_empty_dir(out_dir) and not force:
-                print(f"ERROR: Output directory is not empty: {out_dir}", file=sys.stderr)
-                print("Use --force to overwrite, or --dry-run to preview.", file=sys.stderr)
-                return False
-            try:
-                _validate_path(out_dir)
-            except ValueError as e:
-                print(f"ERROR: {e}", file=sys.stderr)
-                return False
-        print(f"[DRY RUN] Would create {len(plan)} file(s) in {out_dir}:")
-        for p in plan:
-            print(f"  {p}")
-        print(f"\nEnabled docs ({len(enabled)}): {enabled}")
-        return True
-
-    # Directory safety check (v2)
     if not legacy:
         if os.path.exists(out_dir) and not _is_empty_dir(out_dir) and not force:
             print(f"ERROR: Output directory is not empty: {out_dir}", file=sys.stderr)
             print("Use --force to overwrite, or --dry-run to preview.", file=sys.stderr)
             return False
-        # Path boundary check
         try:
-            _validate_path(out_dir)
+            out_dir = _validate_path(out_dir)
         except ValueError as e:
             print(f"ERROR: {e}", file=sys.stderr)
             return False
+
+    # Plan output
+    plan = _build_plan(profile, enabled, out_dir, project_name, language)
+    if dry_run:
+        print(f"[DRY RUN] Would create {len(plan)} file(s) in {out_dir}:")
+        for p in plan:
+            print(f"  {p}")
+        print(f"\nEnabled docs ({len(enabled)}): {enabled}")
+        return True
 
     # Execute plan
     try:
@@ -205,16 +259,17 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
 
     # Audit directory
     audit_dir = os.path.join(os.path.dirname(out_dir), "audit")
-    os.makedirs(audit_dir, exist_ok=True)
+    _ensure_dir(audit_dir)
     readme = os.path.join(audit_dir, "README.md")
     if not os.path.exists(readme):
-        with open(readme, "w", encoding="utf-8") as f:
-            f.write("# Audit\n\nRun `gdd-audit` here after populating the design documents.\n")
+        _safe_write(readme, "# Audit\n\nRun `gdd-audit` here after populating the design documents.\n")
 
     actual = sum(1 for p in plan if os.path.exists(p)) if not dry_run else len(plan)
     print(f"Scaffolded project '{project_name}' in {out_dir}")
     print(f"  enabled docs: {len(enabled)}")
     print("  Next: populate docs → run gdd-audit")
+    CREATED.clear()
+    CREATED_DIRS.clear()
     return True
 
 
@@ -236,10 +291,12 @@ def _build_plan(profile, enabled, out_dir, project_name, language):
 
 def _validate_doc_name(doc: str) -> str:
     """Reject doc names that would traverse the output directory."""
+    if not isinstance(doc, str):
+        raise ValueError(f"Document name must be a string: {doc!r}")
     name = doc.strip()
     if not name:
         raise ValueError("Empty document name")
-    if '/' in name or '\\' in name:
+    if '/' in name or '\\' in name or ':' in name:
         raise ValueError(f"Document name contains path separator: {doc}")
     if name.startswith('..') or '/../' in name:
         raise ValueError(f"Document name contains traversal: {doc}")
@@ -249,23 +306,26 @@ def _validate_doc_name(doc: str) -> str:
 
 
 def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US"):
-    os.makedirs(out_dir, exist_ok=True)
+    _ensure_dir(out_dir)
 
     # Copy doc_module skeletons
     for doc in enabled:
-        _validate_doc_name(doc)
+        doc = _validate_doc_name(doc)
         base = doc.replace(".md", "")
         src = os.path.join(DOC_MODULES, base + ".md.tmpl")
         dst = os.path.join(out_dir, doc)
         # Double-check: resolved dst must be inside out_dir
-        if not os.path.abspath(dst).startswith(os.path.abspath(out_dir)):
+        try:
+            contained = os.path.commonpath([os.path.abspath(out_dir), os.path.abspath(dst)]) == os.path.abspath(out_dir)
+        except ValueError:
+            contained = False
+        if not contained:
             raise ValueError(f"Document path escapes output directory: {doc}")
         if os.path.exists(src):
             _safe_copy(src, dst)
         else:
-            with open(dst, "w", encoding="utf-8") as f:
-                f.write(f"# {base}\n\nThis document has no formal skeleton yet.\n"
-                        f"Refer to the STYLE_GUIDE for authority and boundary rules.\n")
+            _safe_write(dst, f"# {base}\n\nThis document has no formal skeleton yet.\n"
+                         f"Refer to the STYLE_GUIDE for authority and boundary rules.\n")
 
     # Design_Document.md
     gdd_tmpl = os.path.join(TEMPLATES, "DESIGN_DOCUMENT_TEMPLATE.md")
@@ -276,6 +336,8 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US
             "{{PROJECT_NAME}}": project_name,
             "{{ONE_LINE_PITCH}}": f"{project_name} - {desc}"[:120],
             "{{PRIMARY_TYPE}}": profile.get("profile", {}).get("primary_type", ""),
+            "{{CORE_EXPERIENCE}}": "",
+            "{{SYSTEM_SUMMARY_ROWS}}": _gdd_system_rows(enabled),
             "{{GAMEPLAY_SUMMARY}}": "",
             "{{MISSION_SUMMARY}}": "",
             "{{WORLD_SUMMARY}}": "",
@@ -314,13 +376,13 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US
     prof_tmpl = os.path.join(TEMPLATES, "PROJECT_PROFILE_TEMPLATE.yaml")
     prof_out = os.path.join(out_dir, "Project_Profile.yaml")
     if os.path.exists(prof_tmpl):
-        docs_yaml = "\n".join(f"  - {d}" for d in enabled)
+        docs_yaml = "\n".join(f"  - {json.dumps(d, ensure_ascii=False)}" for d in enabled)
         _fill_template(prof_tmpl, prof_out, {
-            "{{PROJECT_NAME}}": project_name,
-            "{{PROFILE_NAME}}": profile.get("profile", {}).get("name", ""),
-            "{{PRIMARY_TYPE}}": profile.get("profile", {}).get("primary_type", ""),
-            "{{SNAPSHOT_OR_LOG_FILE}}": "Design_Document.docx",
-            "{{LANGUAGE}}": language,
+            "{{PROJECT_NAME}}": _yaml_quoted_content(project_name),
+            "{{PROFILE_NAME}}": _yaml_quoted_content(profile.get("profile", {}).get("name", "")),
+            "{{PRIMARY_TYPE}}": _yaml_quoted_content(profile.get("profile", {}).get("primary_type", "")),
+            "{{SNAPSHOT_OR_LOG_FILE}}": _yaml_quoted_content("Design_Document.docx"),
+            "{{LANGUAGE}}": _yaml_quoted_content(language),
         })
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
@@ -337,6 +399,13 @@ def _cleanup():
         except OSError:
             pass
     CREATED.clear()
+    for path in reversed(CREATED_DIRS):
+        try:
+            if os.path.isdir(path) and not os.listdir(path):
+                os.rmdir(path)
+        except OSError:
+            pass
+    CREATED_DIRS.clear()
 
 
 def main():

@@ -12,7 +12,7 @@
 
 | Field | Type | Required | Notes |
 |-------|------|:--:|------|
-| `schema_version` | int | ✅ | Must be `1` (1.x compat). v2 defaults to `2`. |
+| `schema_version` | int | ✅ | Must be `1`. |
 | `profile_type` | enum | ✅ | Must be `"genre"` |
 | `profile.name` | string | ✅ | |
 | `profile.description` | string | ✅ | |
@@ -25,11 +25,11 @@
 | `audit_focus` | array | | |
 | `suggested_doc_modules` | array | | |
 | `boundary_checks` | array | | Rule type references only (no project facts) |
-| `consistency_checks` | array | | Must be empty `[]` or absent in genre profiles |
-| `deprecated_terms` | array | | Must be empty `[]` in genre profiles |
+| `boundary_checks` item | object | | Generic metadata only: `id`, `type`, `files`, `message`, plus `pattern_ref` or `term_ref` |
 
 **Forbidden in genre profiles**:
 - `enabled_docs` (project-only field)
+- `consistency_checks`, `deprecated_terms`, `link_checks`, `exceptions`, and other project-only audit configuration
 - `project_fact_checks`
 - `named_characters`, `specific_factions`, `specific_lore_terms`
 - `language_specific_terms` (Chinese resource words, project-specific names)
@@ -197,8 +197,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ## 6. Skeleton Support Rules v2
 
-- **24 of 48 unique game-design doc names** have formal skeletons.
-- **22 doc names** are known gaps (referenced by profiles, no skeleton).
+- The repository has **27 skeleton files**.
+- **24 of 48 unique game-design doc names** have matching formal skeletons.
+- **24 doc names** are known gaps (referenced by profiles, no skeleton). The other three skeletons are library-only modules.
 - A profile **may** reference docs without skeletons; scaffold will produce a clear placeholder.
 - Scaffold **must not** silently generate TODO fallback emoji shells.
 - Each skeleton **must** have 6 sections: Applies / Owns / Does Not Own / Recommended Chapters / Common Boundaries / Audit Notes.
@@ -229,7 +230,7 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 ## 9. Audit Engine v2
 
 - `--engine 1`: v1 legacy path (global mutable state, no config pre-validation).
-- `--engine 2` (default in v2.0): Pre-validates profile structure. The full Finding/Waiver/State/Report pipeline is **v2.1**.
+- `--engine 2` (default in v2.0): validates the project profile against the packaged JSON Schema before audit checks. The full Finding/Waiver/State/Report pipeline is **v2.1**.
   - v2.0: config validation + structured waiver schema + `--engine 2` default.
   - v2.1: WaiverManager.apply(), StateManager, render_report_v2 wired into the actual audit chain.
 

@@ -1,0 +1,9 @@
+# Runtime assets required when an sdist is used to build a wheel.
+recursive-include doc_modules *.md.tmpl
+recursive-include profiles *.yaml
+recursive-include rules *.yaml
+recursive-include schemas *.json
+recursive-include templates *.md *.yaml
+include tools/global_doc_audit.py
+include tools/scaffold_project.py
+include tools/validate_profile.py

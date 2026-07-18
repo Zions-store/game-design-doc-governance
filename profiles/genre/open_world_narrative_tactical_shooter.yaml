@@ -106,9 +106,3 @@ boundary_checks:
     term_ref: resource_terms
     files: [Collectibles_Design.md]
     message: "Resource-like item may appear in Collectibles."
-
-link_checks:
-  enabled: true
-  ignored_dirs: [audit, export, archive]
-
-exceptions: []

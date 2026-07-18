@@ -4,7 +4,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.0.0 formal release after RC validation, or patch fixes._
+_Next: v2.1 — complete the Finding/Waiver/State/Report v2 runtime pipeline and consume `project_fact_checks` / `language_pack` at runtime._
+
+## [2.0.0] - 2026-07-19 — Formal Release
+
+### Fixed (rc9 release-readiness repairs)
+- **Schema boundary**: genre and project Profiles now have strict, separate allowlists; genre profiles cannot carry project audit fields or concrete project rules.
+- **Engine v2**: the default audit path now reports profile-schema failures as P0 `CONFIG-SCHEMA` findings before document checks.
+- **Direct source CLI**: `python tools/global_doc_audit.py --engine 2` now resolves `src/` itself and emits stable schema P0 diagnostics instead of silently falling back to v1 validation.
+- **Scaffold safety**: document names are checked before dry-run planning and project-name YAML values are safely quoted.
+- **Languages**: canonical BCP 47 core tags, including `zh-Hans`, `zh-Hant-TW`, `es-419`, and `fr-CA`, are accepted without lossy normalization.
+- **Distribution**: wheels include the runtime tools and governance assets; clean-install CLI → scaffold → validation → audit smoke coverage is added.
+- **Coverage**: release metadata is corrected to 27 skeleton files, 24 matching 48 profile doc names, and 24 profile-name gaps.
 
 
 
@@ -14,22 +25,21 @@ _Next: v2.0.0 formal release after RC validation, or patch fixes._
 ### Fixed (since rc.7)
 - **P0 scaffold double-inject**: template already has profile_type: project + language: {{LANGUAGE}}; scaffold now replaces {{LANGUAGE}} and no longer re-injects.
 - **P0 doc name traversal**: _validate_doc_name() rejects path separators, .., and non-md/yaml names. Output path containment verified after resolution.
-- **Contract**: consistency_checks clarified as "empty [] or absent" in genre profiles.
+- **Contract**: genre profiles are limited to reusable structure and generic boundary references; project audit fields are rejected.
 - **Migration guide**: Step 2 now requires both profile_type: project and profile.language.
 - **CHANGELOG**: control characters (0x07, 0x0C) removed.
-- **Counts**: README/SKILL synced to 24 skeletons covering 48 profile doc names.
+- **Counts**: README/SKILL synced to 27 skeleton files, with 24 covering 48 profile doc names.
 
 ## [2.0.0-rc.7] - 2026-07-18 — Release Candidate 7
 
 ### Fixed (since rc.6)
 - **Template**: PROJECT_PROFILE_TEMPLATE.yaml now includes profile_type: project and profile.language.
 - **Schema**: Project Schema requires profile object at root level (closes bypass).
-- **Schema**: Genre Schema removed enabled_docs, consistency_checks, deprecated_terms, udit, ile_versioning, 
-on_authority_files — now rejected by dditionalProperties: false.
+- **Schema**: Genre Schema removed enabled_docs, consistency_checks, deprecated_terms, audit, file_versioning, and non_authority_files — now rejected by additionalProperties: false.
 - **Profile**: open_world_narrative_tactical_shooter genre profile cleaned of remaining project-only fields.
 - **Contract**: Finding/State/Report/Waiver sections updated to → v2.1; Migration Path corrected; skeleton count 24/48.
 - **Fixtures**: 6 test fixture Project_Profile.yaml files updated with profile_type: project + profile.language: en-US.
-- **Language regex**: expanded to accept broad BCP-47 variants (zh-Hans, es-419, r-CA).
+- **Language regex**: expanded to accept broad BCP-47 variants (zh-Hans, es-419, fr-CA).
 - **run_audit()**: Python API default engine_version 1→2 (matches CLI).
 
 ## [2.0.0-rc.6] - 2026-07-18 — Release Candidate 6
@@ -62,7 +72,7 @@ on_authority_files — now rejected by dditionalProperties: false.
 - **`_build_plan` dedup**: `Design_Document.md` and `STYLE_GUIDE.md` no longer duplicated in plan when already in enabled docs.
 - **Migration checklist**: removed `project_fact_checks` and `language_pack` items (runtime consumption planned for v2.1). Kept `consistency_checks`/`boundary_checks` in project profile unchanged.
 - **`--engine` help**: documented that full v2 Finding/Waiver/State/Report pipeline is v2.1; engine v2 currently provides config validation + structured waiver schema.
-- **Doc counts**: README and MANIFEST updated (27 skeletons, 21 gaps, 12 docs guides).
+- **Doc counts**: README and MANIFEST updated (27 skeleton files; 24 cover 48 profile doc names and 24 profile-name gaps remain; 12 docs guides).
 
 ### Release Gate (for v2.0.0 formal)
 - [x] ThirdPersonTest regression EQUIVALENT
@@ -106,10 +116,10 @@ on_authority_files — now rejected by dditionalProperties: false.
 
 ### Added
 - `Monetization_Design.md.tmpl` — 8-section skeleton (revenue model, premium currency, battle pass, loot boxes, subscriptions, advertising, store, responsible monetization). Highest-cited missing doc across profiles.
-- Full skeleton coverage audit: 27 of 48 unique doc names now have formal skeletons. 22 are documented gaps (no skeleton, listed in profiles).
+- Full skeleton coverage audit: 27 skeleton files exist; 24 of 48 unique profile doc names have matching formal skeletons, with 24 documented gaps.
 
 ### Changed
-- `SKILL.md`: doc_module count updated to 27, with note about 22 known gaps.
+- `SKILL.md`: doc_module count updated to 27, with note about 24 known profile-name gaps.
 - `README.md`: Status updated with 27 skeletons, safe scaffold features.
 
 ## [1.6.0] - 2026-07-18 -- Safe Scaffold v2

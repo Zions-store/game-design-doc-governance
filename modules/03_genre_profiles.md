@@ -16,9 +16,8 @@ optional docs.
 
 To instantiate: take a genre profile's `recommended_docs` (+ chosen `optional_docs`),
 write them into a project's `Project_Profile.yaml` `enabled_docs`, then add that
-project's data rules. `open_world_narrative_tactical_shooter.yaml` ships as both - a
-genre entry **and** the instantiated regression fixture (it carries `enabled_docs`
-and data rules in addition to `recommended_docs`).
+project's data rules. Genre profiles are reusable library data only; the regression
+fixture is a separate project profile under `tests/fixtures/`.
 
 ## 2. Genre matrix
 

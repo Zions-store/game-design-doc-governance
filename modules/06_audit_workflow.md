@@ -8,16 +8,17 @@ flags; humans decide. It is never a design authority.
 ## 1. Audit order
 
 ```
-1. file-list check (expected authority docs present; note non-authority files)
-2. table structure (column counts; HTML comment between table rows)
-3. anchors (authority presence; FACT/RULE missing REF)
-4. deprecated terms (with negation-context exemption)
-5. cross-document links (broken links to non-existent docs)
-6. boundary_checks   (from Profile)
-7. consistency_checks (from Profile)
-8. apply exceptions  (registered waivers)
-9. write report.md + report.json; append history.md
-10. optional: compare against --baseline
+1. engine 2: validate the project Profile against its JSON Schema
+2. file-list check (expected authority docs present; note non-authority files)
+3. table structure (column counts; HTML comment between table rows)
+4. anchors (authority presence; FACT/RULE missing REF)
+5. deprecated terms (with negation-context exemption)
+6. cross-document links (broken links to non-existent docs)
+7. boundary_checks   (from Profile)
+8. consistency_checks (from Profile)
+9. apply exceptions  (registered waivers)
+10. write report.md + report.json; append history.md
+11. optional: compare against --baseline
 ```
 
 ## 2. Issue levels
@@ -36,7 +37,7 @@ this; `audit.fail_on_p0` / `fail_on_p1` can relax P0/P1 gating).
 
 ## 3. Issue IDs and states
 
-- Stable ID: `AUD-{LEVEL}-{md5(file|rule|message)[:8]}` - same issue keeps the same ID.
+- Current report ID: `AUD-{LEVEL}-{md5(file|rule|message)[:8]}` - same issue keeps the same ID while the message is unchanged. The v2.1 structured Finding ID changes this contract.
 - States (P1 predefines the `status` field; full flow implemented in P3 via
   `issue_state.jsonl`):
 

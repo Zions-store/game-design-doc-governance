@@ -147,24 +147,23 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.0.0-rc.8 — Release Candidate.** Ships: the generic data-driven auditor, 10 genre profiles,
-24 doc-module skeletons across 48 profile doc names, 9 modules, 6 templates,
+**v2.0.0 — Formal release.** Ships: the generic data-driven auditor, 10 genre profiles,
+27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 6 templates,
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
-`issue_state.jsonl` state tracking, self-contained regression fixtures (6 projects + pytest 22/22),
-and complete documentation (`docs/` 12 guides).
+`issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
+and complete documentation (`docs/` 12 guides). The rc9 release-readiness repairs
+make schema validation part of the engine-v2 audit path and make wheels
+self-contained with the runtime tools and assets they need.
 
 All interface surfaces are **frozen** in 1.x: the Profile schema (`schema_version: 1`),
 CLI (`gdd-audit`, `gdd-profile-validate`, `gdd-scaffold`), audit output format,
 issue-state format, and scaffold output structure. Breaking changes are reserved
 for 2.x.
 
-> **Known 1.x limitations**: the first genre profile (`open_world_narrative_tactical_shooter`)
-> also serves as the regression fixture and contains project-specific terms.
-> Scaffold creates all optional docs by default and does not check for non-empty
-> target directories. Several Profile fields (`expires`, `reason`, `mode`,
-> `latest_strategy`, `allowed_context`, `level`) are declared in schemas but not
-> yet fully enforced by the audit engine. These are tracked in the v1.2鈥搗2.0 roadmap.
-> ThirdPersonTest governance remains unaffected.
+> **Current boundary**: Engine v2 now schema-validates the project profile before
+> auditing. The complete v2 Finding/Waiver/State/Report pipeline, including
+> waiver expiry in live audit output, remains v2.1 work. `project_fact_checks`
+> and `language_pack` are schema-supported but not yet consumed at runtime.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).
 For opencode: wire a junction `~/.config/opencode/skills/game-design-doc-governance`

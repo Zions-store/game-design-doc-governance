@@ -14,7 +14,7 @@ How to cut and publish a release of the `game-design-doc-governance` Skill.
 
 ## Pre-release checklist
 
-1. CI all green: `markdown-lint` + `code-block-check` + `python-health` + `utf8-check` + `pytest`.
+1. CI all green: `markdown-lint` + `code-block-check` + `python-health` + `wheel-clean-install` + `utf8-check` + `pytest`.
 2. `pytest` passes locally (if pip proxy allows; otherwise verified in CI).
 3. Fixture baseline regression: `gdd-audit --no-state --baseline …` → EQUIVALENT.
 4. Origin project regression (if available): `gdd-audit --no-state --baseline …`.
@@ -22,7 +22,9 @@ How to cut and publish a release of the `game-design-doc-governance` Skill.
 6. `MANIFEST.md` is up to date.
 7. `CHANGELOG.md` has a `[VERSION]` entry.
 8. `SKILL.md version:` matches the version being released.
-9. No `.pyc` / `__pycache__` / temporary files in the repo.
+9. Build a wheel and install it into a fresh virtual environment; run all three CLI `--help` commands plus scaffold → profile validation → audit.
+10. All ten genre profiles pass scaffold → project-profile validation → audit with P0=0 and P1=0.
+11. No `.pyc` / `__pycache__` / temporary files in the repo.
 
 ## Cutting a release
 

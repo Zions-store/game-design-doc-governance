@@ -1,11 +1,14 @@
 # Copyright (C) 2026 ZionXiaoxiSuOGLocGo
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Console-script entry point for `gdd-scaffold`."""
-import os, sys, runpy
+import os
+import runpy
+import sys
 
 def main():
+    package_tool = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_tools", "scaffold_project.py")
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    tool = os.path.join(root, "tools", "scaffold_project.py")
+    tool = package_tool if os.path.exists(package_tool) else os.path.join(root, "tools", "scaffold_project.py")
     if not os.path.exists(tool):
         sys.stderr.write("ERROR: scaffold engine not found at: %s\n" % tool)
         return 1

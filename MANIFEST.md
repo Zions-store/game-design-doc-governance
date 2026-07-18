@@ -14,8 +14,8 @@ templates/          6 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT
 doc_modules/        27 per-document skeletons (*.md.tmpl)
 profiles/genre/     10 genre profiles (*.yaml)
 schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)
-tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py) + scaffold_project.py + validate_profile.py
-src/                Python package (audit / scaffold / profile_validation entry points)
+tools/              global_doc_audit.py (generic auditor) + scaffold_project.py + validate_profile.py
+src/                Python package and packaged runtime assets for wheel-installed CLI entry points
 docs/               12 user guides (quickstart / installation / migration / migration_v1_to_v2 / audit / v2_contract / etc.)
 tests/              fixtures/ + expected/ + README (self-contained regression)
 .github/workflows/  CI configuration (ci.yml)
@@ -35,7 +35,8 @@ opencode skill junction                          # ~/.config/opencode/skills/...
 ## Distribution model
 
 Distributed as the standalone repository `Zions-store/game-design-doc-governance`.
-Install from the repository root with `pip install -e .`.
+Install from the repository root with `pip install -e .`; built wheels include the
+runtime tools plus `doc_modules/`, `profiles/`, `rules/`, `schemas/`, and `templates/`.
 
 ## Version / tag policy
 

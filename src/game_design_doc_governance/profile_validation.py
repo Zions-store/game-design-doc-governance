@@ -12,8 +12,9 @@ import runpy
 
 
 def main():
+    package_tool = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_tools", "validate_profile.py")
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    validator = os.path.join(root, "tools", "validate_profile.py")
+    validator = package_tool if os.path.exists(package_tool) else os.path.join(root, "tools", "validate_profile.py")
     if not os.path.exists(validator):
         sys.stderr.write("ERROR: profile validator not found at: %s\n" % validator)
         return 1

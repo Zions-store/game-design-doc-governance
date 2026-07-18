@@ -65,7 +65,7 @@ boundary_checks: []
 # - id: EXAMPLE-NO-STATS
 #   description: Character docs must not carry concrete numbers.
 #   files: [Character_Sheets.md]            # or ["*"]
-#   forbid_regex: '\d+/\s*-?               # OR forbid_any: [word1, word2]
+#   forbid_regex: '\d+/\s*-?'            # OR forbid_any: [word1, word2]
 #   unless_near: [Gameplay_Systems.md]
 #   near_window: 200
 #   stop_at: "[migrated]"                    # optional: scan only before this marker

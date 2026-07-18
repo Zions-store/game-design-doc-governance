@@ -2,31 +2,53 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/genre_profile.schema.json",
   "title": "Genre Profile",
-  "description": "Schema for a genre profile (type-library entry). Schema version 1; backward-compatible in 1.x.",
+  "description": "Reusable genre structure and generic rule-reference metadata.",
   "type": "object",
   "required": ["schema_version", "profile_type", "profile", "recommended_docs"],
   "properties": {
-    "schema_version": { "type": "integer", "minimum": 1, "maximum": 2 },
-    "profile_type": { "enum": ["genre"] },
+    "schema_version": { "const": 1 },
+    "profile_type": { "const": "genre" },
     "profile": {
       "type": "object",
       "required": ["name", "description", "primary_type"],
       "properties": {
-        "name": { "type": "string" },
-        "description": { "type": "string" },
-        "primary_type": { "type": "string" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "primary_type": { "type": "string", "minLength": 1 },
         "secondary_types": { "type": "array", "items": { "type": "string" } }
-      }
+      },
+      "additionalProperties": false
     },
-    "recommended_docs": { "type": "array", "items": { "type": "string" } },
+    "recommended_docs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
     "optional_docs": { "type": "array", "items": { "type": "string" } },
     "disabled_docs": { "type": "array", "items": { "type": "string" } },
     "high_risk_boundaries": { "type": "array", "items": { "type": "string" } },
     "audit_focus": { "type": "array", "items": { "type": "string" } },
     "suggested_doc_modules": { "type": "array", "items": { "type": "string" } },
-    "boundary_checks": { "type": "array" },
-    "link_checks": { "type": "object" },
-    "exceptions": { "type": "array" }
+    "boundary_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "files", "message"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "pattern_ref": { "type": "string", "minLength": 1 },
+          "term_ref": { "type": "string", "minLength": 1 },
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^[A-Za-z0-9_]+\\.md$" }
+          },
+          "message": { "type": "string", "minLength": 1 }
+        },
+        "anyOf": [
+          { "required": ["pattern_ref"] },
+          { "required": ["term_ref"] }
+        ],
+        "additionalProperties": false
+      }
+    }
   },
   "additionalProperties": false
 }

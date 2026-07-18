@@ -54,7 +54,7 @@ If your genre profile (in `profiles/genre/`) contains `enabled_docs`, move it to
 
 ### 4. Move project facts out of genre profile
 
-> **Note**: `project_fact_checks` and `language_pack` are declared schema fields in v2.0.0-rc.
+> **Note**: `project_fact_checks` and `language_pack` are declared schema fields in v2.0.0.
 > The audit engine currently runs `consistency_checks` and `boundary_checks` from the project profile.
 > Full runtime consumption of `project_fact_checks` and `language_pack` is planned for v2.1.
 > For now, keep your existing `consistency_checks` in your project profile unchanged.

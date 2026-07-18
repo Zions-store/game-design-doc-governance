@@ -113,6 +113,31 @@ jobs:
             --baseline tests/expected/sample_fixture_baseline.json \
             --no-state
 
+  wheel-clean-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build wheel
+        run: |
+          python -m pip install build
+          python -m build --wheel --outdir /tmp/gdd-wheel
+      - name: Install and smoke-test wheel in a clean environment
+        shell: bash
+        run: |
+          python -m venv /tmp/gdd-wheel-venv
+          /tmp/gdd-wheel-venv/bin/python -m pip install /tmp/gdd-wheel/*.whl
+          /tmp/gdd-wheel-venv/bin/gdd-audit --help
+          /tmp/gdd-wheel-venv/bin/gdd-profile-validate --help
+          /tmp/gdd-wheel-venv/bin/gdd-scaffold --help
+          profile=$(/tmp/gdd-wheel-venv/bin/python -c 'from game_design_doc_governance.profile_schema import asset_directory; print(asset_directory("profiles") / "genre" / "open_world_rpg.yaml")')
+          root="/tmp/gdd-wheel-smoke/md file"
+          /tmp/gdd-wheel-venv/bin/gdd-scaffold --profile "$profile" --out "$root" --project-name "Wheel Smoke" --language en-US
+          /tmp/gdd-wheel-venv/bin/gdd-profile-validate "$root/Project_Profile.yaml"
+          /tmp/gdd-wheel-venv/bin/gdd-audit --root "$root" --style "$root/STYLE_GUIDE.md" --profile "$root/Project_Profile.yaml" --out /tmp/gdd-wheel-smoke/audit --no-state --no-history
+
   utf8-check:
     runs-on: ubuntu-latest
     steps:

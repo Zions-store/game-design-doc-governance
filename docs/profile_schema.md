@@ -13,6 +13,7 @@ A genre profile is turned into a project profile by `gdd-scaffold`, or by hand.
 
 ```yaml
 schema_version: 1          # required
+profile_type: genre        # required
 profile:
   name: ""                 # required
   description: ""          # required
@@ -31,6 +32,10 @@ suggested_doc_modules: []
 
 ```yaml
 schema_version: 1
+profile_type: project
+profile:
+  name: ""                 # required
+  language: en-US          # required, canonical BCP 47 core tag
 enabled_docs: []           # required
 optional_docs: []
 non_authority_files: []
@@ -90,7 +95,9 @@ gdd-profile-validate Project_Profile.yaml
 gdd-profile-validate --kind genre profiles/genre/roguelite.yaml
 ```
 
-Validates against the JSON Schemas in `schemas/`. `schema_version: 1` is
-backward-compatible throughout 1.x.
+Validates against the JSON Schemas in `schemas/`. Genre and project profiles are
+strictly separated: a genre profile cannot carry project audit configuration or
+concrete regex/term rules. `profile.language` accepts canonical tags such as
+`en-US`, `zh-Hans`, `zh-Hant-TW`, `es-419`, `fr-CA`, and `ja`.
 
 For full details see `modules/02_project_profile.md`.

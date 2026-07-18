@@ -24,12 +24,17 @@ import os, re, argparse, json, sys, glob, hashlib
 from datetime import datetime
 from collections import defaultdict
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "src")
+if SRC not in sys.path:
+    sys.path.insert(0, SRC)
+
 try:
     import yaml
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-rc.8-generic"
+SCRIPT_VERSION = "v2.0.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -503,6 +508,8 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
                 for ci in config_issues:
                     add(ci.level, ci.rule, ci.message)
                 if any(ci.level in ("P0", "P1") for ci in config_issues):
+                    for ci in config_issues:
+                        print(f"{ci.level} {ci.rule}: {ci.message}", file=sys.stderr)
                     return False
 
             # v2 waiver manager: enforce (rule, file) binding + expires

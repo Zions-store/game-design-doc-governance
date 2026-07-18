@@ -7,14 +7,14 @@ Resolves the canonical audit engine (tools/global_doc_audit.py) relative to this
 package, then re-runs it as __main__, forwarding all CLI arguments unchanged.
 """
 import os
-import sys
 import runpy
+import sys
 
 
 def main():
-    # The tools/ directory is a sibling of src/ at the package root
+    package_tool = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_tools", "global_doc_audit.py")
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    engine = os.path.join(root, "tools", "global_doc_audit.py")
+    engine = package_tool if os.path.exists(package_tool) else os.path.join(root, "tools", "global_doc_audit.py")
     if not os.path.exists(engine):
         sys.stderr.write("ERROR: canonical audit engine not found at: %s\n" % engine)
         return 1

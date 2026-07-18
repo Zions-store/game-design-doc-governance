@@ -187,21 +187,14 @@ SUPPORTED_LANGUAGES = {
 
 
 def normalize_language(lang: str) -> str:
-    """Normalize a language tag to a supported BCP 47 tag.
+    """Normalize separators without changing a requested BCP 47 tag.
 
     If the requested language is not in the known set, it is still returned
     as-is — the provider may still handle it. Unknown languages should NOT
     be rejected; the provider is responsible for reporting unsupported languages.
     """
     lang = lang.strip().replace("_", "-")
-    if lang in SUPPORTED_LANGUAGES:
-        return lang
-    # Try prefix match (e.g. "fr" matches "fr")
-    prefix = lang.split("-")[0]
-    for supported in SUPPORTED_LANGUAGES:
-        if supported.startswith(prefix):
-            return supported
-    return lang  # Return as-is; provider handles unsupported
+    return lang
 
 
 def get_scaffold_language_label(lang: str) -> str:

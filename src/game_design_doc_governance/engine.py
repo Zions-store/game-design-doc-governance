@@ -26,7 +26,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.0.0-rc.8-generic"
+SCRIPT_VERSION = "v2.0.0-generic"
 STATE_SCHEMA_VERSION = 1
 
 
@@ -357,6 +357,23 @@ def validate_profile(profile_data: dict, strict: bool = False) -> list[Finding]:
             message="Profile file does not contain a valid YAML dictionary."
         ))
         return issues
+    if strict:
+        try:
+            from .profile_schema import validate_profile_data
+            schema_errors = validate_profile_data(profile_data, kind="project")
+        except (ImportError, FileNotFoundError, ValueError) as exc:
+            issues.append(Finding(
+                id=Finding.make_id("P0", "CONFIG-SCHEMA-UNAVAILABLE", str(exc)),
+                level="P0", rule="CONFIG-SCHEMA-UNAVAILABLE",
+                message=f"Project Profile Schema validation is unavailable: {exc}"
+            ))
+        else:
+            for index, error in enumerate(schema_errors):
+                issues.append(Finding(
+                    id=Finding.make_id("P0", "CONFIG-SCHEMA", error, f"schema:{index}:{error}"),
+                    level="P0", rule="CONFIG-SCHEMA",
+                    message=f"Project Profile Schema validation failed: {error}"
+                ))
     if "enabled_docs" not in profile_data:
         issues.append(Finding(
             id=Finding.make_id("P0", "CONFIG-MISSING-ENABLED-DOCS", "enabled_docs is required"),

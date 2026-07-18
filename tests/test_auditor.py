@@ -243,10 +243,15 @@ def test_all_genre_profiles_valid():
         assert errors == [], f"{os.path.basename(p)}: {errors}"
 
 
-def test_project_profile_template_valid():
+def test_project_profile_template_valid(tmp_path):
     skill = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    p = os.path.join(skill, "templates", "PROJECT_PROFILE_TEMPLATE.yaml")
-    errors = _validate_file(p, "project")
+    template = os.path.join(skill, "templates", "PROJECT_PROFILE_TEMPLATE.yaml")
+    p = tmp_path / "Project_Profile.yaml"
+    p.write_text(
+        open(template, encoding="utf-8").read().replace("{{LANGUAGE}}", "en-US"),
+        encoding="utf-8",
+    )
+    errors = _validate_file(str(p), "project")
     assert errors == [], f"template: {errors}"
 
 

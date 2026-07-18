@@ -17,54 +17,45 @@ Exit 0 on valid; exit 1 on one or more errors; exit 2 on missing file or schema.
 
 import sys
 import os
-import json
 import argparse
 
-SCHEMA_DIR = os.path.join(os.path.dirname(__file__), "..", "schemas")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "src")
+if SRC not in sys.path:
+    sys.path.insert(0, SRC)
+
+from game_design_doc_governance.profile_schema import (
+    detect_profile_kind,
+    load_schema,
+    validate_profile_data,
+)
 
 
 def _load_schema(name):
-    path = os.path.join(SCHEMA_DIR, name)
-    if not os.path.exists(path):
-        raise FileNotFoundError(f"Schema file not found: {path}")
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
+    kind = "project" if name == "project_profile.schema.json" else "genre"
+    return load_schema(kind)
 
 
 def _detect_kind(data):
-    if data.get("enabled_docs"):
-        return "project"
-    if data.get("recommended_docs"):
-        return "genre"
-    return "project"
+    return detect_profile_kind(data)
 
 
 def validate(data, kind=None, schemas=None):
     """Return list of error-strings. Empty list = valid."""
-    if kind is None:
-        kind = _detect_kind(data)
-
-    schema_name = "project_profile.schema.json" if kind == "project" else "genre_profile.schema.json"
-
     if schemas is None:
-        schema = _load_schema(schema_name)
-    else:
-        schema = schemas.get(kind)
-
-    if schema is None:
-        schema = _load_schema(schema_name)
+        return validate_profile_data(data, kind=kind)
 
     try:
         from jsonschema import Draft7Validator
     except ImportError:
         return ["PyPI package 'jsonschema' is not installed. Install it: pip install jsonschema"]
 
-    errors = []
-    validator = Draft7Validator(schema)
-    for e in validator.iter_errors(data):
-        path = ".".join(str(p) for p in e.path) if e.path else "(root)"
-        errors.append(f"{path}: {e.message}")
-    return errors
+    resolved_kind = kind or _detect_kind(data)
+    schema = schemas.get(resolved_kind) or _load_schema(
+        "project_profile.schema.json" if resolved_kind == "project" else "genre_profile.schema.json"
+    )
+    errors = sorted(Draft7Validator(schema).iter_errors(data), key=lambda error: list(error.path))
+    return [f"{'.'.join(str(part) for part in error.path) or '(root)'}: {error.message}" for error in errors]
 
 
 def main():
