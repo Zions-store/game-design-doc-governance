@@ -6,6 +6,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v1.6.0 Safe Scaffold v2 Preview, or patch fixes._
 
+## [1.5.1] - 2026-07-18 -- Finding/Waiver/State/Report v2 Patch
+
+### Fixed
+- **P0**: `tools/scaffold_project.py` restored valid AST — unclosed string and mojibake on line 40 repaired.
+- **WaiverManager**: `matches()` now compares against `finding.rule` (e.g. "GDD-SUMMARY-ONLY-ENERGY"), not the hashed `finding.id`. Fixes waiver exceptions never matching.
+- **Waiver.is_expired()**: normalized timezone handling prevents `TypeError` when comparing naive/aware `datetime` objects.
+- **SKILL.md**: doc_module count corrected 16→26.
+- **MANIFEST.md**: doc_module count corrected 16→26.
+- **README.md**: removed stale link to non-existent `docs/usage_modes.md`.
+
 ## [1.5.0] - 2026-07-18 -- Finding/Waiver/State/Report v2
 
 ### Added

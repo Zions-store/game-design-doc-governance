@@ -36,14 +36,14 @@ LANGS = {
         },
     },
     "zh-CN": {
-        "gdd_title": "璁捐鏂囨。 (GDD)",
-        "gdd_tagline": "浠呬綔绱㈠紩--瀹屾暣鍐呭鍦ㄥ瓙鏂囨。涓€?,
-        "gdd_systems": "## 绯荤粺",
-        "gdd_system_link": "- 鍙傝 [{doc}]({doc}.md)",
+        "gdd_title": "设计文档 (GDD)",
+        "gdd_tagline": "仅作索引——完整内容在子文档中。",
+        "gdd_systems": "## 系统",
+        "gdd_system_link": "- 参见 [{doc}]({doc}.md)",
         "style_chapters": {
-            "2": "鏂囦欢娓呭崟",
-            "6.2": "宸插缓绔嬮敋鐐规竻鍗?,
-            "6.3": "搴熷純璇存硶鐧昏琛?,
+            "2": "文件清单",
+            "6.2": "已建立锚点清单",
+            "6.3": "废弃说法登记表",
         },
     },
 }

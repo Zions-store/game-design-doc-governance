@@ -83,7 +83,7 @@ Requires Python 3 and `PyYAML`.
 3. **Template library mode** — Copy `profiles/genre/` and `doc_modules/` templates manually into your project.
 4. **Human checklist mode** — Use the authority matrix and boundary rules without running Python tools.
 
-See `docs/usage_modes.md` for details.
+See `docs/quickstart.md` for getting started.
 
 ## Quick Start
 
@@ -147,7 +147,7 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v1.5.0 -- Finding/Waiver/State/Report v2.** Ships: the generic data-driven auditor, 10 genre profiles,
+**v1.5.1 -- Finding/Waiver/State/Report v2 Patch.** Ships: the generic data-driven auditor, 10 genre profiles,
 26 doc-module skeletons, 9 modules, 6 templates, 4 JSON schemas, profile
 validator, scaffold tool, `issue_state.jsonl` state tracking, self-contained
 regression fixtures (6 projects + pytest 22/22), and complete documentation

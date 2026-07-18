@@ -26,7 +26,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v1.5.0-generic"
+SCRIPT_VERSION = "v1.5.1-generic"
 STATE_SCHEMA_VERSION = 1
 
 
@@ -116,10 +116,17 @@ class Waiver:
             expiry = datetime.fromisoformat(self.expires)
         except (ValueError, TypeError):
             return False
-        return (now or datetime.now(timezone.utc)) > expiry
+        ref = now or datetime.now(timezone.utc)
+        # Normalize timezone: compare naive-to-naive or aware-to-aware
+        if expiry.tzinfo is None and ref.tzinfo is not None:
+            expiry = expiry.replace(tzinfo=timezone.utc)
+        elif expiry.tzinfo is not None and ref.tzinfo is None:
+            ref = ref.replace(tzinfo=timezone.utc)
+        return ref > expiry
 
-    def matches(self, finding_id: str, finding_file: str = "") -> bool:
-        if finding_id != self.id:
+    def matches(self, finding_rule: str, finding_file: str = "") -> bool:
+        """Match waiver by rule name (e.g. 'GDD-SUMMARY-ONLY-ENERGY'), not hash ID."""
+        if finding_rule != self.id:
             return False
         if self.file and self.file != finding_file:
             return False
@@ -152,7 +159,7 @@ class WaiverManager:
 
         for f in findings:
             for w in active:
-                if w.matches(f.id, f.file):
+                if w.matches(f.rule, f.file):
                     f.suppressed = True
                     f.suppression_reason = f"waiver: {w.reason}" if w.reason else "waiver"
                     break
