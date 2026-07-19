@@ -18,7 +18,7 @@
 
 | System | One-line summary | Authority document |
 |---|---|---|
-{{SYSTEM_SUMMARY_ROWS}}
+| {{SYSTEM_SUMMARY_ROWS}} |
 
 Add/remove rows to match the Profile's `enabled_docs`.
 

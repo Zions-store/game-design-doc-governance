@@ -10,11 +10,17 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 
 ### Added
 
-- **Boundary coverage enforcement**: genre rules with `pattern_ref`/`term_ref` must be covered by either a project `boundary_checks` override with the same `id` or a resolvable `language_pack` reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE` errors instead of being silently skipped.
+- **Boundary coverage enforcement**: genre rules with `pattern_ref`/`term_ref` must be covered by either a project `boundary_checks` override with the same `id` or a resolvable `language_pack` reference.
+  Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE` errors instead of being silently skipped.
 - **`boundary_rule_coverage`** in `audit_report.json`: reports `total`, `by_project`, `by_language_pack`, and `uncovered` counts for genre boundary_checks.
 - **`LANGUAGE_PACK_TEMPLATE.yaml`**: skeleton for creating new language packs with schema documentation.
 - **Scaffold auto-injection**: when the genre profile declares boundary_checks with `pattern_ref`/`term_ref`, the scaffolded `Project_Profile.yaml` now includes `language_pack` referencing the built-in pack matching the project language.
-- **11 boundary coverage contract tests** (`test_v22_boundary_coverage.py`): genre uncovered / all overridden / language pack resolved / missing reference / mixed assembly / project-override priority / partial coverage / ThirdPersonTest equivalence / non-executable project override rejected / invalid regex caught / dual CONFIG-LANGUAGE-REF + CONFIG-BOUNDARY-COVERAGE emission.
+- **11 boundary coverage contract tests** (`test_v22_boundary_coverage.py`):
+  genre uncovered / all overridden / language pack resolved / missing
+  reference / mixed assembly / project-override priority / partial
+  coverage / ThirdPersonTest equivalence / non-executable project
+  override rejected / invalid regex caught / dual CONFIG-LANGUAGE-REF
+  + CONFIG-BOUNDARY-COVERAGE emission.
 
 ### Changed
 
@@ -52,7 +58,6 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 - **Languages**: canonical BCP 47 core tags, including `zh-Hans`, `zh-Hant-TW`, `es-419`, and `fr-CA`, are accepted without lossy normalization.
 - **Distribution**: wheels include the runtime tools and governance assets; clean-install CLI → scaffold → validation → audit smoke coverage is added.
 - **Coverage**: release metadata is corrected to 27 skeleton files, 24 matching 48 profile doc names, and 24 profile-name gaps.
-
 
 
 
@@ -127,7 +132,10 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 
 ### Added
 - `docs/v2_contract.md` — complete frozen specification for v2.0.0 (11 sections).
-- **Frozen contracts**: Profile Schema v2, Audit Finding v2, State Schema v2, Report Schema v2, Scaffold safety semantics, Skeleton support rules, Multi-language structure protection, Waiver v2, Audit Engine v2, v1 compatibility & deprecation table, Migration path.
+- **Frozen contracts**: Profile Schema v2, Audit Finding v2, State Schema v2,
+  Report Schema v2, Scaffold safety semantics, Skeleton support rules,
+  Multi-language structure protection, Waiver v2, Audit Engine v2,
+  v1 compatibility & deprecation table, Migration path.
 - **Version gate**: v1.9.0 is feature-frozen. Only bug fixes and docs from this point.
 
 ### Changed

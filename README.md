@@ -147,7 +147,12 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.2.0 — Formal release.** Enforces boundary coverage: genre rules with `pattern_ref`/`term_ref` must be covered by executable project overrides or a language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence. Scaffold auto-injects `language_pack` when a matching built-in pack exists (en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint. 63 tests, 11 new coverage contract tests, 10 genre profiles,
+**v2.2.0 — Formal release.** Enforces boundary coverage: genre rules with
+`pattern_ref`/`term_ref` must be covered by executable project overrides or a
+language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence.
+Scaffold auto-injects `language_pack` when a matching built-in pack exists
+(en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint.
+63 tests, 11 new coverage contract tests, 10 genre profiles,
 27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 7 templates (including `LANGUAGE_PACK_TEMPLATE.yaml`),
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),

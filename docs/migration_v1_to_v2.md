@@ -1,4 +1,4 @@
-# Migration Guide: v1.x to v2.0
+﻿# Migration Guide: v1.x to v2.0
 
 This guide covers migrating an existing project from v1.x governance to v2.0.
 
@@ -14,15 +14,20 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 
 > **v2.1 available**: `project_fact_checks`, an explicitly selected maintained `language_pack`, and the full Engine v2 Finding/Waiver/State/Report pipeline run at audit time.
 >
-> **v2.2 available**: boundary coverage enforcement. When your project profile declares a `genre_profile`, every genre `boundary_check` with `pattern_ref`/`term_ref` must be covered by either (a) an executable project `boundary_checks` entry with the same `id`, or (b) a `language_pack` that resolves the reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`.
+> **v2.2 available**: boundary coverage enforcement. When your project profile
+> declares a `genre_profile`, every genre `boundary_check` with
+> `pattern_ref`/`term_ref` must be covered by either (a) an executable project
+> `boundary_checks` entry with the same `id`, or (b) a `language_pack` that
+> resolves the reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`.
 
 ---
 
 ## Step-by-Step Migration
 
 ### 1. Check current state
+
 
-```bash
+`ash
 gdd-audit --root "<project>/Design Document/md file" \
   --style "<project>/Design Document/md file/STYLE_GUIDE.md" \
   --profile "<project>/Design Document/md file/Project_Profile.yaml" \
@@ -32,8 +37,9 @@ gdd-audit --root "<project>/Design Document/md file" \
 Record the baseline: `P0=N P1=N P2=N P3=N INFO=N`.
 
 ### 2. Add `profile_type` and `profile.language` to your Project_Profile.yaml
+
 
-```yaml
+`yaml
 schema_version: 1
 profile_type: project   # <- add this line
 profile:
@@ -43,8 +49,9 @@ profile:
 ```
 
 Validate:
+
 
-```bash
+`ash
 gdd-profile-validate --kind project "<path>/Project_Profile.yaml"
 ```
 
@@ -80,8 +87,9 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 > `language_pack` to a matching built-in tag.
 
 ### 6. Update profile paths in scripts
+
 
-```bash
+`ash
 # Old
 --profile profiles/open_world_narrative_tactical_shooter.yaml
 
@@ -90,16 +98,18 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 ```
 
 ### 7. Re-run audit with engine v2 (now default)
+
 
-```bash
+`ash
 gdd-audit --root "<project>/Design Document/md file" \
   --style "<project>/Design Document/md file/STYLE_GUIDE.md" \
   --profile "<project>/Design Document/md file/Project_Profile.yaml" \
   --out "<project>/Design Document/audit" --no-state
 ```
 
-If you need the old behavior temporarily:
-```bash
+If you need the old behavior temporarily:
+
+`ash
 gdd-audit ... --engine 1
 ```
 
@@ -116,14 +126,16 @@ If DIVERGED:
 
 ## Scaffold Migration
 
-### Old (v1 legacy)
-```bash
+### Old (v1 legacy)
+
+`ash
 gdd-scaffold --profile ... --out ... --project-name "My Game"
 # Creates ALL optional docs in the target directory (even if not empty)
 ```
 
-### New (v2 default)
-```bash
+### New (v2 default)
+
+`ash
 gdd-scaffold --profile ... --out ... --project-name "My Game"
 # Refuses non-empty dirs, only creates recommended docs
 

@@ -251,7 +251,12 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 - `--engine 2` (default since v2.0): validates the project profile against the packaged JSON Schema before audit checks, then runs the full Finding/Waiver/State/Report pipeline.
   - v2.0: config validation + structured waiver schema + `--engine 2` default.
   - v2.1: WaiverManager.apply(), StateManager, Report v2, project-fact checks, and language-pack genre rule resolution are wired into the actual audit chain.
-  - v2.2: boundary coverage enforcement. Genre rules with `pattern_ref`/`term_ref` require an executable project override (same ID, non-empty `forbid_regex`/`forbid_any` with compilable regex) or a resolvable language pack reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`. Project rules counted as `by_project` only when executable. Scaffold auto-injects `language_pack` for languages with a built-in pack; others get a commented `# <TODO: ...>` hint.
+  - v2.2: boundary coverage enforcement. Genre rules with `pattern_ref`/`term_ref`
+    require an executable project override (same ID, non-empty `forbid_regex`/
+    `forbid_any` with compilable regex) or a resolvable language pack reference.
+    Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`. Scaffold auto-injects
+    `language_pack` for languages with a built-in pack; others get a commented
+    `# <TODO: ...>` hint.
 
 ## 10. v1 Compatibility & Deprecation
 
