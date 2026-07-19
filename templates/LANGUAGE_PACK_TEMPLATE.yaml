@@ -1,0 +1,45 @@
+# Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Language Pack Template — copy and rename to <language-tag>.yaml.
+#
+# A language pack provides language-specific terms and regex patterns for
+# genre-profile boundary_checks.  Each genre rule declares a pattern_ref or
+# term_ref that must resolve to a string list in this pack.
+#
+# Place this file under rules/language_packs/<language-tag>.yaml or in a
+# project-local directory, then reference it via the project profile's
+# language_pack field.
+
+schema_version: 1
+
+language: {{LANGUAGE}}
+
+# Regex patterns referenced by genre boundary_checks via pattern_ref.
+# Each key must contain a list of strings that are valid Python regexes.
+stat_patterns:
+  shots_per_unit:
+    - '\d+\s*/\s*shot'
+  percentage_per_second:
+    - '\d+%/s'
+    - '\d+\s*percent per second'
+
+# Additional regex patterns exported by this pack.
+event_body_patterns:
+  - 'choice.*consequence'
+  - 'RNG.*decides?'
+
+# Term lists referenced by genre boundary_checks via term_ref.
+# Each key must contain a list of literal strings.
+resource_terms:
+  - battery
+  - medicine
+  - food
+  - parts
+
+# Optional: project fact terms (referenced by project_fact_checks in the
+# project profile — not by genre profiles).
+project_fact_terms:
+  example:
+    - term1
+    - term2

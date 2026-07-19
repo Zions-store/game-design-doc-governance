@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
+import pytest
 import yaml
 from jsonschema import Draft7Validator
 
@@ -72,9 +74,39 @@ def test_engine_v2_uses_precise_waivers_and_report_v2(tmp_path):
     assert data["waivers_active"] == 1
     assert data["waivers_expired"] == 0
     assert data["suppressed"] == 1
+    assert data["boundary_rule_coverage"] == {
+        "total": 0,
+        "by_project": 0,
+        "by_language_pack": 0,
+        "uncovered": 0,
+    }
     report_schema = json.loads((Path(__file__).resolve().parents[1] / "schemas" / "audit_report.schema.json").read_text(encoding="utf-8"))
     assert list(Draft7Validator(report_schema).iter_errors(data)) == []
+    missing_coverage = dict(data)
+    missing_coverage.pop("boundary_rule_coverage")
+    assert list(Draft7Validator(report_schema).iter_errors(missing_coverage))
+    invalid_coverage = json.loads(json.dumps(data))
+    invalid_coverage["boundary_rule_coverage"]["total"] = "0"
+    assert list(Draft7Validator(report_schema).iter_errors(invalid_coverage))
     assert (out / "audit_report.md").read_text(encoding="utf-8").startswith("# Audit Report v2")
+
+
+def test_engine_v1_preserves_invalid_regex_exception(tmp_path):
+    profile = _profile(boundary_checks=[{
+        "id": "INVALID-REGEX",
+        "files": ["Design_Document.md"],
+        "forbid_regex": "[",
+        "level": "P0",
+        "message": "Invalid regex fixture.",
+    }])
+    root, profile_path = _write_project(tmp_path, profile, document="test")
+
+    with pytest.raises(re.error):
+        run_auditor(
+            str(root), str(profile_path), str(root / "STYLE_GUIDE.md"),
+            out=str(tmp_path / "audit"), write_history=False,
+            write_state=False, engine_version=1,
+        )
 
 
 def test_engine_v2_expired_waiver_reactivates_finding(tmp_path):
@@ -195,8 +227,12 @@ def test_engine_v2_reports_invalid_language_pack_yaml_as_configuration_error(tmp
     )
 
     assert not passed
-    assert counts["p0"] == 1
-    assert issues[0]["rule"] == "CONFIG-LANGUAGE-PACK"
+    # v2.2: 1 CONFIG-LANGUAGE-PACK + 4 CONFIG-BOUNDARY-COVERAGE (one per uncovered genre rule)
+    assert counts["p0"] >= 1
+    error_rules = {issue["rule"] for issue in issues if issue["level"] == "P0"}
+    assert "CONFIG-LANGUAGE-PACK" in error_rules
+    coverage_count = sum(1 for issue in issues if issue["rule"] == "CONFIG-BOUNDARY-COVERAGE")
+    assert coverage_count == 4
 
 
 def test_engine_v2_reports_invalid_language_pack_regex_as_configuration_error(tmp_path):

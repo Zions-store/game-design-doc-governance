@@ -26,7 +26,7 @@ game-design-doc-governance/
 
 --------- modules/                 # detailed guidance (01-09)
 
---------- templates/               # PROJECT_PROFILE / STYLE_GUIDE /  - skeletons
+--------- templates/               # 7 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK
 
 --------- doc_modules/             # per-document "applies / owns / not-owns" skeletons
 
@@ -147,8 +147,8 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.1.0 — Formal release.** Adds the complete Engine v2 Finding/Waiver/State/Report runtime pipeline to the generic data-driven auditor, alongside 10 genre profiles,
-27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 6 templates,
+**v2.2.0 — Formal release.** Enforces boundary coverage: genre rules with `pattern_ref`/`term_ref` must be covered by executable project overrides or a language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence. Scaffold auto-injects `language_pack` when a matching built-in pack exists (en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint. 63 tests, 11 new coverage contract tests, 10 genre profiles,
+27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 7 templates (including `LANGUAGE_PACK_TEMPLATE.yaml`),
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
 and complete documentation (`docs/` 12 guides). The rc9 release-readiness repairs
@@ -164,7 +164,9 @@ for 2.x.
 > auditing, applies file-scoped expiring waivers, persists the versioned state
 > ledger, and renders Report v2. `project_fact_checks` run across all authority
 > documents; a configured `language_pack` resolves the selected genre profile's
-> `pattern_ref` / `term_ref` rules. Only maintained packs may be selected.
+> `pattern_ref` / `term_ref` rules. Built-in tags (`en-US`, `zh-CN`)
+> or safe project-local `.yaml` paths are supported; absolute paths and
+> `..` traversal are rejected.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).
 For opencode: wire a junction `~/.config/opencode/skills/game-design-doc-governance`

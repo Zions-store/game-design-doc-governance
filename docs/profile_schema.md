@@ -62,11 +62,11 @@ exceptions: []
 ```yaml
 - id: CHAR-NO-STATS              # unique
   files: [Character_Sheets.md]   # or ["*"]
-  forbid_regex: '\d+/\s*鍙?      # regex to catch
-  # forbid_any: [鐢垫睜, 鑽搧]     # OR list of literal words
+  forbid_regex: '\d+/\s*秒'      # regex to catch
+  # forbid_any: [电池, 药品]      # OR list of literal words
   unless_near: [Gameplay_Systems.md]  # nearby mention = safe
   near_window: 200
-  stop_at: "[宸茶縼绉籡"            # optional: scan only before this marker
+  stop_at: "[已迁移]"            # optional: scan only before this marker
   match: all                     # "all" | "first_per_term"
   level: P2
   message: "Weapon stat in character doc without gameplay ref."
@@ -77,9 +77,9 @@ exceptions: []
 ```yaml
 - id: FACT-NOT-CYBORG
   files: ["*"]
-  term: '鏀归€犱汉'
-  require_negation_near: [涓嶆槸, 骞堕潪]
-  # require_all_context_near: [灏栧叺, C]  # only when ALL present
+  term: '改造人'
+  require_negation_near: [不是, 并非]
+  # require_all_context_near: [尖兵, C]  # only when ALL present
   near_window: 40
   level: P0
   message: "Protagonist described as cyborg without negation."

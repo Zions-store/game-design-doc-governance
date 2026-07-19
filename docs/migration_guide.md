@@ -57,4 +57,4 @@ and add `<!-- FACT-... -->` / `<!-- REF: ... -->` comments. See
 
 - Full-text copy-paste into new docs without classification.
 - Maintaining the old body and the new body at the same time.
-- Skipping the audit step ("I'll audit later" 鈫?debt accumulates).
+- Skipping the audit step ("I'll audit later" → debt accumulates).

@@ -250,7 +250,9 @@ def test_project_profile_template_valid(tmp_path):
     template = os.path.join(skill, "templates", "PROJECT_PROFILE_TEMPLATE.yaml")
     p = tmp_path / "Project_Profile.yaml"
     p.write_text(
-        open(template, encoding="utf-8").read().replace("{{LANGUAGE}}", "en-US"),
+        open(template, encoding="utf-8").read()
+        .replace("{{LANGUAGE}}", "en-US")
+        .replace("{{LANGUAGE_PACK_LINE}}", "# language_pack: en-US"),
         encoding="utf-8",
     )
     errors = _validate_file(str(p), "project")

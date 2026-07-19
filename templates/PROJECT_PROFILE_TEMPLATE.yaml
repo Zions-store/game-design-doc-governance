@@ -14,7 +14,7 @@ profile_type: project
 profile:
   name: "{{PROJECT_NAME}}"
   profile_name: "{{PROFILE_NAME}}"          # e.g. open_world_narrative_tactical_shooter
-  genre_profile: "{{PROFILE_NAME}}"          # enables built-in genre rules when language_pack is set
+  genre_profile: "{{PROFILE_NAME}}"          # selects genre boundary_checks; v2.2 requires project override or language_pack coverage, else P0
   primary_type: "{{PRIMARY_TYPE}}"
   secondary_types: []
   phase: prototype                           # prototype | production | live
@@ -89,10 +89,14 @@ link_checks:
   enabled: true
   ignored_dirs: [audit, export, archive]
 
-# Optional v2.1 runtime rules. Set language_pack to an available built-in tag
-# (currently en-US or zh-CN), or to a project-local YAML path. Do not set it
-# for a language without a maintained pack.
-# language_pack: en-US
+# v2.2+ runtime rules. Required when the selected genre profile has
+# boundary_checks with pattern_ref/term_ref: those rules must be covered
+# by a language_pack or by executable project boundary_checks (same ID).
+# Set language_pack to a built-in tag (currently en-US or zh-CN) or a
+# project-local YAML path relative to this profile.  For languages without
+# a maintained built-in pack, supply your own local .yaml (see
+# templates/LANGUAGE_PACK_TEMPLATE.yaml).
+{{LANGUAGE_PACK_LINE}}
 # project_fact_checks: []
 # - id: FACT-EXAMPLE
 #   authority: Narrative_Bible.md

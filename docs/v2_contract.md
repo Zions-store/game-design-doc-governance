@@ -45,7 +45,7 @@
 | `profile.language` | string | ✅ | BCP 47 tag |
 | `profile.genre_profile` | string | | References a `profiles/genre/` entry |
 | `enabled_docs` | array | ✅ | |
-| `language_pack` | string | | Path to `rules/language_packs/*.yaml` |
+| `language_pack` | string | | Built-in bare tag (e.g. `en-US`, `zh-CN`) or a project-local `.yaml` path relative to the profile |
 | `project_fact_checks` | array | | Project-specific facts with `forbid_terms`, `require_negation_near` |
 | `boundary_checks` | array | | With concrete `forbid_regex` / `forbid_any` |
 | `non_authority_files` | array | | |
@@ -165,10 +165,28 @@ Expired waivers: N
   "issues": [...],
   "loaded_rules": {
     "docs": 12, "anchors": 15, "deprecated": 6,
-    "boundary_checks": 4, "consistency_checks": 2
+    "boundary_checks": 4, "consistency_checks": 2,
+    "project_fact_checks": 2
+  },
+  "boundary_rule_coverage": {
+    "total": 4,
+    "by_project": 4,
+    "by_language_pack": 0,
+    "uncovered": 0
   }
 }
 ```
+
+### 4.3 `boundary_rule_coverage`
+
+Added in v2.2. Tracks genre boundary_checks with `pattern_ref`/`term_ref`:
+
+| Field | Meaning |
+|-------|---------|
+| `total` | Genre rules with pattern_ref/term_ref |
+| `by_project` | Covered by an **executable** project boundary_check with the same ID |
+| `by_language_pack` | Compiled from a language pack reference |
+| `uncovered` | Emitted `CONFIG-BOUNDARY-COVERAGE` P0 |
 
 ---
 
@@ -233,6 +251,7 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 - `--engine 2` (default since v2.0): validates the project profile against the packaged JSON Schema before audit checks, then runs the full Finding/Waiver/State/Report pipeline.
   - v2.0: config validation + structured waiver schema + `--engine 2` default.
   - v2.1: WaiverManager.apply(), StateManager, Report v2, project-fact checks, and language-pack genre rule resolution are wired into the actual audit chain.
+  - v2.2: boundary coverage enforcement. Genre rules with `pattern_ref`/`term_ref` require an executable project override (same ID, non-empty `forbid_regex`/`forbid_any` with compilable regex) or a resolvable language pack reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`. Project rules counted as `by_project` only when executable. Scaffold auto-injects `language_pack` for languages with a built-in pack; others get a commented `# <TODO: ...>` hint.
 
 ## 10. v1 Compatibility & Deprecation
 
@@ -273,3 +292,4 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 - **v2.0.0-rc**: Default switch. `--engine 2` default, scaffold v2 safety, profile_type required.
 - **v2.0.0**: v1 reader retained; Engine v2 is the default.
 - **v2.1.0**: Engine v2 complete — WaiverManager, StateManager, Report v2, project facts, and language-pack genre rules are wired into the audit chain.
+- **v2.2.0**: Boundary coverage enforcement — genre rules with `pattern_ref`/`term_ref` must be covered by executable project rules or language packs; uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`.

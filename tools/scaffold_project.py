@@ -375,6 +375,13 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US
     # Project_Profile.yaml
     prof_tmpl = os.path.join(TEMPLATES, "PROJECT_PROFILE_TEMPLATE.yaml")
     prof_out = os.path.join(out_dir, "Project_Profile.yaml")
+    language_pack_value = _resolve_language_pack_for_scaffold(profile, language)
+    if language_pack_value.startswith("<TODO:"):
+        language_pack_line = f"# {language_pack_value}"
+    elif language_pack_value:
+        language_pack_line = f"language_pack: {json.dumps(language_pack_value, ensure_ascii=False)}"
+    else:
+        language_pack_line = ""
     if os.path.exists(prof_tmpl):
         docs_yaml = "\n".join(f"  - {json.dumps(d, ensure_ascii=False)}" for d in enabled)
         _fill_template(prof_tmpl, prof_out, {
@@ -383,6 +390,7 @@ def _execute_plan(profile, enabled, out_dir, project_name, lang, language="en-US
             "{{PRIMARY_TYPE}}": _yaml_quoted_content(profile.get("profile", {}).get("primary_type", "")),
             "{{SNAPSHOT_OR_LOG_FILE}}": _yaml_quoted_content("Design_Document.docx"),
             "{{LANGUAGE}}": _yaml_quoted_content(language),
+            "{{LANGUAGE_PACK_LINE}}": language_pack_line,
         })
         with open(prof_out, encoding="utf-8") as f:
             text = f.read()
@@ -406,6 +414,32 @@ def _cleanup():
         except OSError:
             pass
     CREATED_DIRS.clear()
+
+
+def _resolve_language_pack_for_scaffold(profile: dict, language: str) -> str:
+    """Determine the language_pack value for a scaffolded project profile.
+
+    When the genre profile declares boundary_checks with pattern_ref/term_ref,
+    the scaffolded project must cover them via a language_pack or via
+    executable project boundary_checks with the same IDs.
+    Returns the built-in tag if a matching pack exists; otherwise returns a
+    placeholder hint (language pack or project boundary_checks both work).
+    """
+    boundary = profile.get("boundary_checks", [])
+    needs_pack = any(
+        isinstance(rc, dict) and (rc.get("pattern_ref") or rc.get("term_ref"))
+        for rc in boundary
+    )
+    if not needs_pack:
+        return ""
+
+    rules_dir = os.path.join(_asset_directory("rules"), "language_packs")
+    expected_file = f"{language}.yaml"
+    candidate = os.path.join(rules_dir, expected_file)
+    if os.path.isfile(candidate):
+        return language
+
+    return f"<TODO: supply a {language} language-pack .yaml, or add executable project boundary_checks with the same IDs to cover genre rules>"
 
 
 def main():

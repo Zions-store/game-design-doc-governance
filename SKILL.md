@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 2.1.0
+version: 2.2.0
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
@@ -19,10 +19,10 @@ Different games enable different documents, but all obey the same principles.
 
 ## When to use
 
-- "set up / organize game design documents", "寤虹珛璁捐鏂囨。浣撶郴", "doc governance"
+- "set up / organize game design documents", "建立设计文档体系", "doc governance"
 - Starting a new game's GDD and unsure which documents to create
 - An existing GDD has become an everything-bucket and needs splitting
-- "audit my design docs" / "check design doc consistency" / "鏇存柊瀹¤"
+- "audit my design docs" / "check design doc consistency" / "更新审计"
 - Migrating an old design doc set into a governed structure
 
 ## Core principles
@@ -60,9 +60,15 @@ The audit script prints English; report language can be configured later.
 4. **Generate `STYLE_GUIDE.md`** from `templates/STYLE_GUIDE_TEMPLATE.md`, filling
    placeholders from the Profile (file list, authority matrix, boundaries).
 5. **Generate `Project_Profile.yaml`** from `templates/PROJECT_PROFILE_TEMPLATE.yaml`.
-6. **Set authority & boundaries**  - see `modules/04_authority_boundaries.md`.
-7. **Add anchors & deprecations**  - see `modules/05_anchor_and_change_safety.md`.
-8. **Run the audit** (below) and drive P0/P1 to zero.
+6. **Cover language-dependent genre boundaries (v2.2+)**: if the selected
+   genre Profile has `boundary_checks` with `pattern_ref` / `term_ref`, either
+   configure `language_pack` (a built-in tag or a project-local YAML based on
+   `templates/LANGUAGE_PACK_TEMPLATE.yaml`) or add executable project
+   `boundary_checks` with the same IDs. Missing coverage is P0
+   `CONFIG-BOUNDARY-COVERAGE`.
+7. **Set authority & boundaries**  - see `modules/04_authority_boundaries.md`.
+8. **Add anchors & deprecations**  - see `modules/05_anchor_and_change_safety.md`.
+9. **Run the audit** (below) and drive P0/P1 to zero.
 
 ## Audit flow
 
@@ -92,7 +98,7 @@ python tools/global_doc_audit.py \
 | `modules/03_genre_profiles.md` | Genre  - document set matrix (10 genres) |
 | `modules/04_authority_boundaries.md` | Authority matrix + cross-document boundary rules |
 | `modules/05_anchor_and_change_safety.md` | Anchors, REF usage, deprecated registry, 5-layer change safety |
-| `modules/06_audit_workflow.md` | Audit order, issue levels (P0鈥揚3/INFO), issue states |
+| `modules/06_audit_workflow.md` | Audit order, issue levels (P0–P3/INFO), issue states |
 | `modules/07_export_and_snapshot.md` | Non-authority snapshots (.docx/.pdf) |
 | `modules/08_migration_workflow.md` | Migrating an existing GDD |
 | `modules/09_ai_collaboration_rules.md` | What the AI must/must not do when editing docs |
@@ -100,6 +106,7 @@ python tools/global_doc_audit.py \
 ## Templates & tools
 
 - `templates/PROJECT_PROFILE_TEMPLATE.yaml`  - per-project profile skeleton.
+- `templates/LANGUAGE_PACK_TEMPLATE.yaml`  - project-local language-pack skeleton.
 - `templates/STYLE_GUIDE_TEMPLATE.md`  - 15-chapter document constitution, with placeholders.
 - `profiles/genre/*.yaml`  - 10 reusable genre profiles; project regression fixtures live under `tests/fixtures/`.
 - `doc_modules/*.md.tmpl`  - 27 skeleton files; 24 cover the 48 unique profile doc names and 24 remain documented gaps.

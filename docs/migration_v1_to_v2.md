@@ -1,4 +1,4 @@
-# Migration Guide — v1.x 🭆 v2.0
+# Migration Guide: v1.x to v2.0
 
 This guide covers migrating an existing project from v1.x governance to v2.0.
 
@@ -6,13 +6,15 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 
 | Change | Action |
 |--------|--------|
-| `profiles/*.yaml` → `profiles/genre/*.yaml` | Update `--profile` paths in your scripts |
+| `profiles/*.yaml` -> `profiles/genre/*.yaml` | Update `--profile` paths in your scripts |
 | Genre profile cleanup | Move `enabled_docs` to your `Project_Profile.yaml` |
 | `profile_type: project` required | Add to your Project_Profile.yaml |
 | Engine v2 default | `--engine 2` is now default; `--engine 1` for rollback |
 | Scaffold safety | Non-empty dirs refused without `--force`; optional docs only with `--enable-doc` |
 
 > **v2.1 available**: `project_fact_checks`, an explicitly selected maintained `language_pack`, and the full Engine v2 Finding/Waiver/State/Report pipeline run at audit time.
+>
+> **v2.2 available**: boundary coverage enforcement. When your project profile declares a `genre_profile`, every genre `boundary_check` with `pattern_ref`/`term_ref` must be covered by either (a) an executable project `boundary_checks` entry with the same `id`, or (b) a `language_pack` that resolves the reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`.
 
 ---
 
@@ -33,9 +35,9 @@ Record the baseline: `P0=N P1=N P2=N P3=N INFO=N`.
 
 ```yaml
 schema_version: 1
-profile_type: project   # ← add this line
+profile_type: project   # <- add this line
 profile:
-  language: en-US        # ← add this line (BCP 47 tag)
+  language: en-US        # <- add this line (BCP 47 tag)
   name: My Project
   ...
 ```
@@ -62,10 +64,20 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 
 ### 5. Language rules
 
-> **v2.1 behavior**: setting `language_pack` to a maintained built-in tag (currently
-> `en-US` or `zh-CN`) resolves the selected `profile.genre_profile`'s `pattern_ref`
-> / `term_ref` checks. A project boundary rule with the same ID overrides the generic
-> rule. Do not set `language_pack` for a language without a maintained pack.
+> **v2.1 behavior**: setting `language_pack` to a built-in tag (currently
+> `en-US` or `zh-CN`) or a safe project-local `.yaml` path resolves the selected
+> `profile.genre_profile`'s `pattern_ref` / `term_ref` checks. A project boundary
+> rule with the same ID overrides the generic rule. For languages without a
+> maintained built-in pack, supply your own local `.yaml` (see
+> `templates/LANGUAGE_PACK_TEMPLATE.yaml`). Built-in tags and project-local
+> paths are both supported; absolute paths and `..` traversal are rejected.
+>
+> **v2.2 behavior**: genre rules with `pattern_ref`/`term_ref` that are neither
+> overridden by a same-ID project `boundary_checks` nor resolved via `language_pack`
+> produce P0 `CONFIG-BOUNDARY-COVERAGE`. Each project override must be executable
+> (non-empty `forbid_regex` or `forbid_any` with compilable regex). If you use a
+> genre profile with such rules, either add project overrides or configure
+> `language_pack` to a matching built-in tag.
 
 ### 6. Update profile paths in scripts
 
@@ -150,10 +162,15 @@ If v2 causes issues in your project:
 
 - [ ] `profile_type: project` added to Project_Profile.yaml
 - [ ] `enabled_docs` moved from genre profile to project profile
-- [ ] Profile paths updated in scripts and CI (`profiles/` → `profiles/genre/`)
+- [ ] Profile paths updated in scripts and CI (`profiles/` -> `profiles/genre/`)
 - [ ] `gdd-profile-validate` passes
 - [ ] `gdd-audit` v2 baseline EQUIVALENT with v1
+- [ ] All genre boundary_checks covered by project rules or language_pack (no CONFIG-BOUNDARY-COVERAGE)
 - [ ] Scaffold scripts updated (`--enable-doc`, `--force`, or `--legacy`)
 
 > **v2.1 available**: project facts and an explicitly selected maintained language
 > pack run in addition to existing `consistency_checks` and `boundary_checks`.
+>
+> **v2.2 available**: boundary coverage enforcement. If your project selects a
+> `genre_profile` with `boundary_checks` using `pattern_ref`/`term_ref`, every
+> such rule must be covered. Uncovered rules produce P0 errors.

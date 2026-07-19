@@ -4,7 +4,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.2 — expand maintained language packs and evaluate an explicit language-pack fact-reference contract._
+_Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pack fact-reference contract._
+
+## [2.2.0] - 2026-07-19 — Formal Release
+
+### Added
+
+- **Boundary coverage enforcement**: genre rules with `pattern_ref`/`term_ref` must be covered by either a project `boundary_checks` override with the same `id` or a resolvable `language_pack` reference. Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE` errors instead of being silently skipped.
+- **`boundary_rule_coverage`** in `audit_report.json`: reports `total`, `by_project`, `by_language_pack`, and `uncovered` counts for genre boundary_checks.
+- **`LANGUAGE_PACK_TEMPLATE.yaml`**: skeleton for creating new language packs with schema documentation.
+- **Scaffold auto-injection**: when the genre profile declares boundary_checks with `pattern_ref`/`term_ref`, the scaffolded `Project_Profile.yaml` now includes `language_pack` referencing the built-in pack matching the project language.
+- **11 boundary coverage contract tests** (`test_v22_boundary_coverage.py`): genre uncovered / all overridden / language pack resolved / missing reference / mixed assembly / project-override priority / partial coverage / ThirdPersonTest equivalence / non-executable project override rejected / invalid regex caught / dual CONFIG-LANGUAGE-REF + CONFIG-BOUNDARY-COVERAGE emission.
+
+### Changed
+
+- **`load_runtime_boundary_checks`** now returns a 3-tuple `(checks, errors, coverage)` and always inspects genre boundary_checks for coverage regardless of whether `language_pack` is configured.
+- **Report Schema (Engine v2)**: `audit_report.schema.json` now requires `boundary_rule_coverage` when `engine_version` is `2`. The object requires non-negative integer `total`, `by_project`, `by_language_pack`, and `uncovered` counters.
+- **`test_engine_v2_reports_invalid_language_pack_yaml_as_configuration_error`** updated to accept both `CONFIG-LANGUAGE-PACK` and per-rule `CONFIG-BOUNDARY-COVERAGE` findings.
+- **`test_project_profile_template_valid`** updated to replace the `{{LANGUAGE_PACK_LINE}}` placeholder.
+
+### Tests
+
+- **Report-schema contract**: Engine v2 regression coverage verifies the coverage object, its zero-value form, missing-field rejection, and invalid counter-type rejection.
+- **Engine 1 legacy compatibility**: `test_engine_v1_preserves_invalid_regex_exception` verifies that an invalid `forbid_regex` still propagates `re.error` under Engine 1.
 
 ## [2.1.0] - 2026-07-19 — Formal Release
 

@@ -30,7 +30,7 @@ enabled_docs:
   - Naming.md
   - STYLE_GUIDE.md
 
-language_pack: rules/language_packs/zh-CN.yaml
+language_pack: zh-CN
 
 project_fact_checks:
   - id: FACT-SHEPHERD-HUMAN

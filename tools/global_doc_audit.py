@@ -34,7 +34,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.1.0-generic"
+SCRIPT_VERSION = "v2.2.0-generic"
 
 # ─── rule registries loaded from STYLE_GUIDE.md ───
 EXPECTED_DOCS = []
@@ -338,7 +338,7 @@ def check_links(all_texts, root_dir, ignored_dirs=None, version_pattern=r'\((\d+
 
 
 # ─── data-driven checks (from profile) ───
-def run_boundary_checks(texts, checks, enabled_docs):
+def run_boundary_checks(texts, checks, enabled_docs, report_invalid_regex=False):
     for chk in checks:
         level = chk.get("level", "P2")
         msg = chk.get("message", f"boundary check {chk.get('id','')}")
@@ -357,11 +357,18 @@ def run_boundary_checks(texts, checks, enabled_docs):
                 c = c.split(stop)[0]
             reported = False
             for pat in patterns:
-                if mode == "first_per_term":
-                    m = re.search(pat, c)
-                    ms = [m] if m else []
-                else:
-                    ms = list(re.finditer(pat, c))
+                try:
+                    if mode == "first_per_term":
+                        m = re.search(pat, c)
+                        ms = [m] if m else []
+                    else:
+                        ms = list(re.finditer(pat, c))
+                except re.error as exc:
+                    if not report_invalid_regex:
+                        raise
+                    add("P0", doc_name, f"Invalid regex in boundary_check {chk.get('id','')}: {exc}", rule="CONFIG-BOUNDARY-REGEX")
+                    reported = True
+                    break
                 for m in ms:
                     win = c[max(0, m.start()-window):m.end()+window]
                     if near and any(n in win for n in near):
@@ -625,11 +632,11 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
         check_links(all_texts, root_dir, ignored_dirs=lc.get("ignored_dirs"), version_pattern=ver_pat)
     boundary_checks = profile.get("boundary_checks", [])
     if v2:
-        runtime_checks, runtime_errors = v2_components["load_runtime_boundary_checks"](profile, profile_path)
+        runtime_checks, runtime_errors, boundary_coverage = v2_components["load_runtime_boundary_checks"](profile, profile_path)
         for index, (rule, message) in enumerate(runtime_errors):
             add("P0", f"Project_Profile.yaml#runtime-{index}", message, rule=rule)
         boundary_checks = boundary_checks + runtime_checks
-    run_boundary_checks(texts, boundary_checks, enabled_docs)
+    run_boundary_checks(texts, boundary_checks, enabled_docs, report_invalid_regex=v2)
     run_consistency_checks(texts, profile.get("consistency_checks", []), enabled_docs)
     if v2:
         run_project_fact_checks(texts, profile.get("project_fact_checks", []), enabled_docs)
@@ -689,6 +696,7 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
                     "consistency_checks": len(profile.get("consistency_checks", [])),
                     "project_fact_checks": len(profile.get("project_fact_checks", [])),
                 },
+                "boundary_rule_coverage": boundary_coverage,
             }
             with open(os.path.join(out_dir, "audit_report.json"), "w", encoding="utf-8") as f:
                 json.dump(report_data, f, ensure_ascii=False, indent=2)

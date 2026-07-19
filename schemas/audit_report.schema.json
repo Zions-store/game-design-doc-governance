@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://zions-store.github.io/game-design-doc-governance/schemas/audit_report.schema.json",
   "title": "Audit Report",
-  "description": "Schema for audit_report.json output. v2.1 adds engine and waiver metadata while retaining v1 fields.",
+  "description": "Schema for audit_report.json output. v2.2 adds boundary coverage metadata while retaining v1 fields.",
   "type": "object",
   "required": ["audit_id", "time", "script_version", "style_file", "profile_file", "root_dir", "out_dir", "p0", "p1", "p2", "p3", "issues"],
   "properties": {
@@ -51,6 +51,26 @@
         "consistency_checks": { "type": "integer" },
         "project_fact_checks": { "type": "integer" }
       }
+    },
+    "boundary_rule_coverage": {
+      "type": "object",
+      "required": ["total", "by_project", "by_language_pack", "uncovered"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "by_project": { "type": "integer", "minimum": 0 },
+        "by_language_pack": { "type": "integer", "minimum": 0 },
+        "uncovered": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "engine_version": { "const": 2 } },
+        "required": ["engine_version"]
+      },
+      "then": { "required": ["boundary_rule_coverage"] }
+    }
+  ]
 }
