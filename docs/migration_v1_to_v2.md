@@ -180,4 +180,3 @@ If v2 causes issues in your project:
 > **v2.2 available**: boundary coverage enforcement. If your project selects a
 > `genre_profile` with `boundary_checks` using `pattern_ref`/`term_ref`, every
 > such rule must be covered. Uncovered rules produce P0 errors.
-
