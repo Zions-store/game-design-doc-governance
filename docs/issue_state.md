@@ -1,17 +1,22 @@
 # Issue State Tracking
 
-Every issue reported by `gdd-audit` carries a stable ID:
-`AUD-{level}-{md5(file|rule|msg)[:8]}`. The same issue keeps the same ID across
-runs.
+Every issue reported by `gdd-audit` carries a stable ID. Engine 2 (default):
+`AUD-{level}-{md5(level|rule|file)[:8]}` - fingerprinted from the (level, rule,
+file) triple, not the message text. Engine 1 (legacy): `md5(file|rule|msg)`.
+
+The state ledger tracks issue *classes*: when one (level, rule, file) triple
+occurs several times in a file (e.g. multiple hits under the same rule), all
+instances share one ID and one ledger entry, so report rows may legitimately
+exceed ledger entries.
 
 ## `issue_state.jsonl`
 
 A JSON-lines file in the audit directory. Each line is one issue:
 
 ```json
-{"issue_id": "AUD-P3-d33cd196", "status": "OPEN", "level": "P3",
- "file": "RULE-NAMING-FACT-BOUNDARY", "msg": "RULE anchor has no REF",
- "reason": "", "updated_at": "2026-07-09 12:00"}
+{"_schema": 1, "issue_id": "AUD-P3-e06f99df", "status": "OPEN", "level": "P3",
+ "file": "Naming.md", "rule": "ANCHOR-RULE-NO-REF",
+ "msg": "RULE anchor has no REF", "reason": "", "updated_at": "2026-07-09 12:00"}
 ```
 
 ## States

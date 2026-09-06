@@ -74,7 +74,7 @@ python tools/global_doc_audit.py --root <md dir> --out <audit dir> \
 
 ```
 
-Requires Python 3 and `PyYAML`.
+Requires Python 3.9+ with `PyYAML` and `jsonschema` (engine 2).
 
 ## Usage Modes
 

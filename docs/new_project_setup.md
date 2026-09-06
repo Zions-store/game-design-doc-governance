@@ -47,9 +47,9 @@ Open `Project_Profile.yaml` and verify:
 
 The placeholder `STYLE_GUIDE.md` has the structure but **no project-specific
 content**. Fill in:
-- The authority matrix (搂4) - one row per content type.
-- The anchor registry (搂6.2) - register high-risk cross-document facts.
-- The deprecated-term registry (搂6.3) - register replaced settings/terms.
+- The authority matrix (§4) - one row per content type.
+- The anchor registry (§6.2) - register high-risk cross-document facts.
+- The deprecated-term registry (§6.3) - register replaced settings/terms.
 
 See `modules/04_authority_boundaries.md` and `modules/05_anchor_and_change_safety.md`.
 

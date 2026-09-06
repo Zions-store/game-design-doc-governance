@@ -100,7 +100,7 @@ resources in collectibles?
 
 ## 13. Scripted Audit Spec
 
-Audit is run by `game-design-doc-governance/tools/global_doc_audit.py`, using this
+Audit is run by `gdd-audit` (see `docs/audit_reference.md`), using this
 STYLE and the Project Profile as rule sources. Reports: `audit/audit_report.md` +
 `audit/audit_report.json`; history appended to `audit/audit_history.md`; per-issue
 states tracked in `audit/issue_state.jsonl`. The audit parses the

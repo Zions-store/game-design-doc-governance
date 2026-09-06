@@ -145,12 +145,16 @@ def load_runtime_boundary_checks(profile_data: dict[str, Any], profile_path: str
     except (OSError, ValueError, FileNotFoundError) as exc:
         return [], [("CONFIG-GENRE-PROFILE", str(exc))], _empty_coverage()
 
-    genre_rules = [
-        rc for rc in genre.get("boundary_checks", [])
-        if isinstance(rc, dict) and (rc.get("pattern_ref") or rc.get("term_ref"))
-    ]
+    all_genre_rules = [rc for rc in genre.get("boundary_checks", []) if isinstance(rc, dict)]
+    genre_rules = [rc for rc in all_genre_rules if (rc.get("pattern_ref") or rc.get("term_ref"))]
+    for rc in all_genre_rules:
+        if not (rc.get("pattern_ref") or rc.get("term_ref")):
+            errors.append(("CONFIG-GENRE-RULE",
+                f"Genre rule '{rc.get('id', '(unknown)')}' carries no pattern_ref/term_ref and is ignored: "
+                f"genre rules are types resolved via language packs; declare an executable project "
+                f"boundary_check with the same id instead"))
     if not genre_rules:
-        return [], [], _empty_coverage()
+        return [], errors, _empty_coverage()
 
     project_checks_by_id: dict[str, dict] = {
         check.get("id"): check

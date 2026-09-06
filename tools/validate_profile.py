@@ -18,6 +18,7 @@ Exit 0 on valid; exit 1 on one or more errors; exit 2 on missing file or schema.
 import sys
 import os
 import argparse
+import json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")

@@ -186,6 +186,9 @@ def scaffold(profile_path, out_dir, project_name="Untitled Game", language="en-U
     if not validate_language_tag(language):
         print(f"Warning: language '{language}' is not a supported language tag; falling back to en-US", file=sys.stderr)
         language = "en-US"
+    if language not in LANGS:
+        print(f"Warning: no built-in scaffold strings for '{language}'; English placeholders will be generated "
+              f"(translate them or provide a language pack).", file=sys.stderr)
     lang = LANGS.get(language, LANGS["en-US"])
 
     # 1. Load the genre profile

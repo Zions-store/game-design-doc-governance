@@ -1,4 +1,4 @@
-﻿# Migration Guide: v1.x to v2.0
+# Migration Guide: v1.x to v2.0
 
 This guide covers migrating an existing project from v1.x governance to v2.0.
 
@@ -25,9 +25,9 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 ## Step-by-Step Migration
 
 ### 1. Check current state
-
 
-`ash
+
+```bash
 gdd-audit --root "<project>/Design Document/md file" \
   --style "<project>/Design Document/md file/STYLE_GUIDE.md" \
   --profile "<project>/Design Document/md file/Project_Profile.yaml" \
@@ -35,11 +35,9 @@ gdd-audit --root "<project>/Design Document/md file" \
 ```
 
 Record the baseline: `P0=N P1=N P2=N P3=N INFO=N`.
-
 ### 2. Add `profile_type` and `profile.language` to your Project_Profile.yaml
-
 
-`yaml
+```yaml
 schema_version: 1
 profile_type: project   # <- add this line
 profile:
@@ -49,9 +47,9 @@ profile:
 ```
 
 Validate:
-
 
-`ash
+
+```bash
 gdd-profile-validate --kind project "<path>/Project_Profile.yaml"
 ```
 
@@ -87,9 +85,9 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 > `language_pack` to a matching built-in tag.
 
 ### 6. Update profile paths in scripts
-
 
-`ash
+
+```bash
 # Old
 --profile profiles/open_world_narrative_tactical_shooter.yaml
 
@@ -98,18 +96,18 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 ```
 
 ### 7. Re-run audit with engine v2 (now default)
-
 
-`ash
+
+```bash
 gdd-audit --root "<project>/Design Document/md file" \
   --style "<project>/Design Document/md file/STYLE_GUIDE.md" \
   --profile "<project>/Design Document/md file/Project_Profile.yaml" \
   --out "<project>/Design Document/audit" --no-state
 ```
 
-If you need the old behavior temporarily:
+If you need the old behavior temporarily:
 
-`ash
+```bash
 gdd-audit ... --engine 1
 ```
 
@@ -126,16 +124,16 @@ If DIVERGED:
 
 ## Scaffold Migration
 
-### Old (v1 legacy)
+### Old (v1 legacy)
 
-`ash
+```bash
 gdd-scaffold --profile ... --out ... --project-name "My Game"
 # Creates ALL optional docs in the target directory (even if not empty)
 ```
 
-### New (v2 default)
+### New (v2 default)
 
-`ash
+```bash
 gdd-scaffold --profile ... --out ... --project-name "My Game"
 # Refuses non-empty dirs, only creates recommended docs
 
@@ -186,3 +184,4 @@ If v2 causes issues in your project:
 > **v2.2 available**: boundary coverage enforcement. If your project selects a
 > `genre_profile` with `boundary_checks` using `pattern_ref`/`term_ref`, every
 > such rule must be covered. Uncovered rules produce P0 errors.
+

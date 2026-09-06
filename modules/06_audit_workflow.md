@@ -8,17 +8,18 @@ flags; humans decide. It is never a design authority.
 ## 1. Audit order
 
 ```
-1. engine 2: validate the project Profile against its JSON Schema
+1. validate the Profile against its JSON Schema (engine 2 only; engine 2 is the default - `--engine 1` keeps legacy behavior)
 2. file-list check (expected authority docs present; note non-authority files)
 3. table structure (column counts; HTML comment between table rows)
 4. anchors (authority presence; FACT/RULE missing REF)
 5. deprecated terms (with negation-context exemption)
 6. cross-document links (broken links to non-existent docs)
-7. boundary_checks   (from Profile)
+7. boundary_checks (project rules + genre rules compiled from the language pack; uncovered genre rules are P0 CONFIG-BOUNDARY-COVERAGE, v2.2)
 8. consistency_checks (from Profile)
-9. apply exceptions  (registered waivers)
-10. write report.md + report.json; append history.md
-11. optional: compare against --baseline
+9. project_fact_checks (engine 2: cross-document project facts)
+10. apply waivers (engine 2: WaiverManager with expiry enforcement; engine 1: legacy exceptions)
+11. state suppression + write report.md + report.json; append history.md
+12. optional: compare against --baseline
 ```
 
 ## 2. Issue levels
@@ -37,7 +38,7 @@ this; `audit.fail_on_p0` / `fail_on_p1` can relax P0/P1 gating).
 
 ## 3. Issue IDs and states
 
-- Current report ID: `AUD-{LEVEL}-{md5(file|rule|message)[:8]}` - same issue keeps the same ID while the message is unchanged. The v2.1 structured Finding ID changes this contract.
+- Finding ID (engine 2, the default): `AUD-{LEVEL}-{md5(level|rule|file)[:8]}` - fingerprinted from the (level, rule, file) triple, not the message text; identical triples share one ID, so the state ledger tracks issue *classes* and report rows may exceed ledger entries. Engine 1 (legacy) hashes `md5(file|rule|message)` instead.
 - States (P1 predefines the `status` field; full flow implemented in P3 via
   `issue_state.jsonl`):
 

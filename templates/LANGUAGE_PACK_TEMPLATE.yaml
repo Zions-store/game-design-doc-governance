@@ -37,9 +37,7 @@ resource_terms:
   - food
   - parts
 
-# Optional: project fact terms (referenced by project_fact_checks in the
-# project profile — not by genre profiles).
-project_fact_terms:
-  example:
-    - term1
-    - term2
+# Reserved for v2.3: project fact terms are NOT consumed by the current
+# engine. Declare project-specific facts as literal forbid_terms under the
+# project profile's project_fact_checks instead. An explicit language-pack
+# fact-reference contract is planned for v2.3.

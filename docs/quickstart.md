@@ -40,8 +40,12 @@ gdd-audit \
 ```
 
 A freshly scaffolded project should show **P0=0 P1=0** (the templates produce no
-blocking issues). Populate the doc bodies, re-audit, and drive P0/P1 back to zero
-after each batch of changes.
+blocking issues). One exception (v2.2): if your language has no built-in language
+pack (only en-US / zh-CN ship built-in) and your genre profile carries
+`pattern_ref`/`term_ref` rules, provide executable project `boundary_checks`
+overrides - otherwise the uncovered rules report P0 `CONFIG-BOUNDARY-COVERAGE`.
+Populate the doc bodies, re-audit, and drive P0/P1 back to zero after each batch
+of changes.
 
 ## 4. Understand the report
 

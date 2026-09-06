@@ -16,7 +16,7 @@
       (authority uses `<!-- ANCHOR-ID -->`; references use `<!-- REF: ANCHOR-ID -->`)
 - [ ] **6. Edit** - update the authority body; update every reference / summary
 - [ ] **7. Deprecate** - register any replaced wording in STYLE §6.3
-- [ ] **8. Audit** - run `global_doc_audit.py`; drive P0/P1 to zero
+- [ ] **8. Audit** - run `gdd-audit`; drive P0/P1 to zero
 - [ ] **9. Done only when the audit confirms** - not when the text is written
 
 ### Notes

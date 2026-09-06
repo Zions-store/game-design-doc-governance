@@ -166,8 +166,12 @@ def load_profile(path):
     if yaml is None:
         print("[WARN] PyYAML not installed; --profile ignored.", file=sys.stderr)
         return {}
-    with open(path, "r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+    except UnicodeDecodeError:
+        print(f"[WARN] {path} is not valid UTF-8; profile treated as empty.", file=sys.stderr)
+        return {}
     return data
 
 
@@ -229,8 +233,12 @@ def read_doc(root, name, version_pattern=r'\((\d+)\)'):
     path, _ = find_latest(root, name, version_pattern)
     if path is None:
         return None
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except UnicodeDecodeError:
+        add("P0", name, f"{os.path.basename(path)} is not valid UTF-8; re-save the file as UTF-8", rule="FILE-ENCODING")
+        return None
 
 
 def clean_for_scan(text):
@@ -302,8 +310,12 @@ def check_deprecated(all_texts, profile_terms):
         olds = t.get("old", [])
         olds = olds if isinstance(olds, list) else [olds]
         combined.append(("/".join(olds), t.get("current", ""), "/".join(t.get("search_scope", ["*"]))))
+    seen_keywords = set()
     for old_entry, new_entry, sr in combined:
         for kw in [k.strip() for k in old_entry.split("/") if len(k.strip()) > 1]:
+            if kw in seen_keywords:
+                continue  # STYLE_GUIDE registry wins over profile.deprecated_terms duplicates
+            seen_keywords.add(kw)
             for doc_name, text in all_texts:
                 if doc_name == "STYLE_GUIDE.md":
                     continue
@@ -314,7 +326,7 @@ def check_deprecated(all_texts, profile_terms):
                     continue
                 for m in re.finditer(re.escape(kw), c):
                     ctx = c[max(0, m.start()-30):m.end()+30]
-                    if re.search(r'不是|并非|禁止|非|deprecated|旧称|误称', ctx):
+                    if re.search(r'不是|并非|禁止|非|deprecated|obsolete|formerly|no longer|not |旧称|误称', ctx):
                         continue
                     sev = "P1" if len(kw) > 5 else "P2"
                     add(sev, doc_name, f"Deprecated term '{kw}' (-> {new_entry})", rule="DEPRECATED-TERM")
@@ -595,8 +607,11 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
         # try profile paths or default
         style_path, _ = find_latest(root_dir, "STYLE_GUIDE.md")
     if style_path and os.path.exists(style_path):
-        with open(style_path, "r", encoding="utf-8") as f:
-            load_style_rules(f.read())
+        try:
+            with open(style_path, "r", encoding="utf-8") as f:
+                load_style_rules(f.read())
+        except UnicodeDecodeError:
+            add("P0", os.path.basename(style_path), "STYLE_GUIDE is not valid UTF-8; re-save the file as UTF-8", rule="FILE-ENCODING")
         style_file = os.path.basename(style_path)
     else:
         add("P0", "STYLE_GUIDE.md", "Cannot load STYLE_GUIDE", rule="STYLE-MISSING")

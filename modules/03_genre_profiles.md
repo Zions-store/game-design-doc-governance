@@ -11,8 +11,8 @@ optional docs.
 
 | Shape | Fields | Used by |
 |---|---|---|
-| **Genre profile** (type library) | `recommended_docs` / `optional_docs` / `disabled_docs` / `high_risk_boundaries` / `audit_focus` / `suggested_doc_modules` | Choosing a document set for a new project |
-| **Project profile** (instance) | `enabled_docs` + `boundary_checks` / `consistency_checks` / `exceptions` / thresholds | The auditor at run time |
+| **Genre profile** (type library) | `recommended_docs` / `optional_docs` / `disabled_docs` / `high_risk_boundaries` / `audit_focus` / `suggested_doc_modules` / `boundary_checks` (v2.2, ref-based rule types) | Choosing a document set for a new project |
+| **Project profile** (instance) | `enabled_docs` + `boundary_checks` / `consistency_checks` / `project_fact_checks` / `exceptions` / thresholds | The auditor at run time |
 
 To instantiate: take a genre profile's `recommended_docs` (+ chosen `optional_docs`),
 write them into a project's `Project_Profile.yaml` `enabled_docs`, then add that
@@ -44,3 +44,20 @@ All genres also enable the universal layer: `Design_Document.md`, `STYLE_GUIDE.m
 - A genre-specific doc without a `doc_modules/` skeleton yet (e.g. `Weapon_Balance.md`)
   is still listed in `recommended_docs`; its skeleton can be added later.
 - `suggested_doc_modules` points at the `doc_modules/*.tmpl` skeletons to scaffold.
+
+## 4. Genre boundary rules and coverage (v2.2)
+
+Genre `boundary_checks` declare rule *types*: each carries `pattern_ref` or
+`term_ref` pointing at a language-pack key, plus `id` / `type` / `files` /
+`message`. They are data, not regexes - genre profiles stay language-neutral.
+
+At audit time every ref-rule must be **covered** by one of:
+
+1. an executable project `boundary_checks` entry with the same `id`
+   (`forbid_regex` / `forbid_any`), or
+2. the project's `language_pack` resolving the references.
+
+Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`. A same-id project rule
+**replaces** the genre rule entirely (no field merging; `level` defaults to P2
+when omitted). Genre rules without `pattern_ref`/`term_ref` are reported as
+`CONFIG-GENRE-RULE` and ignored.

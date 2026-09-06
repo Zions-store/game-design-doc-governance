@@ -6,6 +6,61 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pack fact-reference contract._
 
+### Fixed
+
+- **`tools/validate_profile.py`**: added the missing `import json` — `--json`
+  previously crashed with `NameError` on any error output.
+- **Encoding resilience**: `read_doc` / STYLE_GUIDE loading / profile loading no
+  longer crash the whole audit on non-UTF-8 files — they report P0
+  `FILE-ENCODING` (or a stderr warning for the profile) and continue.
+- **Waiver expiry fails closed**: an invalid ISO-8601 `expires` value now
+  disables the waiver (surfaced under Expired Waivers) instead of granting a
+  permanent silent exemption.
+- **Genre rules without `pattern_ref`/`term_ref`** are reported as
+  `CONFIG-GENRE-RULE` instead of being silently dropped; coverage errors are no
+  longer discarded when a genre profile contains no ref-rules at all.
+- **`engine.validate_profile`**: the schema kind is now taken from
+  `profile_type` (auto-detected as fallback), so genre profiles validate against
+  the genre schema; the `enabled_docs` check applies to project profiles only.
+- **`deprecated_terms` dedup**: keywords registered in both the STYLE registry
+  and `profile.deprecated_terms` are now reported once (STYLE wins).
+- **Negation-context exemption**: added English exemption words
+  (`obsolete` / `formerly` / `no longer` / `not `) alongside the Chinese set.
+- **`gdd-scaffold`** warns when a language has no built-in scaffold strings
+  (English placeholders are generated).
+
+### Changed
+
+- **Built-in language packs**: removed the dead `project_fact_terms` block
+  (never consumed by the engine; reserved for the v2.3 fact-reference
+  contract). `LANGUAGE_PACK_TEMPLATE.yaml` now documents this.
+- **Docs synced to v2.2 reality**: `modules/02` top-level schema
+  (`profile_type` / `profile.language` / `genre_profile` / `language_pack` /
+  `project_fact_checks` / `paths`); `modules/03` genre boundary-coverage
+  contract; `modules/06` audit order (project_fact_checks step, engine 2
+  default) and Finding-ID formula (`md5(level|rule|file)`, with the
+  issue-class ledger semantics); `docs/issue_state.md` ID + example
+  (`_schema`, real `file` value); `docs/quickstart.md` v2.2 coverage
+  exception; README dependency line; `docs/v2_contract.md` §3.1 entry-shape
+  section; same-id project overrides replace genre rules entirely (documented,
+  `level` defaults to P2).
+- **Templates**: `AUDIT_HISTORY_TEMPLATE.md` gains the engine line, suppressed
+  count, active/expired waiver lines and verdict; `CHANGE_CHECKLIST_TEMPLATE.md`
+  and `STYLE_GUIDE_TEMPLATE.md` reference `gdd-audit` instead of repo-relative
+  script paths.
+- **Mojibake cleanup**: CHANGELOG 0.1.0-0.3.2 sections (U+0008 / stray `?` /
+  `ж`), `migration_v1_to_v2.md` code fences (`` ` + U+0008 + ash`` →
+  ```` ```bash ````) and stray blank lines, `new_project_setup.md` `§` signs.
+- Removed build artifacts from the working tree (`__pycache__` /
+  `.pytest_cache` / egg-info).
+
+### Verified
+
+- `pytest`: **63 passed** (matches the v2.2.0 baseline).
+- ThirdPersonTest regression: **PASS P0=0 P1=0 P2=0 P3=0**, coverage 4/4
+  `by_project`, EQUIVALENT with the 2026-09-06 closing audit.
+- `git diff --check`: no whitespace errors; all code fences balanced.
+
 ## [2.2.0] - 2026-07-19 — Formal Release
 
 ### Added
@@ -479,12 +534,12 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
   fresh out dir / `--no-state` so prior suppression can't skew the expected P3.
 
 ### Changed
-- **Document-existence-ж- generalised (P2-4=B)**: new shared `match_versioned_doc()`;
+- **Document-existence — generalised (P2-4=B)**: new shared `match_versioned_doc()`;
   `find_latest()` globs `{base}*{ext}` then strictly filters via `version_pattern`
-  (canonical / `(n)` / `_vN` / `.N`) ?rejecting `*_TEMPLATE/_BACKUP/_OLD`.
+  (canonical / `(n)` / `_vN` / `.N`) —rejecting `*_TEMPLATE/_BACKUP/_OLD`.
   `check_file_list()` and `check_links()` now reuse `find_latest`/`doc_exists`
   (single source of truth for existence; no more hard-coded `(n)` normalisation).
-- Script  - `v1.1.1-generic`.
+- Script — `v1.1.1-generic`.
 
 ### Verified
 - `find_latest` unit test: canonical / `(n)` / `_vN` / `.N` all resolve to the
@@ -497,7 +552,7 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 ## [0.3.1] - 2026-07-09 -- Release-Consistency Fixes
 
 ### Fixed
-- **README** status was stale (v0.1.0) ?updated to v0.3.1 / P3.
+- **README** status was stale (v0.1.0) —updated to v0.3.1 / P3.
 - **Language-independent STYLE parsing**: `load_style_rules` now reads
   `<!-- AUDIT: ENABLED_DOCS / ANCHOR_REGISTRY / DEPRECATED_TERMS _START/_END -->`
   marker blocks first (works for any generated language), falling back to the
@@ -512,8 +567,8 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 - **Link check** now strips `#fragment` before the `.md` test (e.g.
   `Mission_Design.md#section` is validated instead of skipped).
 - **Baseline compare** now covers P0-CP3 only (INFO is informational, not a gate).
-- STYLE template --13/--14 document `audit/issue_state.jsonl`.
-- Script version ?`v1.1.0-generic`.
+- STYLE template §13/§14 document `audit/issue_state.jsonl`.
+- Script version —`v1.1.0-generic`.
 
 ### Verified
 - Origin-project regression unchanged: hard-coded vs generic both `[0,0,0,1,0]`
@@ -537,7 +592,7 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 
 ### Verified
 - Parallel verification on the origin project (D4 P3, run 1): hard-coded script vs
-  generic script + origin `Project_Profile.yaml` both yield `[0,0,0,1,0]` ?EQUIVALENT.
+  generic script + origin `Project_Profile.yaml` both yield `[0,0,0,1,0]` — EQUIVALENT.
 - Regression vs baseline still EQUIVALENT.
 - Suppression: marking the P3 as ACCEPTED_EXCEPTION drops P3 to 0 with suppressed=1.
 
@@ -550,18 +605,18 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 ## [0.2.0] - 2026-07-09 -- P2 Genre Library
 
 ### Added
-- **modules/03_genre_profiles.md** ?the two profile shapes (genre vs project
+- **modules/03_genre_profiles.md** —the two profile shapes (genre vs project
   instance) and a 10-genre matrix.
 - **9 genre profiles** (`profiles/*.yaml`): open_world_rpg, linear_action_adventure,
   multiplayer_shooter, survival_crafting, roguelite, strategy_simulation,
-  puzzle_adventure, horror_narrative, liveops_mobile ?each with
+  puzzle_adventure, horror_narrative, liveops_mobile —each with
   `recommended_docs` / `optional_docs` / `disabled_docs`, `high_risk_boundaries`,
   `audit_focus`, `suggested_doc_modules`.
 - **16 doc_module skeletons** (`doc_modules/*.md.tmpl`): Narrative_Bible / Script /
   Pipeline, Character_Sheets, Mission_Design, World_Design, Level_Design,
   Encounter_Design, Gameplay_Systems, Resource_And_Economy, Progression_Design,
   Collectibles_Design, Multiplayer_Design, LiveOps_Design, UI_UX_Design,
-  Technical_Design ?each with applies / owns / does-not-own / recommended chapters /
+  Technical_Design —each with applies / owns / does-not-own / recommended chapters /
   common boundaries / common audit rules.
 
 ### Changed
@@ -578,7 +633,7 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 ### Added
 - **SKILL.md** entry point (English; Step 0 output-language selection; module index;
   new-project workflow; audit flow; safety rules).
-- **tools/global_doc_audit.py** ?generic, data-driven auditor:
+- **tools/global_doc_audit.py** —generic, data-driven auditor:
   - Reads rules from `STYLE_GUIDE.md` (document list / anchor registry /
     deprecated-term registry) and `Project_Profile.yaml`
     (`enabled_docs` / `boundary_checks` / `consistency_checks` / `exceptions` /
@@ -594,13 +649,13 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
     `audit_history.md`; `--baseline` count comparison; CLI
     `--root/--out/--profile/--style/--strict/--fail-on-p2/--pedantic/`
     `--json-only/--md-only/--no-history`.
-- **profiles/open_world_narrative_tactical_shooter.yaml** ?first genre profile;
+- **profiles/open_world_narrative_tactical_shooter.yaml** —first genre profile;
   also the regression fixture. Migrates the origin project's five hard-coded
   checks into data rules.
 - **templates/PROJECT_PROFILE_TEMPLATE.yaml** and **templates/STYLE_GUIDE_TEMPLATE.md**.
 - **modules/** 01 (document architecture), 02 (project profile),
   04 (authority & boundaries), 05 (anchors & change safety), 06 (audit workflow).
-- **tests/expected/current_project_baseline.json** ?regression baseline.
+- **tests/expected/current_project_baseline.json** —regression baseline.
 
 ### Verified
 - Regression against the origin project (`open_world_narrative_tactical_shooter`)

@@ -99,6 +99,13 @@
 
 > **v2.1**: StateManager is wired into the `--engine 2` audit chain.
 
+### 3.1 Entry shape
+
+Every line is one JSON object (`_schema`, `issue_id`, `status`, `level`, `file`,
+`msg`). The ledger tracks issue *classes*: identical (level, rule, file) triples
+share one ID and one entry, so report rows may legitimately exceed ledger
+entries (see §2.1).
+
 - **Schema marker**: `"_schema": 1` on every entry.
 - **Atomic writes**: tempfile + rename. No partial writes.
 - **Corruption detection**: per-line JSON parse errors produce `CORRUPT` entries; audit continues.

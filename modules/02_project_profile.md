@@ -10,7 +10,9 @@ project's data-driven audit rules. The auditor reads it together with
 
 ```yaml
 schema_version: 1
-profile: {name, description, primary_type, secondary_types[]}
+profile_type: project
+profile: {name, language, genre_profile, description, primary_type, secondary_types[], phase}
+paths: {root_dir, audit_dir, export_dir, archive_dir}
 enabled_docs: []          # the authority documents this project maintains
 optional_docs: []         # allowed if the game needs them
 disabled_docs: []         # explicitly not used
@@ -19,10 +21,12 @@ authority: {high_risk_boundaries[], audit_focus[]}
 deprecated_terms: []      # optional; project-specific terms usually live in STYLE
 audit: {fail_on_p0, fail_on_p1, fail_on_p2_in_strict_mode, require_history, require_json, require_markdown}
 file_versioning: {mode, version_pattern, latest_strategy}
-boundary_checks: []
+boundary_checks: []       # executable project rules; a same-id rule overrides the genre rule entirely
 consistency_checks: []
+project_fact_checks: []   # engine 2: cross-document project facts (forbid_terms)
 link_checks: {enabled, ignored_dirs[]}
-exceptions: []
+language_pack: zh-CN      # built-in tag or project-local path resolving genre refs (v2.1+)
+exceptions: []            # waivers {id, file, reason, expires}; expiry enforced by engine 2 only
 ```
 
 ## 2. Data-driven rule formats
@@ -40,6 +44,10 @@ exceptions: []
   level: P2
   message: "..."
 ```
+
+> A same-id project rule **replaces** the matching genre rule entirely - fields
+> are not merged. `level` defaults to P2 when omitted, so declare it explicitly
+> if you need a stricter gate.
 
 **consistency_checks** - a core fact must not be stated wrongly:
 

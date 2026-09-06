@@ -115,7 +115,10 @@ class Waiver:
         try:
             expiry = datetime.fromisoformat(self.expires)
         except (ValueError, TypeError):
-            return False
+            # Fail closed: an invalid expiry format disables the waiver
+            # (reported under Expired Waivers) instead of granting a
+            # permanent silent exemption.
+            return True
         ref = now or datetime.now(timezone.utc)
         # Normalize timezone: compare naive-to-naive or aware-to-aware
         if expiry.tzinfo is None and ref.tzinfo is not None:
@@ -382,10 +385,17 @@ def validate_profile(profile_data: dict, strict: bool = False) -> list[Finding]:
             message="Profile file does not contain a valid YAML dictionary."
         ))
         return issues
+    kind = profile_data.get("profile_type")
+    if kind not in ("project", "genre"):
+        try:
+            from .profile_schema import detect_profile_kind
+            kind = detect_profile_kind(profile_data)
+        except ImportError:
+            kind = "project"
     if strict:
         try:
             from .profile_schema import validate_profile_data
-            schema_errors = validate_profile_data(profile_data, kind="project")
+            schema_errors = validate_profile_data(profile_data, kind=kind)
         except (ImportError, FileNotFoundError, ValueError) as exc:
             issues.append(Finding(
                 id=Finding.make_id("P0", "CONFIG-SCHEMA-UNAVAILABLE", str(exc)),
@@ -399,7 +409,7 @@ def validate_profile(profile_data: dict, strict: bool = False) -> list[Finding]:
                     level="P0", rule="CONFIG-SCHEMA",
                     message=f"Project Profile Schema validation failed: {error}"
                 ))
-    if "enabled_docs" not in profile_data:
+    if kind == "project" and "enabled_docs" not in profile_data:
         issues.append(Finding(
             id=Finding.make_id("P0", "CONFIG-MISSING-ENABLED-DOCS", "enabled_docs is required"),
             level="P0", rule="CONFIG-MISSING-ENABLED-DOCS",
