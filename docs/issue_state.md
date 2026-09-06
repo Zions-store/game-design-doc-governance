@@ -30,6 +30,11 @@ A JSON-lines file in the audit directory. Each line is one issue:
 | `ACCEPTED_EXCEPTION` | Registered waiver (will not re-alarm) |
 | `REOPENED` | Was fixed, appeared again |
 
+> **Two-clean-run semantics**: `OPEN` → not detected next run →
+> `FIXED_PENDING_VERIFY` → still not detected → `VERIFIED`. One clean run is
+> not enough; run the audit twice after a fix to confirm `VERIFIED`. A
+> `VERIFIED` issue that reappears becomes `REOPENED`.
+
 ## Suppression
 
 Issues marked `FALSE_POSITIVE` or `ACCEPTED_EXCEPTION` are **suppressed from the

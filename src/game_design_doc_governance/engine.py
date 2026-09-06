@@ -148,6 +148,11 @@ class WaiverManager:
             if isinstance(exc, dict):
                 self._waivers.append(Waiver.from_dict(exc))
 
+    @property
+    def waivers(self) -> list[Waiver]:
+        """Public read-only access to the loaded waivers."""
+        return list(self._waivers)
+
     def apply(self, findings: list[Finding]) -> tuple[list[Finding], list[Waiver], list[Waiver]]:
         """Apply waivers to findings. Returns (suppressed_findings, active_waivers, expired_waivers)."""
         now = datetime.now(timezone.utc)

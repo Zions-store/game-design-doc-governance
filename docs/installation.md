@@ -57,8 +57,8 @@ the next session.
 
 ```bash
 cd game-design-doc-governance
-pip install -e ".[test]"   # if a [test] extra is defined
-pip install pytest          # otherwise
+pip install -e .              # no [test] extra is defined (yet)
+pip install pytest            # install the test runner separately
 python -m pytest tests -v
 ```
 

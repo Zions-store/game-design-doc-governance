@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 # Game Design Documentation Governance
 
 A reusable system for building and maintaining game design documentation that
-stays consistent as it grows. It is **not** a "write my GDD for me" tool  - it
+stays consistent as it grows. It is **not** a "write my GDD for me" tool — it
 establishes a *governed document system*: single-source authority, cross-document
 boundaries, change-safety anchors, and a repeatable audit.
 
@@ -27,36 +27,39 @@ Different games enable different documents, but all obey the same principles.
 
 ## Core principles
 
-1. **Single authority**  - each kind of content has exactly one authority document.
-2. **GDD is an index**  - the GDD keeps summaries and links, never full bodies.
-3. **Sub-documents carry full volume**  - light content is fine, light *structure* is not.
-4. **Track facts with anchors**  - high-risk cross-document facts use stable anchor IDs.
-5. **Register deprecations**  - replaced settings/terms are logged so they can't revive.
-6. **Audit after change**  - run the auditor; results are tracked, not asserted.
-7. **Profiles adapt to genre**  - the document set is chosen per game type, not fixed.
+1. **Single authority** — each kind of content has exactly one authority document.
+2. **GDD is an index** — the GDD keeps summaries and links, never full bodies.
+3. **Sub-documents carry full volume** — light content is fine, light *structure* is not.
+4. **Track facts with anchors** — high-risk cross-document facts use stable anchor IDs.
+5. **Register deprecations** — replaced settings/terms are logged so they can't revive.
+6. **Audit after change** — run the auditor; results are tracked, not asserted.
+7. **Profiles adapt to genre** — the document set is chosen per game type, not fixed.
 
-## Step 0  - Choose output language
+## Step 0 — Choose output language
 
 The Skill itself is written in English (for publishing). **The documents it
 generates for a project can be in any language.** Detect the language of the
 user's request; if it is non-English, offer that as the default. Any language the
-LLM can output is supported  - the agent translates section headers and labels at
+LLM can output is supported — the agent translates section headers and labels at
 generation time, but keeps `{{PLACEHOLDER}}` markers and YAML keys unchanged.
 
 > "What language should the design documents be written in? Default: English."
 
 The audit script prints English; report language can be configured later.
 
-## Quick workflow  - new project setup
+## Quick workflow — new project setup
 
 1. **Step 0**: choose output language.
 2. **Pick a Profile** from `profiles/genre/` matching the game's genre
    (e.g. `open_world_narrative_tactical_shooter`, `multiplayer_shooter`). See
    `modules/03_genre_profiles.md`.
-3. **Create the doc set**: from the selected genre Profile's `recommended_docs`
-   (plus any chosen `optional_docs`), scaffold each file using `doc_modules/*.tmpl`
-   (each has *applies / owns / does not own / sections*); write the final list into
-   `Project_Profile.yaml` `enabled_docs`.
+3. **Create the doc set**: prefer the safe scaffold CLI `gdd-scaffold`
+   (refuses non-empty dirs, creates only the recommended docs, `--enable-doc`
+   per optional, `--dry-run` preview, `--force` guarded). Manual fallback: from
+   the selected genre Profile's `recommended_docs` (plus any chosen
+   `optional_docs`), create each file using `doc_modules/*.tmpl` (each has
+   *applies / owns / does not own / sections*). Either way, write the final
+   list into `Project_Profile.yaml` `enabled_docs`.
 4. **Generate `STYLE_GUIDE.md`** from `templates/STYLE_GUIDE_TEMPLATE.md`, filling
    placeholders from the Profile (file list, authority matrix, boundaries).
 5. **Generate `Project_Profile.yaml`** from `templates/PROJECT_PROFILE_TEMPLATE.yaml`.
@@ -66,8 +69,8 @@ The audit script prints English; report language can be configured later.
    `templates/LANGUAGE_PACK_TEMPLATE.yaml`) or add executable project
    `boundary_checks` with the same IDs. Missing coverage is P0
    `CONFIG-BOUNDARY-COVERAGE`.
-7. **Set authority & boundaries**  - see `modules/04_authority_boundaries.md`.
-8. **Add anchors & deprecations**  - see `modules/05_anchor_and_change_safety.md`.
+7. **Set authority & boundaries** — see `modules/04_authority_boundaries.md`.
+8. **Add anchors & deprecations** — see `modules/05_anchor_and_change_safety.md`.
 9. **Run the audit** (below) and drive P0/P1 to zero.
 
 ## Audit flow
@@ -95,29 +98,29 @@ python tools/global_doc_audit.py \
 |---|---|
 | `modules/01_document_architecture.md` | Document lifecycle, GDD-vs-subdoc, full-volume rule |
 | `modules/02_project_profile.md` | Project_Profile.yaml schema and how the auditor reads it |
-| `modules/03_genre_profiles.md` | Genre  - document set matrix (10 genres) |
+| `modules/03_genre_profiles.md` | Genre — document set matrix (10 genres) |
 | `modules/04_authority_boundaries.md` | Authority matrix + cross-document boundary rules |
 | `modules/05_anchor_and_change_safety.md` | Anchors, REF usage, deprecated registry, 5-layer change safety |
 | `modules/06_audit_workflow.md` | Audit order, issue levels (P0–P3/INFO), issue states |
 | `modules/07_export_and_snapshot.md` | Non-authority snapshots (.docx/.pdf) |
 | `modules/08_migration_workflow.md` | Migrating an existing GDD |
-| `modules/09_ai_collaboration_rules.md` | What the AI must/must not do when editing docs |
+| `modules/09_ai_collaboration_rules.md` | (optional) What the AI must/must not do when editing docs |
 
 ## Templates & tools
 
-- `templates/PROJECT_PROFILE_TEMPLATE.yaml`  - per-project profile skeleton.
-- `templates/LANGUAGE_PACK_TEMPLATE.yaml`  - project-local language-pack skeleton.
-- `templates/STYLE_GUIDE_TEMPLATE.md`  - 15-chapter document constitution, with placeholders.
-- `profiles/genre/*.yaml`  - 10 reusable genre profiles; project regression fixtures live under `tests/fixtures/`.
-- `doc_modules/*.md.tmpl`  - 27 skeleton files; 24 cover the 48 unique profile doc names and 24 remain documented gaps.
-- `tools/global_doc_audit.py`  - the generic, data-driven auditor.
-- `tests/expected/current_project_baseline.json`  - regression baseline.
+- `templates/PROJECT_PROFILE_TEMPLATE.yaml` — per-project profile skeleton.
+- `templates/LANGUAGE_PACK_TEMPLATE.yaml` — project-local language-pack skeleton.
+- `templates/STYLE_GUIDE_TEMPLATE.md` — 15-chapter document constitution, with placeholders.
+- `profiles/genre/*.yaml` — 10 reusable genre profiles; project regression fixtures live under `tests/fixtures/`.
+- `doc_modules/*.md.tmpl` — 27 skeleton files; 24 cover the 48 unique profile doc names and 24 remain documented gaps.
+- `tools/global_doc_audit.py` — the generic, data-driven auditor (installed as the `gdd-audit` CLI; `gdd-profile-validate` and `gdd-scaffold` are its siblings).
+- `tests/expected/current_project_baseline.json` — regression baseline.
 
 ## Safety rules (what the AI must not do)
 
 - Do not turn the GDD into a full-text repository.
 - Do not maintain the same content in two authority documents.
-- Do not create new documents ad hoc  - check the Profile and STYLE first.
+- Do not create new documents ad hoc — check the Profile and STYLE first.
 - Do not write project-specific lore (names, factions, plot) into this Skill or
   into a shared genre Profile; those belong to a project's own docs/STYLE.
 - Do not treat the audit report as design authority; it flags, humans decide.

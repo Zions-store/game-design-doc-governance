@@ -9,8 +9,8 @@ What a release of this Skill contains, and what it deliberately excludes.
 ```
 SKILL.md            README.md   CHANGELOG.md   LICENSE   MANIFEST.md
 modules/            01–09 governance modules
-templates/          7 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT /
-                    AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY / LANGUAGE_PACK)
+templates/          8 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT /
+                    AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY / LANGUAGE_PACK / AUDIT_README)
 doc_modules/        27 per-document skeletons (*.md.tmpl)
 profiles/genre/     10 genre profiles (*.yaml)
 schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)
@@ -43,4 +43,4 @@ runtime tools plus `doc_modules/`, `profiles/`, `rules/`, `schemas/`, and `templ
 - Package version lives in `SKILL.md` frontmatter.
 - Git tags use standard repository tags: `vX.Y.Z`.
 - Historical monorepo skill-scoped tags remain in `project-ledger` and are not moved.
-- `1.0.0` froze all interface surfaces (`schema_version: 1`, CLI, audit output, issue-state, scaffold). Breaking changes are reserved for `2.x`.
+- `1.0.0` froze the interface surfaces (`schema_version: 1`, CLI, audit output, issue-state, scaffold). Minor versions add behavior behind the same interfaces; breaking changes are reserved for major versions.

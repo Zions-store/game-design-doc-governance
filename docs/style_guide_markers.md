@@ -8,12 +8,16 @@ regardless of the document's language.
 
 ```markdown
 <!-- AUDIT: ENABLED_DOCS_START -->
-| File | Role |
-|---|---|
-| Design_Document.md | GDD |
-| Gameplay_Systems.md | systems |
+| File | Role | Status |
+|---|---|---|
+| Design_Document.md | GDD | ready |
+| Gameplay_Systems.md | systems | ready |
 <!-- AUDIT: ENABLED_DOCS_END -->
 ```
+
+The auditor reads the first column (the `.md` file name); the Role / Status
+columns are for humans. Keep the shape consistent with `STYLE_GUIDE_TEMPLATE.md`
+(three columns: File / Role / Status).
 
 The three marker keys are:
 

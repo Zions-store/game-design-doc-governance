@@ -11,33 +11,22 @@ multi-document GDD system with single-source authority, cross-document boundarie
 change-safety anchors, and a data-driven Python audit.
 
 One generic framework + a per-genre **Profile** + a data-driven **audit**. Games
-
 enable different documents but obey the same governance principles.
 
 ## Layout
 
 ```
-
 game-design-doc-governance/
-
---------- SKILL.md                 # entry point (progressive disclosure)
-
---------- README.md  CHANGELOG.md  LICENSE
-
---------- modules/                 # detailed guidance (01-09)
-
---------- templates/               # 7 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK
-
---------- doc_modules/             # per-document "applies / owns / not-owns" skeletons
-
---------- profiles/genre/            # genre profiles (.yaml)
---------- examples/               # example project profiles
---------- rules/language_packs/    # per-language audit term packs
-
---------- tools/global_doc_audit.py# generic, data-driven auditor
-
---------- tests/                   # regression fixtures + baseline
-
+├── SKILL.md                  # entry point (progressive disclosure)
+├── README.md  CHANGELOG.md  LICENSE
+├── modules/                  # detailed guidance (01-09)
+├── templates/                # 8 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK / AUDIT_README
+├── doc_modules/              # per-document "applies / owns / not-owns" skeletons
+├── profiles/genre/           # genre profiles (.yaml)
+├── examples/                 # example project profiles
+├── rules/language_packs/     # per-language audit term packs
+├── tools/global_doc_audit.py # generic, data-driven auditor
+└── tests/                    # regression fixtures + baseline
 ```
 
 See `docs/` for quickstart, installation, project setup, migration, and
@@ -46,7 +35,7 @@ reference guides.
 
 ## Design in two layers (language)
 
-- **Skill payload** (this repo): English  - meant for public release.
+- **Skill payload** (this repo): English — meant for public release.
 
 - **Generated product** (a project's docs): any language the user picks at run
 
@@ -60,9 +49,9 @@ reference guides.
 
 checks:
 
-- `STYLE_GUIDE.md`  - document list, anchor registry, deprecated-term registry.
+- `STYLE_GUIDE.md` — document list, anchor registry, deprecated-term registry.
 
-- `Project_Profile.yaml`  - enabled docs, `boundary_checks`, `consistency_checks`,
+- `Project_Profile.yaml` — enabled docs, `boundary_checks`, `consistency_checks`,
 
   `exceptions`, thresholds.
 
@@ -153,17 +142,18 @@ language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence.
 Scaffold auto-injects `language_pack` when a matching built-in pack exists
 (en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint.
 63 tests, 11 new coverage contract tests, 10 genre profiles,
-27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 7 templates (including `LANGUAGE_PACK_TEMPLATE.yaml`),
+27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 8 templates (including `LANGUAGE_PACK_TEMPLATE.yaml` and `AUDIT_README_TEMPLATE.md`),
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
 and complete documentation (`docs/` 12 guides). The rc9 release-readiness repairs
 make schema validation part of the engine-v2 audit path and make wheels
 self-contained with the runtime tools and assets they need.
 
-All interface surfaces are **frozen** in 1.x: the Profile schema (`schema_version: 1`),
+Interface surfaces are **frozen**: the Profile schema (`schema_version: 1`),
 CLI (`gdd-audit`, `gdd-profile-validate`, `gdd-scaffold`), audit output format,
-issue-state format, and scaffold output structure. Breaking changes are reserved
-for 2.x.
+issue-state format, and scaffold output structure. Minor versions may add
+behavior behind the same interfaces (v2.1 pipeline, v2.2 coverage); breaking
+changes are reserved for major versions.
 
 > **Current boundary**: Engine v2 schema-validates the project profile before
 > auditing, applies file-scoped expiring waivers, persists the versioned state
@@ -171,7 +161,8 @@ for 2.x.
 > documents; a configured `language_pack` resolves the selected genre profile's
 > `pattern_ref` / `term_ref` rules. Built-in tags (`en-US`, `zh-CN`)
 > or safe project-local `.yaml` paths are supported; absolute paths and
-> `..` traversal are rejected.
+> `..` traversal are rejected. The `project_fact_checks.authority` semantics and
+> an explicit language-pack fact-reference contract are under evaluation for v2.3.
 
 To install: `pip install -e .` (requires Python 3.9+, `pyyaml`, `jsonschema`).
 For opencode: wire a junction `~/.config/opencode/skills/game-design-doc-governance`

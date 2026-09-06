@@ -293,15 +293,16 @@ def check_anchors(all_texts):
                 am[m.group(1)].append("ref")
     for aid in ANCHOR_LIST:
         entries = am.get(aid, [])
+        authority = ANCHOR_LIST[aid].get("authority") or "STYLE_GUIDE.md"
         if not entries:
-            add("P1", aid, "Registered anchor has zero occurrences", rule="ANCHOR-ZERO-OCCURRENCES")
+            add("P1", authority, f"Registered anchor '{aid}' has zero occurrences", rule="ANCHOR-ZERO-OCCURRENCES")
         else:
             if "auth" not in entries:
-                add("P1", aid, "No authority occurrence", rule="ANCHOR-NO-AUTHORITY")
+                add("P1", authority, f"Anchor '{aid}' has no authority occurrence", rule="ANCHOR-NO-AUTHORITY")
             if aid.startswith("FACT-") and "ref" not in entries:
-                add("P2", aid, "FACT anchor has no REF", rule="ANCHOR-FACT-NO-REF")
+                add("P2", authority, f"FACT anchor '{aid}' has no REF", rule="ANCHOR-FACT-NO-REF")
             elif aid.startswith("RULE-") and "ref" not in entries:
-                add("P3", aid, "RULE anchor has no REF", rule="ANCHOR-RULE-NO-REF")
+                add("P3", authority, f"RULE anchor '{aid}' has no REF", rule="ANCHOR-RULE-NO-REF")
 
 
 def check_deprecated(all_texts, profile_terms):
@@ -569,7 +570,7 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
     issues = []
     now = datetime.now(timezone.utc) if engine_version >= 2 else datetime.now()
     audit_time = now.strftime("%Y-%m-%d %H:%M")
-    audit_id = f"AUDIT-{now.strftime('%Y%m%d-%H%M')}"
+    audit_id = f"AUDIT-{now.strftime('%Y%m%d-%H%M%S')}"
 
     profile = load_profile(profile_path)
     v2 = engine_version >= 2
@@ -677,20 +678,19 @@ def run_audit(root_dir, out_dir, profile_path, style_path,
             engine_version=engine_version, profile_data=profile, run_id=audit_id,
             started_at=now.isoformat(), completed_at=datetime.now(timezone.utc).isoformat(),
         )
+        all_waivers = waiver_manager.waivers
         report_text = v2_components["render_report_v2"](findings, context,
-                                                         waiver_manager._waivers and [
-                                                             waiver for waiver in waiver_manager._waivers
-                                                             if not waiver.is_expired()
-                                                         ],
-                                                         [waiver for waiver in waiver_manager._waivers
-                                                          if waiver.is_expired()])
+                                                          [waiver for waiver in all_waivers
+                                                           if not waiver.is_expired()],
+                                                          [waiver for waiver in all_waivers
+                                                           if waiver.is_expired()])
         passed = not ((audit_cfg.get("fail_on_p0", True) and counts.get("P0", 0) > 0) or
                       (audit_cfg.get("fail_on_p1", True) and counts.get("P1", 0) > 0))
         if (strict or pedantic) and audit_cfg.get("fail_on_p2_in_strict_mode", True):
             passed = passed and counts.get("P2", 0) == 0
         print(report_text)
-        active_waivers = [waiver for waiver in waiver_manager._waivers if not waiver.is_expired()]
-        expired_waivers = [waiver for waiver in waiver_manager._waivers if waiver.is_expired()]
+        active_waivers = [waiver for waiver in all_waivers if not waiver.is_expired()]
+        expired_waivers = [waiver for waiver in all_waivers if waiver.is_expired()]
         if not json_only:
             with open(os.path.join(out_dir, "audit_report.md"), "w", encoding="utf-8") as f:
                 f.write(report_text)

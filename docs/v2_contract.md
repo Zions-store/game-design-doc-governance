@@ -1,7 +1,7 @@
 # v2 Contract — Frozen Specifications
 
 > **Freeze date**: 2026-07-18  
-> **From freeze point**: no new features; only bug fixes and documentation.  
+> **From freeze point**: interface surfaces are frozen (Profile schema, CLI, audit output format, issue-state format, scaffold output structure); semantic increments ship as minor versions behind the same interfaces (v2.1: Finding/Waiver/State/Report pipeline; v2.2: boundary coverage). Breaking changes are reserved for major versions.
 > **Effective**: v2.0.0 — when v2 becomes the default for all new projects and outputs.
 
 ---
@@ -122,6 +122,10 @@ entries (see §2.1).
 | `ACCEPTED_EXCEPTION` | Registered waiver (suppressed) |
 | `REOPENED` | Was fixed, appeared again |
 | `CORRUPT` | Line unreadable (audit continues) |
+
+State transitions: `OPEN` → (not detected) → `FIXED_PENDING_VERIFY` → (still
+not detected) → `VERIFIED`; a re-detected `VERIFIED`/`FIXED_PENDING_VERIFY`
+issue becomes `REOPENED`. One clean run is not enough for `VERIFIED`.
 
 ---
 

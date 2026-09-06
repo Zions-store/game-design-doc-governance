@@ -134,8 +134,8 @@ def test_fixture_versioned_filename():
 # 5  issue_state suppression
 # ────────────────────────────────────────────────────────
 def _issue_state_seed_id():
-    # P3 issue for the RULE anchor without REF: file=anchor_id, msg fixed
-    raw = "RULE-SAMPLE-ONLY|ANCHOR-RULE-NO-REF|RULE anchor has no REF"
+    # P3 issue for the RULE anchor without REF: file=authority doc, msg includes the anchor id
+    raw = "Design_Document.md|ANCHOR-RULE-NO-REF|RULE anchor 'RULE-SAMPLE-ONLY' has no REF"
     return "AUD-P3-" + hashlib.md5(raw.encode()).hexdigest()[:8]
 
 def _seed_state(out_dir, status, reason=""):

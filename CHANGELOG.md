@@ -28,6 +28,11 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
   (`obsolete` / `formerly` / `no longer` / `not `) alongside the Chinese set.
 - **`gdd-scaffold`** warns when a language has no built-in scaffold strings
   (English placeholders are generated).
+- **Anchor-check attribution**: the `file` field of anchor issues now reports
+  the anchor's registered authority document (previously the anchor ID itself);
+  the message carries the anchor ID.
+- **`audit_id` precision** raised to seconds (same-minute reruns produced
+  duplicate run IDs in `audit_history.md`).
 
 ### Changed
 
@@ -52,7 +57,28 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
   `ж`), `migration_v1_to_v2.md` code fences (`` ` + U+0008 + ash`` →
   ```` ```bash ````) and stray blank lines, `new_project_setup.md` `§` signs.
 - Removed build artifacts from the working tree (`__pycache__` /
-  `.pytest_cache` / egg-info).
+  `.pytest_cache` / egg-info / `build/`).
+- **State semantics documented**: `OPEN` → `FIXED_PENDING_VERIFY` → `VERIFIED`
+  requires two clean runs (one clean run after a fix is not yet `VERIFIED`);
+  documented in `docs/issue_state.md` and the v2 contract §3.2.
+- **`WaiverManager.waivers`** public property; the v2 report path no longer
+  reads the private `_waivers` attribute.
+- **ENABLED_DOCS marker example** unified to three columns (File / Role /
+  Status), matching `STYLE_GUIDE_TEMPLATE.md`.
+- **PROJECT_PROFILE_TEMPLATE**: removed the undocumented `profile_name`
+  duplicate of `genre_profile`.
+- **SKILL.md**: new-project flow now references the safe `gdd-scaffold` CLI;
+  `modules/09` marked optional; CLI siblings noted under tools.
+- **README**: layout tree restored to proper glyphs; the split first paragraph
+  rejoined; double-space dashes normalized to em-dashes (README / SKILL.md).
+- **Freeze wording corrected** (interfaces frozen; minor versions may add
+  behavior behind them) in README / MANIFEST / v2 contract; `Current boundary`
+  notes the v2.3 evaluation topics; rc.3 release-gate items backfilled as
+  completed post-hoc.
+- **docs**: troubleshooting monorepo context removed; installation states no
+  `[test]` extra exists (install pytest separately).
+- **New `templates/AUDIT_README_TEMPLATE.md`** explaining the four audit
+  products; template counts updated to 8 (README / MANIFEST).
 
 ### Verified
 
@@ -176,8 +202,8 @@ _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pac
 - [x] Scaffold generates v2-compliant profiles
 - [x] Migration guide accurate
 - [x] --dry-run validation order fixed
-- [ ] Full pytest suite + wheel install
-- [ ] All 10 profiles scaffold→audit E2E
+- [x] Full pytest suite + wheel install *(completed post-hoc during the v2.0.0 release verification — 44 tests, clean-wheel CLI asset check)*
+- [x] All 10 profiles scaffold→audit E2E *(completed post-hoc during the v2.0.0 release verification)*
 
 ## [2.0.0-rc.2] - 2026-07-18 — Release Candidate 2 (superseded)
 

@@ -13,7 +13,6 @@ profile_type: project
 
 profile:
   name: "{{PROJECT_NAME}}"
-  profile_name: "{{PROFILE_NAME}}"          # e.g. open_world_narrative_tactical_shooter
   genre_profile: "{{PROFILE_NAME}}"          # selects genre boundary_checks; v2.2 requires project override or language_pack coverage, else P0
   primary_type: "{{PRIMARY_TYPE}}"
   secondary_types: []

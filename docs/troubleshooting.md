@@ -25,8 +25,8 @@ that neither AUDIT markers nor the heading-heuristic keywords were found. Check:
 
 ## `pip install -e .` fails with "not a Python project"
 
-You ran `pip install -e .` from the monorepo root (`project-ledger/`), not from
-the skill sub-directory. Do:
+You ran `pip install -e .` from a parent directory instead of the repository
+root. Do:
 
 ```bash
 cd game-design-doc-governance
