@@ -4,7 +4,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pack fact-reference contract._
+_Next: v2.4 — evaluate `project_fact_checks.authority` and the explicit
+language-pack fact-reference contract (carried over from the original v2.3
+plan; v2.3 shipped the 2026-09 repair & enhancement round)._
+
+## [2.3.0] - 2026-09-06 — Engine Bugfix Round + Workflow Modules & Full Skeleton Coverage
 
 ### Added
 

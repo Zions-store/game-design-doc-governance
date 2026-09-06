@@ -136,7 +136,15 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.2.0 — Formal release.** Enforces boundary coverage: genre rules with
+**v2.3.0 — Formal release.** Engine bugfix round (9 confirmed bugs: `--json`
+crash, UTF-8 resilience, fail-closed waivers, genre profile mis-kill, silent
+rule drop, deprecated-term dedup), docs synced to v2.2 reality, modules 10-12
+(workflow documents / semantic audit orchestration / decision governance),
+full skeleton coverage (49 doc_modules — every profile-recommended document),
+genre `level` inheritance for same-id project overrides, and zh-CN
+natural-writing regexes. 64 tests, 10 genre profiles.
+
+**v2.2.0 (previous) —** Enforces boundary coverage: genre rules with
 `pattern_ref`/`term_ref` must be covered by executable project overrides or a
 language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence.
 Scaffold auto-injects `language_pack` when a matching built-in pack exists
