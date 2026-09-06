@@ -24,6 +24,8 @@ profile:
 
 recommended_docs:
   - Design_Document.md
+  - STYLE_GUIDE.md
+  - Naming.md
   - Narrative_Bible.md
   - Gameplay_Systems.md
   - Mission_Design.md
@@ -33,8 +35,6 @@ recommended_docs:
   - Narrative_Script.md
   - Collectibles_Design.md
   - Resource_And_Economy.md
-  - Naming.md
-  - STYLE_GUIDE.md
 
 optional_docs:
   - Level_Design.md
@@ -105,4 +105,5 @@ boundary_checks:
     type: collectibles_no_resource
     term_ref: resource_terms
     files: [Collectibles_Design.md]
+    level: P3
     message: "Resource-like item may appear in Collectibles."

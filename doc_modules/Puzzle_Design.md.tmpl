@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Puzzle_Design — Skeleton
+
+## 1. Applies when
+Puzzle-driven games (puzzle_adventure).
+
+## 2. This document owns
+- Puzzle taxonomy (logic/spatial/observation/combination) and authoring patterns.
+- Difficulty curve targets and hint ladder design (what unlocks which hint).
+- Solvability guarantees (no dead states, reset semantics).
+
+## 3. This document does NOT own
+- Interaction mechanics used by puzzles — Interaction_Design.
+- Room/space layout — Level_Design.
+- Narrative framing — Script / Bible.
+
+## 4. Recommended chapter structure
+1. Puzzle philosophy / 2. Taxonomy / 3. Authoring patterns / 4. Difficulty curve / 5. Hint ladder / 6. Reset & fail states / 7. Accessibility fallbacks / 8. Open questions
+
+## 5. Common boundaries
+- Puzzle vs Interaction: puzzle = authored challenge; interaction = reusable mechanic.
+- Puzzle vs Level: rules here, physical placement there.
+
+## 6. Common audit rules
+- Every puzzle lists its required verbs; all exist in the interaction table.
+- Every puzzle has a fail/reset path and a hint ceiling.

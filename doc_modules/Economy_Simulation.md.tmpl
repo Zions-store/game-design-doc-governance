@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Economy_Simulation — Skeleton
+
+## 1. Applies when
+Simulation-first economies (strategy_simulation).
+
+## 2. This document owns
+- Economic model: production chains, supply/demand rules, price formation formulas.
+- Simulation parameters: tick rates, elasticity constants, sink/source magnitudes.
+- Stability analysis: inflation/deflation guards, intervention levers.
+
+## 3. This document does NOT own
+- Resource content definitions (what resources exist) — Resource_And_Economy.
+- Player-facing trade UI — UI_UX.
+- Faction pricing modifiers — Faction_Design (supplies coefficients).
+
+## 4. Recommended chapter structure
+1. Model philosophy / 2. Production chains / 3. Supply & demand / 4. Price formation / 5. Sinks & sources / 6. Stability guards / 7. Intervention levers / 8. Calibration plan / 9. Open questions
+
+## 5. Common boundaries
+- Economy_Simulation vs Resource: formulas and dynamics here; content lists there.
+- Every formula's variables are owned or linked — no ghost constants.
+
+## 6. Common audit rules
+- Each chain node declares inputs, outputs and yield formula.
+- Every declared guard has a trigger threshold and an action.

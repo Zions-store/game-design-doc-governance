@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Level_Generation_Design — Skeleton
+
+## 1. Applies when
+Procedural or hybrid level games (roguelite).
+
+## 2. This document owns
+- Generation intent: room/grammar types, constraint rules (connectivity, locks/keys, difficulty budget).
+- Generator input parameters and what designers tune vs what is fixed.
+- Seeded reproducibility policy and generation QA sampling plan.
+
+## 3. This document does NOT own
+- Hand-authored level content — Level_Design.
+- Run phase shape — Run_Structure_Design.
+- Enemy placement rules — Enemy/Encounter design (they supply constraints).
+
+## 4. Recommended chapter structure
+1. Generation philosophy / 2. Room/grammar catalogue / 3. Constraints & solvability / 4. Difficulty budget / 5. Tunable parameters / 6. Seeding & QA sampling / 7. Failure modes / 8. Open questions
+
+## 5. Common boundaries
+- Generation vs Level_Design: system here; authored spaces there; hybrid split declared explicitly.
+- Constraints from other docs are *inputs*, linked not duplicated.
+
+## 6. Common audit rules
+- Every room type lists its allowed exits and lock compatibilities.
+- Solvability invariant stated and every constraint traces to it.

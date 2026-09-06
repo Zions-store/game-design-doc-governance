@@ -19,7 +19,7 @@ enable different documents but obey the same governance principles.
 game-design-doc-governance/
 ├── SKILL.md                  # entry point (progressive disclosure)
 ├── README.md  CHANGELOG.md  LICENSE
-├── modules/                  # detailed guidance (01-09)
+├── modules/                  # detailed guidance (01-12)
 ├── templates/                # 8 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK / AUDIT_README
 ├── doc_modules/              # per-document "applies / owns / not-owns" skeletons
 ├── profiles/genre/           # genre profiles (.yaml)
@@ -142,7 +142,8 @@ language pack, producing P0 `CONFIG-BOUNDARY-COVERAGE` instead of silence.
 Scaffold auto-injects `language_pack` when a matching built-in pack exists
 (en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint.
 63 tests, 11 new coverage contract tests, 10 genre profiles,
-27 doc-module skeleton files; 24 cover the 48 profile doc names and 24 remain documented gaps, 9 modules, 8 templates (including `LANGUAGE_PACK_TEMPLATE.yaml` and `AUDIT_README_TEMPLATE.md`),
+49 doc-module skeleton files; every profile-recommended document is covered
+(except Design_Document / STYLE_GUIDE, served by `templates/`), 12 modules (incl. semantic audit & decision governance), 8 templates (including `LANGUAGE_PACK_TEMPLATE.yaml` and `AUDIT_README_TEMPLATE.md`),
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
 and complete documentation (`docs/` 12 guides). The rc9 release-readiness repairs

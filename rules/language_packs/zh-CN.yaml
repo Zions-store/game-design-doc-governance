@@ -12,10 +12,12 @@ language: zh-CN
 
 stat_patterns:
   shots_per_unit:
-    - '\d+/\s*发'
+    - '\d+\s*/\s*发'
   percentage_per_second:
     - '\d+%/s'
     - '\d+％/秒'
+    - '\d+%/秒'
+    - '每秒\s*\d+%'
 
 event_body_patterns:
   - '选择.*后果'

@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Unit_Design — Skeleton
+
+## 1. Applies when
+Games with many discrete unit types (strategy_simulation).
+
+## 2. This document owns
+- Unit roster identity: role, movement class, attack pattern, counters/countered-by.
+- Stat block schema (fields every unit fills) and cost curves.
+- Upgrade/veterancy rules applied to units.
+
+## 3. This document does NOT own
+- Combat resolution formulas — Gameplay/Economy systems.
+- Faction availability — Faction_Design.
+- AI behavior implementation — AI_Systems.
+
+## 4. Recommended chapter structure
+1. Roster philosophy / 2. Roles triangle / 3. Stat schema / 4. Roster table / 5. Cost curves / 6. Counters web / 7. Veterancy / 8. Open questions
+
+## 5. Common boundaries
+- Unit vs Enemy: fielded strategic pieces vs hostile actors; both may share AI archetypes.
+- Counter relationships live here, not in faction lore.
+
+## 6. Common audit rules
+- Every unit fills the full stat schema (or declared N/A).
+- Counter web is consistent (no one-sided hard counters without cost justification).

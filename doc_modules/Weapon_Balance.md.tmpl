@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Weapon_Balance — Skeleton
+
+## 1. Applies when
+Shooter or combat-heavy genres (multiplayer_shooter, tactical variants).
+
+## 2. This document owns
+- Weapon numerical identity: damage, rate of fire, range falloff, recoil/spread curves, time-to-kill tables.
+- Cross-weapon balance budgets and counter-relationships.
+- Balance patch intent log (what changed, why, expected effect).
+
+## 3. This document does NOT own
+- Weapon mechanics and feel (handling, animation, input) — Gameplay_Systems.
+- Weapon acquisition/economy pricing — Resource / Progression.
+- Weapon lore or names — Bible / Naming.
+
+## 4. Recommended chapter structure
+1. Balance philosophy / 2. Weapon roster & roles / 3. Damage model / 4. TTK matrices / 5. Recoil & spread / 6. Range & falloff / 7. Counter-web / 8. Budgets & constraints / 9. Patch log / 10. Open questions
+
+## 5. Common boundaries
+- Weapon_Balance vs Gameplay_Systems: numbers that make weapons *distinct from each other* live here; numbers that define *how combat works* live in Gameplay.
+- One number, one home: a stat appears in exactly one authority; others link.
+
+## 6. Common audit rules
+- Every roster weapon has a complete stat row; no orphan stats.
+- TTK tables are derived, not hand-copied (regenerate on change).

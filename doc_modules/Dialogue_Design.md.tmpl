@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Dialogue_Design — Skeleton
+
+## 1. Applies when
+Narrative genres with interactive conversation systems (open_world_rpg).
+
+## 2. This document owns
+- Dialogue system structure: node trees, condition hooks, camera/audio slots.
+- Tone & branching rules (how many options, when hubs loop, interruption policy).
+- Variable conventions referenced by dialogue conditions.
+
+## 3. This document does NOT own
+- Actual dialogue text and performances — Narrative_Script.
+- Quest logic that dialogue gates — Quest_Design (dialogue only references).
+- Character voice definitions — Character_Sheets / Bible.
+
+## 4. Recommended chapter structure
+1. System overview / 2. Node grammar / 3. Conditions & variables / 4. Branching rules / 5. Presentation slots / 6. Localization notes / 7. Open questions
+
+## 5. Common boundaries
+- Dialogue vs Script: system and rules here; authored lines in the Script.
+- A dialogue node may check a quest state; it must never mutate it directly.
+
+## 6. Common audit rules
+- No dangling node references; every choice leads somewhere.
+- Condition variables are declared once in the conventions chapter.

@@ -23,6 +23,7 @@ Different games enable different documents, but all obey the same principles.
 - Starting a new game's GDD and unsure which documents to create
 - An existing GDD has become an everything-bucket and needs splitting
 - "audit my design docs" / "check design doc consistency" / "更新审计"
+- Before or after a large rewrite: run a semantic audit pass (module 11)
 - Migrating an old design doc set into a governed structure
 
 ## Core principles
@@ -105,6 +106,9 @@ python tools/global_doc_audit.py \
 | `modules/07_export_and_snapshot.md` | Non-authority snapshots (.docx/.pdf) |
 | `modules/08_migration_workflow.md` | Migrating an existing GDD |
 | `modules/09_ai_collaboration_rules.md` | (optional) What the AI must/must not do when editing docs |
+| `modules/10_workflow_documents.md` | Workflow & session documents: state snapshots, append-only logs, handoffs, sync contracts |
+| `modules/11_semantic_audit.md` | (optional) LLM semantic audit orchestration — what structural audits cannot catch |
+| `modules/12_decision_governance.md` | Proposal vs. decision, completion marks, chain-impact discipline, deferral backlog |
 
 ## Templates & tools
 
@@ -112,7 +116,7 @@ python tools/global_doc_audit.py \
 - `templates/LANGUAGE_PACK_TEMPLATE.yaml` — project-local language-pack skeleton.
 - `templates/STYLE_GUIDE_TEMPLATE.md` — 15-chapter document constitution, with placeholders.
 - `profiles/genre/*.yaml` — 10 reusable genre profiles; project regression fixtures live under `tests/fixtures/`.
-- `doc_modules/*.md.tmpl` — 27 skeleton files; 24 cover the 48 unique profile doc names and 24 remain documented gaps.
+- `doc_modules/*.md.tmpl` — 49 skeleton files; every profile-recommended document has one, except `Design_Document.md` and `STYLE_GUIDE.md` which are served by `templates/`.
 - `tools/global_doc_audit.py` — the generic, data-driven auditor (installed as the `gdd-audit` CLI; `gdd-profile-validate` and `gdd-scaffold` are its siblings).
 - `tests/expected/current_project_baseline.json` — regression baseline.
 

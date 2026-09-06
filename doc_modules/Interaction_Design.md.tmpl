@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Interaction_Design — Skeleton
+
+## 1. Applies when
+Puzzle or systemic games built on object interaction (puzzle_adventure).
+
+## 2. This document owns
+- The interaction verb table: verbs (push/burn/freeze/...), their subjects, results and stacking rules.
+- Interaction affordance rules (how the player reads what is interactable).
+- Verb-vs-material matrix (fire melts ice, etc.) and its exceptions.
+
+## 3. This document does NOT own
+- UI presentation of prompts — UI_UX_Design.
+- Puzzle instances using the verbs — Puzzle_Design.
+- Physics implementation parameters — Technical_Design.
+
+## 4. Recommended chapter structure
+1. Verb philosophy / 2. Verb table / 3. Materials & states / 4. Verb-material matrix / 5. Stacking & priority / 6. Affordance rules / 7. Open questions
+
+## 5. Common boundaries
+- Interaction vs Puzzle: mechanics toolkit here, authored challenges in Puzzle.
+- New verbs require a row here before any puzzle may use them.
+
+## 6. Common audit rules
+- Matrix cells are exhaustive: every verb x material cell is defined or explicitly N/A.
+- No puzzle references an undeclared verb.

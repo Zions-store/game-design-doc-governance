@@ -190,10 +190,11 @@ def test_skeleton_coverage_counts_are_release_metadata_source_of_truth():
         for key in ("recommended_docs", "optional_docs"):
             profile_docs.update(data.get(key, []))
 
-    assert len(skeletons) == 27
+    assert len(skeletons) == 49
     assert len(profile_docs) == 48
-    assert len(skeletons & profile_docs) == 24
-    assert len(profile_docs - skeletons) == 24
+    # Design_Document.md and STYLE_GUIDE.md are served by templates/ instead.
+    assert len(skeletons & profile_docs) == 46
+    assert profile_docs - skeletons == {"Design_Document.md", "STYLE_GUIDE.md"}
 
 
 def test_release_version_surfaces_are_consistent():

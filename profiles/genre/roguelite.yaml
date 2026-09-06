@@ -40,7 +40,11 @@ audit_focus:
 
 suggested_doc_modules:
   - Gameplay_Systems
+  - Run_Structure_Design
+  - Level_Generation_Design
+  - Enemy_Design
+  - Meta_Progression_Design
+  - Item_Design
   - Progression_Design
-  - UI_UX_Design
-  - Level_Design
   - Encounter_Design
+  - UI_UX_Design

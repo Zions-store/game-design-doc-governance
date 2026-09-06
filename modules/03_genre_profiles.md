@@ -58,6 +58,8 @@ At audit time every ref-rule must be **covered** by one of:
 2. the project's `language_pack` resolving the references.
 
 Uncovered rules produce P0 `CONFIG-BOUNDARY-COVERAGE`. A same-id project rule
-**replaces** the genre rule entirely (no field merging; `level` defaults to P2
-when omitted). Genre rules without `pattern_ref`/`term_ref` are reported as
+**replaces** the genre rule entirely (no field merging), with one inheritance:
+an omitted `level` inherits the genre rule's declared `level` (defaulting to
+P2 when the genre declares none); an omitted `message` inherits likewise.
+Genre rules without `pattern_ref`/`term_ref` are reported as
 `CONFIG-GENRE-RULE` and ignored.

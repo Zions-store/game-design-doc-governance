@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Crafting_Design — Skeleton
+
+## 1. Applies when
+Recipe-based creation systems (survival_crafting).
+
+## 2. This document owns
+- Recipe registry: inputs, stations, time, yields, failure rules.
+- Crafting progression: what unlocks recipes (discovery/leveling).
+- Batch/quality rules and material substitution policy.
+
+## 3. This document does NOT own
+- Material definitions and economy — Resource_And_Economy.
+- Station/building placement — Base_Building_Design.
+- Item results — Item_Design (linked).
+
+## 4. Recommended chapter structure
+1. Crafting philosophy / 2. Recipe registry / 3. Stations / 4. Discovery & unlocks / 5. Time & batch / 6. Quality & failure / 7. Substitution policy / 8. Open questions
+
+## 5. Common boundaries
+- Crafting vs Resource: transformation rules here; material values there.
+- A recipe references materials and outputs by ID; it never restates stats.
+
+## 6. Common audit rules
+- Every recipe's inputs/outputs resolve to registered materials/items.
+- Substitution policy is total (every material: substitutable or not).

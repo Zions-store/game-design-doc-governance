@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Quest_Design — Skeleton
+
+## 1. Applies when
+RPG or adventure genres with formal quest structures (open_world_rpg).
+
+## 2. This document owns
+- Quest structure patterns: objectives, steps, gating conditions, branching rules, failure handling.
+- Quest categorization (main / side / faction / repeatable) and inter-quest dependencies.
+- Quest state machines (offered / active / complete / failed / expired).
+
+## 3. This document does NOT own
+- Quest narrative content and dialogue — Narrative_Script / Dialogue_Design.
+- Quest rewards as economy values — Resource / Item.
+- Where quests physically happen — World / Level.
+
+## 4. Recommended chapter structure
+1. Quest philosophy / 2. Categories / 3. Structure patterns / 4. Branching & gating / 5. State machine / 6. Dependencies graph / 7. Failure & recovery / 8. Open questions
+
+## 5. Common boundaries
+- Quest vs Mission: Mission owns delivered task *content*; Quest owns the structural system.
+- Quest vs Dialogue: dialogue conditions reference quest states by ID, never redefine them.
+
+## 6. Common audit rules
+- Every referenced quest state exists in the state machine.
+- No quest branch without a defined resolution path (complete/fail).

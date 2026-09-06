@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Run_Structure_Design — Skeleton
+
+## 1. Applies when
+Roguelite / run-based games (roguelite).
+
+## 2. This document owns
+- Run anatomy: phases (start/mid/boss), length targets, biome/stage ordering rules.
+- In-run progression: temporary upgrades, stacking rules, run-end wipe semantics.
+- Death/exit handling and run summary design.
+
+## 3. This document does NOT own
+- Persistent unlocks — Meta_Progression_Design.
+- Room/level generation — Level_Generation_Design.
+- Enemy roster — Enemy_Design.
+
+## 4. Recommended chapter structure
+1. Run philosophy / 2. Anatomy & phases / 3. Stage ordering / 4. In-run upgrades / 5. Wipe semantics / 6. Death & summary / 7. Difficulty scaling / 8. Open questions
+
+## 5. Common boundaries
+- Run vs Meta: anything wiped on death is run-scope; anything kept is meta-scope — no dual-ownership stats.
+- Run_Structure defines *shape*; Level_Generation fills it.
+
+## 6. Common audit rules
+- Every in-run upgrade declares its wipe class explicitly.
+- Phase list matches the generation system's phase inputs.

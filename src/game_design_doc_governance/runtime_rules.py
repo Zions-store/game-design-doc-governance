@@ -199,6 +199,11 @@ def load_runtime_boundary_checks(profile_data: dict[str, Any], profile_path: str
             project_rule = project_checks_by_id[rule_id]
             executable, reason = _project_rule_is_executable(project_rule)
             if executable:
+                # Inherit unset fields from the genre rule (D5): a same-id
+                # override replaces the rule, but omitted level / message fall
+                # back to the genre declaration (level defaults to P2).
+                project_rule.setdefault("level", raw_check.get("level", "P2"))
+                project_rule.setdefault("message", raw_check.get("message"))
                 coverage["by_project"] += 1
                 continue
             msg = (

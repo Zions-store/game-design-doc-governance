@@ -41,6 +41,10 @@ audit_focus:
 
 suggested_doc_modules:
   - Gameplay_Systems
+  - Economy_Simulation
   - Resource_And_Economy
+  - AI_Systems
+  - Unit_Design
+  - Tech_Tree_Design
   - UI_UX_Design
   - Technical_Design

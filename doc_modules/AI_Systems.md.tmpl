@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# AI_Systems — Skeleton
+
+## 1. Applies when
+Games needing shared AI architecture (strategy_simulation; action games with complex AI).
+
+## 2. This document owns
+- AI architecture: perception stack, decision layers (utility/behavior tree/state machine), navigation approach.
+- Shared AI archetypes (IDs, trigger conditions, parameter meanings) reusable across enemies/units.
+- Performance budgets for agent counts and tick policies.
+
+## 3. This document does NOT own
+- What each enemy wants (design intent) — Enemy_Design.
+- Unit roster and stats — Unit_Design.
+- Boss staging — Encounter_Design.
+
+## 4. Recommended chapter structure
+1. Architecture overview / 2. Perception / 3. Decision layers / 4. Navigation / 5. Archetype catalogue / 6. Group behaviors / 7. Performance budgets / 8. Debug & tuning hooks / 9. Open questions
+
+## 5. Common boundaries
+- AI_Systems vs Enemy: *how it computes* here; *why it exists* in Enemy.
+- Archetype IDs are referenced by Enemy/Encounter, never re-described.
+
+## 6. Common audit rules
+- Every archetype declares its decision layer and perception inputs.
+- Tuning parameters have ranges and owners.

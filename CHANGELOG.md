@@ -6,6 +6,44 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 _Next: v2.3 — evaluate project_fact_checks.authority and explicit language-pack fact-reference contract._
 
+### Added
+
+- **modules/10-12** (workflow layer): `10_workflow_documents.md` (seven
+  workflow document shapes, append-only discipline, no-line-number citation,
+  handoff lifecycle, sync contract), `11_semantic_audit.md` (two-stage LLM
+  semantic audit: per-document line-by-line reading with completeness proof,
+  A/B/C dimensions, main-session cross-document comparison, two user
+  checkpoints, deferral buckets), `12_decision_governance.md` (proposal vs.
+  decision, three-tier completion marks, chain-impact discipline with
+  word-order-variant sweeps, backlog-vs-waiver distinction, provenance
+  registry). SKILL.md index / MANIFEST / README counts updated (9 → 12).
+- **22 new doc_modules skeletons** (27 → 49): Naming, Weapon_Balance,
+  Map_Design, Quest_Design, Faction_Design, Item_Design, Dialogue_Design,
+  Pacing_Design, Event_Design, Interaction_Design, Puzzle_Design,
+  Run_Structure_Design, Enemy_Design, Level_Generation_Design,
+  Meta_Progression_Design, Economy_Simulation, AI_Systems, Unit_Design,
+  Tech_Tree_Design, Crafting_Design, Base_Building_Design, AI_Creature_Design.
+  Every profile-recommended document now has a skeleton (Design_Document /
+  STYLE_GUIDE are served by `templates/`); rc9 coverage test updated
+  accordingly.
+- **Genre `level` inheritance (D5)**: genre `boundary_checks` may declare an
+  optional `level` (schema); a same-id project override that omits `level` /
+  `message` now inherits them from the genre rule (explicit project values are
+  never overwritten). Regression test added; v2 contract and modules/03
+  document the semantics. `open_world_narrative_tactical_shooter` declares
+  `level: P3` on COLLECTIBLES-NO-RESOURCE (explicit no-op).
+
+### Changed
+
+- **zh-CN language pack**: natural-writing regexes added (`\d+%/秒`,
+  `每秒\s*\d+%`) and `shots_per_unit` spacing aligned with en-US.
+- **Genre profile fixes**: puzzle_adventure disables Monetization_Design;
+  horror_narrative suggests Audio_Design; owts recommended_docs ordering
+  unified with the other profiles; strategy / roguelite `suggested_doc_modules`
+  now point at the real skeletons (Economy_Simulation, AI_Systems, Unit_Design,
+  Tech_Tree_Design, Run_Structure_Design, Level_Generation_Design, Enemy_Design,
+  Meta_Progression_Design, Item_Design) instead of semantic-mismatch stand-ins.
+
 ### Fixed
 
 - **`tools/validate_profile.py`**: added the missing `import json` — `--json`

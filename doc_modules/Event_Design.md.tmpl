@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Event_Design — Skeleton
+
+## 1. Applies when
+Live-service or seasonal games (liveops_mobile).
+
+## 2. This document owns
+- Event structural patterns: entry conditions, duration rules, progression tracks, reward payout logic.
+- Event archetypes (race/ladder/collection/co-op) and their repeat policies.
+- Anti-frustration rules (catch-up, daily caps, pity equivalents for events).
+
+## 3. This document does NOT own
+- The live calendar (when events run) — LiveOps_Design.
+- Event narrative themes — Bible / Script.
+- Reward values — Resource / Monetization.
+
+## 4. Recommended chapter structure
+1. Event philosophy / 2. Archetypes / 3. Entry & gating / 4. Progression tracks / 5. Payout logic / 6. Catch-up rules / 7. Repeat & rerun policy / 8. Open questions
+
+## 5. Common boundaries
+- Event vs LiveOps: structure here, schedule there.
+- Event rewards link to Resource; no inline economy numbers.
+
+## 6. Common audit rules
+- Every track has a terminal reward and a fallback for partial completion.
+- Rerun policy declared per archetype (fresh progress vs resume).

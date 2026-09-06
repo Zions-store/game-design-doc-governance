@@ -25,7 +25,7 @@
 | `audit_focus` | array | | |
 | `suggested_doc_modules` | array | | |
 | `boundary_checks` | array | | Rule type references only (no project facts) |
-| `boundary_checks` item | object | | Generic metadata only: `id`, `type`, `files`, `message`, plus `pattern_ref` or `term_ref` |
+| `boundary_checks` item | object | | Generic metadata only: `id`, `type`, `files`, `message`, optional `level` (inherited by same-id project overrides that omit it), plus `pattern_ref` or `term_ref` |
 
 **Forbidden in genre profiles**:
 - `enabled_docs` (project-only field)
@@ -226,9 +226,9 @@ gdd-scaffold --profile ... --out ... [--project-name ...] [--language ...]
 
 ## 6. Skeleton Support Rules v2
 
-- The repository has **27 skeleton files**.
-- **24 of 48 unique game-design doc names** have matching formal skeletons.
-- **24 doc names** are known gaps (referenced by profiles, no skeleton). The other three skeletons are library-only modules.
+- The repository has **49 skeleton files**.
+- **46 of 48 unique game-design doc names** have matching formal skeletons; `Design_Document.md` and `STYLE_GUIDE.md` are served by `templates/` instead (no doc_module duplicates them).
+- The other three skeletons are library-only modules.
 - A profile **may** reference docs without skeletons; scaffold will produce a clear placeholder.
 - Scaffold **must not** silently generate TODO fallback emoji shells.
 - Each skeleton **must** have 6 sections: Applies / Owns / Does Not Own / Recommended Chapters / Common Boundaries / Audit Notes.

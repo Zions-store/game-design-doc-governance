@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Tech_Tree_Design — Skeleton
+
+## 1. Applies when
+Progression built on research/unlock graphs (strategy_simulation).
+
+## 2. This document owns
+- Tree topology: nodes, prerequisites, tiers, branch philosophies.
+- Research economy: costs, research time formulas, concurrency rules.
+- Unlock effects registry (what each node grants, linked to owners).
+
+## 3. This document does NOT own
+- The things being unlocked (units/buildings) — Unit / Base docs.
+- Overall progression pacing — Progression_Design.
+- Narrative framing of tech — Bible.
+
+## 4. Recommended chapter structure
+1. Tree philosophy / 2. Topology / 3. Tiers & branches / 4. Costs & time / 5. Concurrency / 6. Effects registry / 7. Rush vs wide balance / 8. Open questions
+
+## 5. Common boundaries
+- Tech_Tree vs Progression: this is one progression system, owned here; global pacing lives there.
+- Effects are links (`see Unit_Design §X`), never restated stats.
+
+## 6. Common audit rules
+- No cyclic prerequisites; every node reachable from a start node.
+- Every effect link resolves to an existing section.

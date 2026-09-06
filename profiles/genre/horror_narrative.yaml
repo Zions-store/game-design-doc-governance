@@ -43,5 +43,6 @@ suggested_doc_modules:
   - Narrative_Script
   - Level_Design
   - Encounter_Design
+  - Audio_Design
   - Collectibles_Design
   - UI_UX_Design

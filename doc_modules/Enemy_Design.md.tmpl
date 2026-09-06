@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Enemy_Design — Skeleton
+
+## 1. Applies when
+Run-based or combat genres needing an enemy roster distinct from AI tech (roguelite).
+
+## 2. This document owns
+- Enemy design intent: role (pressure/punisher/support), threat tier, behavior summary, counter-play.
+- Enemy rosters per phase/biome and combo/composition guidance.
+- Elite/variant rules (what may modify a base enemy).
+
+## 3. This document does NOT own
+- AI implementation (perception/decision stacks) — AI_Systems.
+- Numeric stats tables (when a separate balance doc exists) — Weapon_Balance-adjacent stat authority.
+- Boss encounter staging — Encounter_Design.
+
+## 4. Recommended chapter structure
+1. Roster philosophy / 2. Roles & tiers / 3. Roster by phase / 4. Behavior intents / 5. Counter-play / 6. Elites & variants / 7. Composition guidance / 8. Open questions
+
+## 5. Common boundaries
+- Enemy vs AI_Systems: *what an enemy wants* here; *how it computes* in AI_Systems.
+- Behavior summaries reference AI archetypes by ID, not re-description.
+
+## 6. Common audit rules
+- Every roster entry has a role and a counter-play line.
+- Variant rules never create undeclared new behaviors.

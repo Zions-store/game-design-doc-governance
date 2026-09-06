@@ -537,3 +537,35 @@ def test_missing_language_pack_ref_emits_both_errors(tmp_path, monkeypatch):
     assert "CONFIG-BOUNDARY-COVERAGE" in error_rules
     assert sum(1 for i in issues if i["rule"] == "CONFIG-LANGUAGE-REF") == 2
     assert sum(1 for i in issues if i["rule"] == "CONFIG-BOUNDARY-COVERAGE") == 2
+
+
+def test_genre_level_inherited_by_project_override():
+    """A same-id project override that omits `level` inherits the genre rule's
+    declared level (D5); the compiled project rule then runs at that level."""
+    from game_design_doc_governance.runtime_rules import load_runtime_boundary_checks
+
+    profile = {
+        "profile": {"genre_profile": "open_world_narrative_tactical_shooter"},
+        "boundary_checks": [
+            {
+                "id": "COLLECTIBLES-NO-RESOURCE",
+                "files": ["Collectibles_Design.md"],
+                "forbid_any": ["battery"],
+                "message": "project override",
+            }
+        ],
+    }
+    checks, errors, coverage = load_runtime_boundary_checks(profile, None)
+
+    # Only COLLECTIBLES-NO-RESOURCE is overridden; the other three ref-rules
+    # are uncovered without a language_pack (expected P0 coverage errors).
+    assert coverage["total"] == 4
+    assert coverage["by_project"] == 1
+    assert sum(1 for rule, _ in errors if rule == "CONFIG-BOUNDARY-COVERAGE") == 3
+    # The genre rule declares level P3; the override omitted it -> inherited.
+    assert profile["boundary_checks"][0]["level"] == "P3"
+    # An explicit project level is never overwritten.
+    profile["boundary_checks"][0]["level"] = "P1"
+    checks, errors, _ = load_runtime_boundary_checks(profile, None)
+    assert sum(1 for rule, _ in errors if rule == "CONFIG-BOUNDARY-COVERAGE") == 3
+    assert profile["boundary_checks"][0]["level"] == "P1"

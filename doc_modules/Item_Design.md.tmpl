@@ -1,0 +1,27 @@
+Copyright (C) 2026 ZionXiaoxiSuOGLocGo
+SPDX-License-Identifier: GPL-3.0-or-later
+# Item_Design — Skeleton
+
+## 1. Applies when
+Loot-driven genres (open_world_rpg, roguelite).
+
+## 2. This document owns
+- Item taxonomy: types, slots, rarity tiers, stack rules.
+- Affix/mod system: pools, roll ranges, combination constraints.
+- Drop tables (per source) and itemization curves.
+
+## 3. This document does NOT own
+- Currency and consumable economy — Resource_And_Economy.
+- Item names/flavor — Naming / Bible.
+- Character growth granted by items — Progression.
+
+## 4. Recommended chapter structure
+1. Taxonomy / 2. Rarity & budget / 3. Affix system / 4. Drop tables / 5. Itemization curve / 6. Legendaries & uniques / 7. Crafting inputs (link) / 8. Open questions
+
+## 5. Common boundaries
+- Item vs Resource: discrete loot objects vs flowing economy resources.
+- Drop numbers are owned here; kill/loot *rules* belong to Gameplay.
+
+## 6. Common audit rules
+- Every affix has a range and a target slot list.
+- No drop table references a non-existent item ID.
