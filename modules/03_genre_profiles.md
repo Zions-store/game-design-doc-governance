@@ -11,7 +11,7 @@ optional docs.
 
 | Shape | Fields | Used by |
 |---|---|---|
-| **Genre profile** (type library) | `recommended_docs` / `optional_docs` / `disabled_docs` / `high_risk_boundaries` / `audit_focus` / `suggested_doc_modules` / `boundary_checks` (v2.2, ref-based rule types) | Choosing a document set for a new project |
+| **Genre profile** (type library) | `recommended_docs` / `optional_docs` / `disabled_docs` / `high_risk_boundaries` / `audit_focus` / `suggested_doc_modules` / `boundary_checks` (v2.2) | Choosing a document set for a new project |
 | **Project profile** (instance) | `enabled_docs` + `boundary_checks` / `consistency_checks` / `project_fact_checks` / `exceptions` / thresholds | The auditor at run time |
 
 To instantiate: take a genre profile's `recommended_docs` (+ chosen `optional_docs`),

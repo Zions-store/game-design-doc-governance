@@ -35,8 +35,8 @@ for any large rewrite or pre-release closure.
 
 - Batch documents by theme domain (2-3 documents per sub-agent batch); collectibles and other low-risk docs last.
 - Each reading agent must prove completeness: state "fully read, positioned at
-  §<last section>, N lines in M passes" — main session spot-checks and
-   **returns any batch with skipped sections**.
+  the document's final section, N lines in M passes" — main session
+  spot-checks and **returns any batch with skipped sections**.
 - Uniform output per document: findings table (#/section/type/quote evidence/
   P-level/suggestion), suspicious-points table, A/B/C counts.
 - **Numbering discipline**: sub-agents never assign global IDs; the main

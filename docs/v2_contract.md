@@ -1,7 +1,11 @@
 # v2 Contract — Frozen Specifications
 
 > **Freeze date**: 2026-07-18  
-> **From freeze point**: interface surfaces are frozen (Profile schema, CLI, audit output format, issue-state format, scaffold output structure); semantic increments ship as minor versions behind the same interfaces (v2.1: Finding/Waiver/State/Report pipeline; v2.2: boundary coverage). Breaking changes are reserved for major versions.
+> **From freeze point**: interface surfaces are frozen (Profile schema, CLI,
+> audit output format, issue-state format, scaffold output structure); semantic
+> increments ship as minor versions behind the same interfaces (v2.1: Finding/
+> Waiver/State/Report pipeline; v2.2: boundary coverage). Breaking changes are
+> reserved for major versions.  
 > **Effective**: v2.0.0 — when v2 becomes the default for all new projects and outputs.
 
 ---

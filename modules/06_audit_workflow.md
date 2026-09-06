@@ -38,7 +38,11 @@ this; `audit.fail_on_p0` / `fail_on_p1` can relax P0/P1 gating).
 
 ## 3. Issue IDs and states
 
-- Finding ID (engine 2, the default): `AUD-{LEVEL}-{md5(level|rule|file)[:8]}` - fingerprinted from the (level, rule, file) triple, not the message text; identical triples share one ID, so the state ledger tracks issue *classes* and report rows may exceed ledger entries. Engine 1 (legacy) hashes `md5(file|rule|message)` instead.
+- Finding ID (engine 2, the default): `AUD-{LEVEL}-{md5(level|rule|file)[:8]}` -
+  fingerprinted from the (level, rule, file) triple, not the message text;
+  identical triples share one ID, so the state ledger tracks issue *classes*
+  and report rows may exceed ledger entries.
+  Engine 1 (legacy) hashes `md5(file|rule|message)` instead.
 - States (P1 predefines the `status` field; full flow implemented in P3 via
   `issue_state.jsonl`):
 

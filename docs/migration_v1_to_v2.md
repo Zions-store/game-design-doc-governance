@@ -26,7 +26,6 @@ This guide covers migrating an existing project from v1.x governance to v2.0.
 
 ### 1. Check current state
 
-
 ```bash
 gdd-audit --root "<project>/Design Document/md file" \
   --style "<project>/Design Document/md file/STYLE_GUIDE.md" \
@@ -47,7 +46,6 @@ profile:
 ```
 
 Validate:
-
 
 ```bash
 gdd-profile-validate --kind project "<path>/Project_Profile.yaml"
@@ -86,7 +84,6 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 
 ### 6. Update profile paths in scripts
 
-
 ```bash
 # Old
 --profile profiles/open_world_narrative_tactical_shooter.yaml
@@ -96,7 +93,6 @@ project profile (not the genre profile). Genre profiles must NOT contain project
 ```
 
 ### 7. Re-run audit with engine v2 (now default)
-
 
 ```bash
 gdd-audit --root "<project>/Design Document/md file" \

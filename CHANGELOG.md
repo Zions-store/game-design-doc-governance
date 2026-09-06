@@ -67,7 +67,7 @@ plan; v2.3 shipped the 2026-09 repair & enhancement round)._
 - **`deprecated_terms` dedup**: keywords registered in both the STYLE registry
   and `profile.deprecated_terms` are now reported once (STYLE wins).
 - **Negation-context exemption**: added English exemption words
-  (`obsolete` / `formerly` / `no longer` / `not `) alongside the Chinese set.
+  (`obsolete` / `formerly` / `no longer` / `not`) alongside the Chinese set.
 - **`gdd-scaffold`** warns when a language has no built-in scaffold strings
   (English placeholders are generated).
 - **Anchor-check attribution**: the `file` field of anchor issues now reports
@@ -96,8 +96,8 @@ plan; v2.3 shipped the 2026-09 repair & enhancement round)._
   and `STYLE_GUIDE_TEMPLATE.md` reference `gdd-audit` instead of repo-relative
   script paths.
 - **Mojibake cleanup**: CHANGELOG 0.1.0-0.3.2 sections (U+0008 / stray `?` /
-  `ж`), `migration_v1_to_v2.md` code fences (`` ` + U+0008 + ash`` →
-  ```` ```bash ````) and stray blank lines, `new_project_setup.md` `§` signs.
+  `ж`), `migration_v1_to_v2.md` code fences (U+0008-corrupted fences restored
+  to `bash` blocks) and stray blank lines, `new_project_setup.md` `§` signs.
 - Removed build artifacts from the working tree (`__pycache__` /
   `.pytest_cache` / egg-info / `build/`).
 - **State semantics documented**: `OPEN` → `FIXED_PENDING_VERIFY` → `VERIFIED`
@@ -143,7 +143,7 @@ plan; v2.3 shipped the 2026-09 repair & enhancement round)._
   reference / mixed assembly / project-override priority / partial
   coverage / ThirdPersonTest equivalence / non-executable project
   override rejected / invalid regex caught / dual CONFIG-LANGUAGE-REF
-  + CONFIG-BOUNDARY-COVERAGE emission.
+  and CONFIG-BOUNDARY-COVERAGE emission.
 
 ### Changed
 
@@ -181,8 +181,6 @@ plan; v2.3 shipped the 2026-09 repair & enhancement round)._
 - **Languages**: canonical BCP 47 core tags, including `zh-Hans`, `zh-Hant-TW`, `es-419`, and `fr-CA`, are accepted without lossy normalization.
 - **Distribution**: wheels include the runtime tools and governance assets; clean-install CLI → scaffold → validation → audit smoke coverage is added.
 - **Coverage**: release metadata is corrected to 27 skeleton files, 24 matching 48 profile doc names, and 24 profile-name gaps.
-
-
 
 ## [2.0.0-rc.8] - 2026-07-18 — Release Candidate 8
 
@@ -244,8 +242,8 @@ plan; v2.3 shipped the 2026-09 repair & enhancement round)._
 - [x] Scaffold generates v2-compliant profiles
 - [x] Migration guide accurate
 - [x] --dry-run validation order fixed
-- [x] Full pytest suite + wheel install *(completed post-hoc during the v2.0.0 release verification — 44 tests, clean-wheel CLI asset check)*
-- [x] All 10 profiles scaffold→audit E2E *(completed post-hoc during the v2.0.0 release verification)*
+- [x] Full pytest suite + wheel install _(completed post-hoc during the v2.0.0 release verification — 44 tests, clean-wheel CLI asset check)_
+- [x] All 10 profiles scaffold→audit E2E _(completed post-hoc during the v2.0.0 release verification)_
 
 ## [2.0.0-rc.2] - 2026-07-18 — Release Candidate 2 (superseded)
 
