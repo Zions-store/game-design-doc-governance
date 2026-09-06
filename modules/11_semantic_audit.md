@@ -54,3 +54,12 @@ The engine audit is the objective gate: after semantic fixes land, rerun
 `gdd-audit` — semantic work is done when P0/P1 are zero **and** the deferred
 bucket is registered. Engine-clean ≠ semantically clean; semantic-clean ≠
 engine-clean. You need both.
+
+## 4. Round flow and working template
+
+Full round flow: baseline check (settled conclusions current) → Stage 1
+batches → checkpoint 1 → Stage 2 comparison → merged list → checkpoint 2
+ruling → fixes → engine audit re-run. The working tables for every step
+(batch plan, per-document output shape, checkpoint checklists, merged-list
+and numbering format) live in `templates/SEMANTIC_AUDIT_BATCH_TEMPLATE.md` —
+copy them into the project's workflow log, never into authority documents.

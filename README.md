@@ -20,7 +20,7 @@ game-design-doc-governance/
 ├── SKILL.md                  # entry point (progressive disclosure)
 ├── README.md  CHANGELOG.md  LICENSE
 ├── modules/                  # detailed guidance (01-12)
-├── templates/                # 8 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK / AUDIT_README
+├── templates/                # 9 templates, including PROJECT_PROFILE / STYLE_GUIDE / LANGUAGE_PACK / AUDIT_README / SEMANTIC_AUDIT_BATCH
 ├── doc_modules/              # per-document "applies / owns / not-owns" skeletons
 ├── profiles/genre/           # genre profiles (.yaml)
 ├── examples/                 # example project profiles
@@ -136,7 +136,13 @@ For detailed guides, see `docs/quickstart.md`, `docs/new_project_setup.md`, and 
 
 ## Status
 
-**v2.3.0 — Formal release.** Engine bugfix round (9 confirmed bugs: `--json`
+**v2.4.0 — Formal release.** Semantic audit made operational: working
+template for audit rounds (batch plan / per-document output shape / both
+user checkpoints / merged-list numbering), modules/11 round flow, and
+SKILL.md trigger conditions (large rewrite / batch world-fact changes /
+release closure). 64 tests, 10 genre profiles, 9 templates.
+
+**v2.3.0 (previous) —** Engine bugfix round (9 confirmed bugs: `--json`
 crash, UTF-8 resilience, fail-closed waivers, genre profile mis-kill, silent
 rule drop, deprecated-term dedup), docs synced to v2.2 reality, modules 10-12
 (workflow documents / semantic audit orchestration / decision governance),
@@ -151,7 +157,7 @@ Scaffold auto-injects `language_pack` when a matching built-in pack exists
 (en-US, zh-CN); other languages receive a commented `# <TODO: ...>` hint.
 63 tests, 11 new coverage contract tests, 10 genre profiles,
 49 doc-module skeleton files; every profile-recommended document is covered
-(except Design_Document / STYLE_GUIDE, served by `templates/`), 12 modules (incl. semantic audit & decision governance), 8 templates (including `LANGUAGE_PACK_TEMPLATE.yaml` and `AUDIT_README_TEMPLATE.md`),
+(except Design_Document / STYLE_GUIDE, served by `templates/`), 12 modules (incl. semantic audit & decision governance), 9 templates (including `AUDIT_README_TEMPLATE.md` and `SEMANTIC_AUDIT_BATCH_TEMPLATE.md`),
 4 JSON schemas, profile validator, safe scaffold v2 (--dry-run, --force, --enable-doc),
 `issue_state.jsonl` state tracking, and self-contained regression fixtures (6 projects + pytest coverage),
 and complete documentation (`docs/` 12 guides). The rc9 release-readiness repairs

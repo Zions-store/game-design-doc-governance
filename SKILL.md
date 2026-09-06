@@ -1,6 +1,6 @@
 ---
 name: game-design-doc-governance
-version: 2.3.0
+version: 2.4.0
 description: "Reusable governance framework for game design documentation. Sets up document authority, genre profiles, cross-document boundaries, change-safety anchors, and data-driven audits."
 ---
 
@@ -23,7 +23,7 @@ Different games enable different documents, but all obey the same principles.
 - Starting a new game's GDD and unsure which documents to create
 - An existing GDD has become an everything-bucket and needs splitting
 - "audit my design docs" / "check design doc consistency" / "更新审计"
-- Before or after a large rewrite: run a semantic audit pass (module 11)
+- Before or after a large rewrite, after a batch of world-fact changes, or before a release closure: run a semantic audit round (module 11 + `templates/SEMANTIC_AUDIT_BATCH_TEMPLATE.md`)
 - Migrating an old design doc set into a governed structure
 
 ## Core principles

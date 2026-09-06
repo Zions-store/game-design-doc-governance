@@ -26,7 +26,7 @@ try:
 except ImportError:
     yaml = None
 
-SCRIPT_VERSION = "v2.3.0-generic"
+SCRIPT_VERSION = "v2.4.0-generic"
 STATE_SCHEMA_VERSION = 1
 
 

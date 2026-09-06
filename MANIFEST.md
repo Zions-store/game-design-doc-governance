@@ -9,8 +9,9 @@ What a release of this Skill contains, and what it deliberately excludes.
 ```
 SKILL.md            README.md   CHANGELOG.md   LICENSE   MANIFEST.md
 modules/            01–12 governance modules (10 workflow documents, 11 semantic audit, 12 decision governance)
-templates/          8 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT /
-                    AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY / LANGUAGE_PACK / AUDIT_README)
+templates/          9 templates (PROJECT_PROFILE / STYLE_GUIDE / DESIGN_DOCUMENT /
+                    AUTHORITY_MATRIX / CHANGE_CHECKLIST / AUDIT_HISTORY / LANGUAGE_PACK / AUDIT_README /
+                    SEMANTIC_AUDIT_BATCH)
 doc_modules/        27 per-document skeletons (*.md.tmpl)
 profiles/genre/     10 genre profiles (*.yaml)
 schemas/            4 JSON Schemas (project_profile / genre_profile / audit_report / issue_state)

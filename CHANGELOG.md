@@ -4,9 +4,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 ## [Unreleased]
 
-_Next: v2.4 — evaluate `project_fact_checks.authority` and the explicit
-language-pack fact-reference contract (carried over from the original v2.3
-plan; v2.3 shipped the 2026-09 repair & enhancement round)._
+_Next: v2.5 — evaluate `project_fact_checks.authority`, the explicit
+language-pack fact-reference contract, the v1-to-v2 state-ID migration, and
+the formalizable semantic checks (term variants / timeline anchors). (Carried
+over from the original v2.3 plan; v2.3 shipped the 2026-09 repair round and
+v2.4 the semantic-audit operational template.)_
+
+## [2.4.0] - 2026-09-06 — Semantic-Audit Operational Template & Trigger Workflow
+
+### Added
+
+- **`templates/SEMANTIC_AUDIT_BATCH_TEMPLATE.md`** (9th template): batch
+  plan, per-document five-part output shape, both user checkpoints, the
+  Stage 2 comparison format and the merged-list global-numbering rules —
+  copied into the project's workflow log, never into authority documents.
+- **modules/11 §4**: full round flow (baseline check → Stage 1 → checkpoint
+  1 → Stage 2 comparison → merged list → checkpoint 2 ruling → fixes →
+  engine re-run) plus a pointer to the template.
+- **SKILL.md trigger conditions** broadened: a semantic audit round is now
+  explicitly recommended after a large rewrite, after a batch of world-fact
+  changes, or before release closure.
+
+### Verified
+
+- pytest 64 passed; 10/10 genre profiles VALID; ThirdPersonTest regression
+  PASS P0-P3=0 EQUIVALENT; CI green on push.
 
 ## [2.3.0] - 2026-09-06 — Engine Bugfix Round + Workflow Modules & Full Skeleton Coverage
 
